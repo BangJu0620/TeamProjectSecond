@@ -42,14 +42,14 @@ namespace TeamProjectSecond
 
     public class ItemData
     {
-        public string itemName;
-        public string itemType;
-        public int itemAttackPoint;
-        public int itemDefensePoint;
-        public string itemDescription;
-        public int itemPrice;
-        public bool isOwned;
-        public bool isEquipped;
+        public string itemName { get; set; }
+        public string itemType {  get; set; }
+        public int itemAttackPoint {  get; set; }
+        public int itemDefensePoint {  get; set; }
+        public string itemDescription {  get; set; }
+        public int itemPrice {  get; set; }
+        public bool isOwned {  get; set; }
+        public bool isEquipped {  get; set; }
 
         public ItemData(string iName, string iType, int iAP, int iDP, string iDescription, int iPrice, bool iOwned, bool iEquipped)
         {
