@@ -49,7 +49,8 @@ namespace TeamProjectSecond
             instance.Add(new ItemData("스파르타의 창", ItemType.Weapon, 7, 0, "스파르타의 전사들이 사용했다는 전설의 창입니다.", 2700, false, false));
 
             //consumables 종류
-
+            instance.Add(new ItemData("HP 포션", ItemType.Consumable, 0, 0, "HP를 30 회복시켜주는 포션입니다.", 500, false, false));
+            instance.Add(new ItemData("MP 포션", ItemType.Consumable, 0, 0, "MP를 30 회복시켜주는 포션입니다.", 500, false, false));
         }
     }
 
@@ -63,6 +64,9 @@ namespace TeamProjectSecond
         public int itemPrice;
         public bool isOwned;
         public bool isEquipped;
+        public int itemHealHPAmount;
+        public int itemHealMPAmount;
+
 
         public ItemData(string iName, ItemType iType, int iAP, int iDP, string iDescription, int iPrice, bool iOwned, bool iEquipped)
         {
@@ -74,6 +78,33 @@ namespace TeamProjectSecond
             itemPrice = iPrice;
             isOwned = iOwned;
             isEquipped = iEquipped;
+            ParseHealAmountFromDescription(iDescription); //회복량 자동 추출
+        }
+
+        //HP, MP 회복 구분
+        private void ParseHealAmountFromDescription(string description)
+        {
+            if (description.Contains("HP"))
+            {
+                itemHealHPAmount = ExtractFirstNumber(description);
+            }
+            else if (description.Contains("MP"))
+            {
+                itemHealMPAmount = ExtractFirstNumber(description);
+            }
+        }
+
+        //회복량 추출
+        private int ExtractFirstNumber(string text)
+        {
+            foreach (var word in text.Split(' '))
+            {
+                if (int.TryParse(word, out int result))
+                {
+                    return result;
+                }
+            }
+            return 0;
         }
 
         //아이템 판매 가격 계산 (구매가 85%)
