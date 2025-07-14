@@ -63,12 +63,14 @@ namespace TeamProjectSecond
                             Console.WriteLine("저장/불러오기");
                             break;
                         default:
+                            Console.Clear();
                             Console.WriteLine("잘못된 입력입니다.");
                             break;
                     }
                 }
                 else
                 {
+                    Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
                 }
             }
