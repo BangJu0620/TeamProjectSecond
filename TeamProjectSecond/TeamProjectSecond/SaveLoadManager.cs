@@ -29,14 +29,14 @@ namespace TeamProjectSecond
             File.WriteAllText(filePath, json);
         }
 
-        public static void LoadCharacterData(string filePath) // 캐릭터 데이터 불러오기
+        public static void LoadCharacterData(string filePath, out bool isNotExist) // 캐릭터 데이터 불러오기
         {
             if (!File.Exists(filePath))
             {
-                Console.WriteLine("저장된 파일이 없습니다.");
+                isNotExist = true;
                 return;
             }
-
+            isNotExist = false;
             string json = File.ReadAllText(filePath);
             CharacterData loadedCharacterData = JsonSerializer.Deserialize<CharacterData>(json);
 
@@ -46,14 +46,14 @@ namespace TeamProjectSecond
             }
         }
 
-        public static void LoadItemData(string filePath) // 아이템 데이터 불러오기
+        public static void LoadItemData(string filePath, out bool isNotExist) // 아이템 데이터 불러오기
         {
             if (!File.Exists(filePath))
             {
-                Console.WriteLine("저장된 파일이 없습니다.");
+                isNotExist = true;
                 return;
             }
-
+            isNotExist = false;
             string json = File.ReadAllText(filePath);
             ItemListData loadedItemListData = JsonSerializer.Deserialize<ItemListData>(json);
 
@@ -95,8 +95,15 @@ namespace TeamProjectSecond
                     else if(userSelect == 2)
                     {
                         Console.Clear();
-                        SaveLoadManager.LoadCharacterData("character.json");
-                        SaveLoadManager.LoadItemData("item.json");
+                        bool isCharacterNotExist;
+                        bool isItemNotExist;
+                        SaveLoadManager.LoadCharacterData("character.json", out isCharacterNotExist);
+                        SaveLoadManager.LoadItemData("item.json", out isItemNotExist);
+                        if (isCharacterNotExist || isItemNotExist)
+                        {
+                            Console.WriteLine("저장된 파일이 없습니다.");
+                            continue;
+                        }
                         Console.WriteLine("불러오기 완료");
                     }
                     else
