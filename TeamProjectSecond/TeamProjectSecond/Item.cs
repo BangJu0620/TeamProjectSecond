@@ -35,7 +35,7 @@ namespace TeamProjectSecond
         static Item()
         {
             instance = new List<ItemData>();
-
+            //드랍 전용 아이템 = 마지막에 false 추가
             //Armor 종류
             instance.Add(new ItemData("천 갑옷", ItemType.Armor, 0, 3, "얇지만 움직이기 쉬운 천 갑옷입니다.", 700, false, false));
             instance.Add(new ItemData("수련자 갑옷", ItemType.Armor, 0, 5, "수련에 도움을 주는 갑옷입니다.", 1000, false, false));
@@ -66,9 +66,11 @@ namespace TeamProjectSecond
         public bool IsEquipped { get; set; }
         public int ItemHealHPAmount { get; set; }
         public int ItemHealMPAmount { get; set; }
+        public int Quantity { get; set; } = 0; //소모품 갯수
+        public bool IsShopItem { get; set; } = true; // 상점 구매 가능 여부 (기본값: 가능)
 
 
-        public ItemData(string name, ItemType type, int atk, int def, string description, int price, bool owned, bool equipped)
+        public ItemData(string name, ItemType type, int atk, int def, string description, int price, bool owned, bool equipped, bool isShopItem = true)
         {
             ItemName = name;
             ItemType = type;
@@ -78,6 +80,7 @@ namespace TeamProjectSecond
             ItemPrice = price;
             IsOwned = owned;
             IsEquipped = equipped;
+            IsShopItem = isShopItem;
             ParseHealAmountFromDescription(description);
         }
 

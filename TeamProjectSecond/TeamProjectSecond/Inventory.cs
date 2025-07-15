@@ -27,7 +27,7 @@ namespace TeamProjectSecond
                     {
                         hasItem = true;
                         string equipped = item.IsEquipped ? "[E]" : "";
-                        Console.WriteLine($"- {i + 1} {equipped}{item.ItemName} | {item.ItemDescription}");
+                        Console.WriteLine($"- {i + 1} {equipped}{item.ToString()} x{item.Quantity}");
                     }
                 }
 
