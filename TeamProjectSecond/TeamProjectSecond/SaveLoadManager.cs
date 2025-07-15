@@ -82,6 +82,7 @@ namespace TeamProjectSecond
                 {
                     if (userSelect == 0)
                     {
+                        Console.Clear();
                         break;
                     }
                     else if (userSelect == 1)

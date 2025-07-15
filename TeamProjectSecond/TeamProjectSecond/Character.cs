@@ -57,6 +57,45 @@ namespace TeamProjectSecond
         public float EvasionRate { get; set; }
         public int ManaPoint { get; set; }
         public int MaxManaPoint { get; set; }
+
+        public CharacterData ToData()
+        {
+            return new CharacterData
+            {
+                Level = Level,
+                Name = Name,
+                Job = Job,
+                AttackPoint = AttackPoint,
+                DefensePoint = DefensePoint,
+                HealthPoint = HealthPoint,
+                MaxHealthPoint = MaxHealthPoint,
+                Gold = Gold,
+                Exp = Exp,
+                RequiredExp = RequiredExp,
+                CritRate = CritRate,
+                EvasionRate = EvasionRate,
+                ManaPoint = ManaPoint,
+                MaxManaPoint = MaxManaPoint
+            };
+        }
+
+        public void LoadFromData(CharacterData data)
+        {
+            Level = data.Level;
+            Name = data.Name;
+            Job = data.Job;
+            AttackPoint = data.AttackPoint;
+            DefensePoint = data.DefensePoint;
+            HealthPoint = data.HealthPoint;
+            MaxHealthPoint = data.MaxHealthPoint;
+            Gold = data.Gold;
+            Exp = data.Exp;
+            RequiredExp = data.RequiredExp;
+            CritRate = data.CritRate;
+            EvasionRate = data.EvasionRate;
+            ManaPoint = data.ManaPoint;
+            MaxManaPoint = data.MaxManaPoint;
+        }
     }
 
     public class JobChange 
@@ -101,43 +140,6 @@ namespace TeamProjectSecond
             Character.Instance.ManaPoint = 100;
             Character.Instance.MaxManaPoint = 100;
         }
-
-        public CharacterData ToData()
-        {
-            return new CharacterData
-            {
-                Level = Level,
-                Name = Name,
-                Job = Job,
-                AttackPoint = AttackPoint,
-                DefensePoint = DefensePoint,
-                HealthPoint = HealthPoint,
-                MaxHealthPoint = MaxHealthPoint,
-                Gold = Gold,
-                Exp = Exp,
-                RequiredExp = RequiredExp,
-                CritRate = CritRate,
-                EvasionRate = EvasionRate,
-                ManaPoint = ManaPoint
-            };
-        }
-
-        public void LoadFromData(CharacterData data)
-        {
-            Level = data.Level;
-            Name = data.Name;
-            Job = data.Job;
-            AttackPoint = data.AttackPoint;
-            DefensePoint = data.DefensePoint;
-            HealthPoint = data.HealthPoint;
-            MaxHealthPoint = data.MaxHealthPoint;
-            Gold = data.Gold;
-            Exp = data.Exp;
-            RequiredExp = data.RequiredExp;
-            CritRate = data.CritRate;
-            EvasionRate= data.EvasionRate;
-            ManaPoint = data.ManaPoint;
-        }
     }
 
     public class CharacterData
@@ -155,5 +157,6 @@ namespace TeamProjectSecond
         public float CritRate { get; set; }
         public float EvasionRate { get; set; }
         public int ManaPoint { get; set; }
+        public int MaxManaPoint { get; set; }
     }
 }
