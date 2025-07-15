@@ -163,12 +163,12 @@ namespace TeamProjectSecond
                 // MP 회복 처리
                 if (item.ItemHealMPAmount > 0)
                 {
-                    int beforeMP = Character.Instance.MagicPoint; // MP 속성 존재 시 (Mana)
-                    Character.Instance.MagicPoint = Math.Min(
+                    int beforeMP = Character.Instance.ManaPoint; // MP 속성 존재 시 (Mana)
+                    Character.Instance.ManaPoint = Math.Min(
                     beforeMP + item.ItemHealMPAmount,
-                    Character.Instance.MaxMagicPoint); // MaxMP 속성 추가 시 수정
+                    Character.Instance.MaxManaPoint); // MaxMP 속성 추가 시 수정
 
-                    Console.WriteLine($"MP를 {Character.Instance.MagicPoint - beforeMP} 회복했습니다. (현재 MP: {Character.Instance.MagicPoint}/{Character.Instance.MaxMagicPoint})");
+                    Console.WriteLine($"MP를 {Character.Instance.ManaPoint - beforeMP} 회복했습니다. (현재 MP: {Character.Instance.ManaPoint}/{Character.Instance.MaxManaPoint})");
                 }
 
                 return true;
