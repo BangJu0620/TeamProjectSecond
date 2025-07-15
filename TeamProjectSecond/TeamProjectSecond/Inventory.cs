@@ -180,43 +180,43 @@ namespace TeamProjectSecond
 
         private static void UsePotionFlow()
         {
-            var potions = Item.Instance
-                .Where(i => i.IsOwned && i.ItemType == ItemType.Consumable && i.Quantity > 0)
-                .ToList();
-
-            if (potions.Count == 0)
+            while (true)
             {
-                Console.WriteLine("사용할 수 있는 포션이 없습니다.");
-                Console.ReadKey();
-                return;
-            }
+                Console.Clear();
+                var potions = Item.Instance
+                    .Where(i => i.IsOwned && i.ItemType == ItemType.Consumable && i.Quantity > 0)
+                    .ToList();
 
-            Console.WriteLine("\n[사용 가능한 포션 목록]");
-            for (int i = 0; i < potions.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {potions[i].ItemName} (보유 수량: {potions[i].Quantity})");
-            }
-
-            Console.Write("\n사용할 포션 번호를 선택하세요 (0. 취소): ");
-            string input = Console.ReadLine();
-
-            if (input == "0") return;
-
-            if (int.TryParse(input, out int index) && index >= 1 && index <= potions.Count)
-            {
-                bool success = Inventory.UsePotion(potions[index - 1].ItemName);
-
-                if (!success)
+                if (potions.Count == 0)
                 {
-                    Console.WriteLine("포션 사용에 실패했습니다.");
+                    Console.WriteLine("사용할 수 있는 포션이 없습니다.");
+                    Console.ReadKey();
+                    return;
                 }
-            }
-            else
-            {
-                Console.WriteLine("잘못된 입력입니다.");
-            }
 
-            Console.ReadKey();
+                Console.WriteLine("\n[사용 가능한 포션 목록]");
+                for (int i = 0; i < potions.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {potions[i].ItemName} (보유 수량: {potions[i].Quantity})");
+                }
+
+                Console.Write("\n사용할 포션 번호를 선택하세요 (0. 취소): ");
+                string input = Console.ReadLine();
+
+                if (input == "0") break;
+
+                if (int.TryParse(input, out int index) && index >= 1 && index <= potions.Count)
+                {
+                    Inventory.UsePotion(potions[index - 1].ItemName);
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 입력입니다.");
+                }
+
+                Console.WriteLine("\n계속 사용하려면 아무 키나 누르세요. (0 입력 시 종료)");
+                if (Console.ReadLine() == "0") break;
+            }
         }
     }
 }
