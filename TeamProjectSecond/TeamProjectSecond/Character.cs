@@ -102,5 +102,4 @@ namespace TeamProjectSecond
             Character.Instance.MaxManaPoint = 100;
         }
     }
-
 }
