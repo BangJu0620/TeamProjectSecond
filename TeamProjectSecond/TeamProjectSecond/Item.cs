@@ -52,6 +52,29 @@ namespace TeamProjectSecond
             instance.Add(new ItemData("HP 포션", ItemType.Consumable, 0, 0, "HP를 30 회복시켜주는 포션입니다.", 500, false, false));
             instance.Add(new ItemData("MP 포션", ItemType.Consumable, 0, 0, "MP를 30 회복시켜주는 포션입니다.", 500, false, false));
         }
+
+        // 아이템 획득 로직
+        // 활용 예시 Item.AddItem(item.ItemName);
+        public static void AddItem(string itemName)
+        {
+            var item = Instance.FirstOrDefault(i => i.ItemName == itemName);
+
+            if (item != null)
+            {
+                item.IsOwned = true;
+
+                if (item.ItemType == ItemType.Consumable)
+                {
+                    item.Quantity++;
+                }
+
+                Console.WriteLine($"{itemName}을(를) 획득했습니다!");
+            }
+            else
+            {
+                Console.WriteLine("존재하지 않는 아이템입니다.");
+            }
+        }
     }
 
     public class ItemData
@@ -69,7 +92,6 @@ namespace TeamProjectSecond
         public int Quantity { get; set; } = 0; //소모품 갯수
         public bool IsShopItem { get; set; } = true; // 상점 구매 가능 여부 (기본값: 가능)
 
-
         public ItemData(string name, ItemType type, int atk, int def, string description, int price, bool owned, bool equipped, bool isShopItem = true)
         {
             ItemName = name;
@@ -83,7 +105,6 @@ namespace TeamProjectSecond
             IsShopItem = isShopItem;
             ParseHealAmountFromDescription(description);
         }
-
 
         //HP, MP 회복 구분
         private void ParseHealAmountFromDescription(string description)
@@ -116,7 +137,7 @@ namespace TeamProjectSecond
         {
             return (int)(ItemPrice * 0.85f);
         }
-
+        
         public override string ToString()
         {
             string stats = ItemType == ItemType.Weapon
@@ -144,6 +165,5 @@ namespace TeamProjectSecond
 
             return result.ToString();
         }
-
     }
 }

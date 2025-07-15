@@ -130,5 +130,47 @@ namespace TeamProjectSecond
                 }
             }
         }
+
+        // 포션 사용 기능
+        // 활용 예시 Inventory.UsePotion("MP포션");
+        public static bool UsePotion(string potionName)
+        {
+            var item = Item.Instance.FirstOrDefault(i =>
+                i.ItemName == potionName &&
+                i.ItemType == ItemType.Consumable &&
+                i.Quantity > 0); // 조건을 만족하는 아이템 찾기
+
+            if (item != null)
+            {
+                item.Quantity--;
+
+                // HP 회복 처리
+                if (item.ItemHealHPAmount > 0)
+                {
+                    int beforeHP = Character.Instance.HealthPoint;
+                    Character.Instance.HealthPoint = Math.Min(
+                    beforeHP + item.ItemHealHPAmount,
+                    Character.Instance.MaxHealthPoint); // MaxHP 속성 추가 시 수정
+
+                    Console.WriteLine($"HP를 {Character.Instance.HealthPoint - beforeHP} 회복했습니다. (현재 HP: {Character.Instance.HealthPoint}/{Character.Instance.MaxHealthPoint})");
+                }
+
+                // MP 회복 처리
+                if (item.ItemHealMPAmount > 0)
+                {
+                    int beforeMP = Character.Instance.MagicPoint; // MP 속성 존재 시 (Mana)
+                    Character.Instance.MagicPoint = Math.Min(
+                    beforeMP + item.ItemHealMPAmount,
+                    Character.Instance.MaxMagicPoint); // MaxMP 속성 추가 시 수정
+
+                    Console.WriteLine($"MP를 {Character.Instance.MagicPoint - beforeMP} 회복했습니다. (현재 MP: {Character.Instance.MagicPoint}/{Character.Instance.MaxMagicPoint})");
+                }
+
+                return true;
+            }
+
+            Console.WriteLine("포션이 부족하거나 존재하지 않습니다.");
+            return false;
+        }
     }
 }

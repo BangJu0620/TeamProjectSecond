@@ -74,42 +74,49 @@ namespace TeamProjectSecond
             {
                 var item = shopItems[index - 1];
 
-                // 이미 장비를 구매했다면
-                if (item.ItemType != ItemType.Consumable && item.IsOwned)
+                if (item.ItemType == ItemType.Consumable) // 소비템 다중구매가능
                 {
-                    Console.WriteLine("이미 구매한 아이템입니다.");
-                }
-                else if (Character.Instance.Gold < item.ItemPrice)
-                {
-                    Console.WriteLine("Gold가 부족합니다.");
-                }
-                else
-                {
-                    Character.Instance.Gold -= item.ItemPrice;
-                    //소모품 다중 구매
-                    if (item.ItemType == ItemType.Consumable)
+                    Console.Write("몇 개를 구매하시겠습니까? >> ");
+                    if (int.TryParse(Console.ReadLine(), out int amount) && amount > 0)
                     {
-                        Console.Write("몇 개를 구매하시겠습니까? >> ");
-                        if (int.TryParse(Console.ReadLine(), out int amount) && amount > 0)
-                        {
-                            int totalCost = item.ItemPrice * amount;
+                        int totalCost = item.ItemPrice * amount;
 
-                            if (Character.Instance.Gold < totalCost)
-                            {
-                                Console.WriteLine("Gold가 부족합니다.");
-                            }
-                            else
-                            {
-                                Character.Instance.Gold -= totalCost;
-                                item.IsOwned = true;
-                                item.Quantity += amount;
-                                Console.WriteLine($"{item.ItemName}을(를) {amount}개 구매했습니다. 현재 수량: {item.Quantity}");
-                            }
+                        if (Character.Instance.Gold < totalCost)
+                        {
+                            Console.WriteLine("Gold가 부족합니다.");
                         }
                         else
                         {
-                            Console.WriteLine("잘못된 입력입니다.");
+                            Character.Instance.Gold -= totalCost;
+
+                            for (int i = 0; i < amount; i++)
+                            {
+                                Item.AddItem(item.ItemName);
+                            }
+
+                            Console.WriteLine($"{item.ItemName}을(를) {amount}개 구매했습니다.");
                         }
+                    }
+                    else
+                    {
+                        Console.WriteLine("잘못된 입력입니다.");
+                    }
+                }
+                else // 장비
+                {
+                    if (item.IsOwned)
+                    {
+                        Console.WriteLine("이미 구매한 아이템입니다.");
+                    }
+                    else if (Character.Instance.Gold < item.ItemPrice)
+                    {
+                        Console.WriteLine("Gold가 부족합니다.");
+                    }
+                    else
+                    {
+                        Character.Instance.Gold -= item.ItemPrice;
+                        Item.AddItem(item.ItemName);
+                        Console.WriteLine($"{item.ItemName}을(를) 구매했습니다.");
                     }
                 }
             }
@@ -120,5 +127,7 @@ namespace TeamProjectSecond
 
             Console.ReadKey();
         }
+
     }
+  
 }
