@@ -35,7 +35,7 @@ namespace TeamProjectSecond
         static Item()
         {
             instance = new List<ItemData>();
-
+            //드랍 전용 아이템 = 마지막에 false 추가
             //Armor 종류
             instance.Add(new ItemData("천 갑옷", ItemType.Armor, 0, 3, "얇지만 움직이기 쉬운 천 갑옷입니다.", 700, false, false));
             instance.Add(new ItemData("수련자 갑옷", ItemType.Armor, 0, 5, "수련에 도움을 주는 갑옷입니다.", 1000, false, false));
@@ -51,6 +51,31 @@ namespace TeamProjectSecond
             //consumables 종류
             instance.Add(new ItemData("HP 포션", ItemType.Consumable, 0, 0, "HP를 30 회복시켜주는 포션입니다.", 500, false, false));
             instance.Add(new ItemData("MP 포션", ItemType.Consumable, 0, 0, "MP를 30 회복시켜주는 포션입니다.", 500, false, false));
+        }
+
+        // 아이템 획득 로직
+        // 활용 예시 Item.AddItem(item.ItemName);
+        public static bool AddItem(string itemName)
+        {
+            var item = Instance.FirstOrDefault(i => i.ItemName == itemName);
+
+            if (item != null)
+            {
+                item.IsOwned = true;
+
+                if (item.ItemType == ItemType.Consumable)
+                {
+                    item.Quantity++;
+                }
+
+                Console.WriteLine($"{itemName}을(를) 획득했습니다!");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine($"[AddItem 실패] '{itemName}'은(는) 존재하지 않는 아이템입니다.");
+                return false;
+            }
         }
     }
 
@@ -71,10 +96,12 @@ namespace TeamProjectSecond
         public bool IsEquipped { get; set; }
         public int ItemHealHPAmount { get; set; }
         public int ItemHealMPAmount { get; set; }
+        public int Quantity { get; set; } = 0; //소모품 갯수
+        public bool IsShopItem { get; set; } = true; // 상점 구매 가능 여부 (기본값: 가능)
 
         public ItemData() { }
 
-        public ItemData(string name, ItemType type, int atk, int def, string description, int price, bool owned, bool equipped)
+        public ItemData(string name, ItemType type, int atk, int def, string description, int price, bool owned, bool equipped, bool isShopItem = true)
         {
             ItemName = name;
             ItemType = type;
@@ -84,9 +111,9 @@ namespace TeamProjectSecond
             ItemPrice = price;
             IsOwned = owned;
             IsEquipped = equipped;
+            IsShopItem = isShopItem;
             ParseHealAmountFromDescription(description);
         }
-
 
         //HP, MP 회복 구분
         private void ParseHealAmountFromDescription(string description)
@@ -119,14 +146,33 @@ namespace TeamProjectSecond
         {
             return (int)(ItemPrice * 0.85f);
         }
-
+        
         public override string ToString()
         {
             string stats = ItemType == ItemType.Weapon
                 ? $"공격력 +{ItemAttackPoint}"
-                : $"방어력 +{ItemDefensePoint}";
+                : ItemType == ItemType.Armor
+                    ? $"방어력 +{ItemDefensePoint}"
+                    : "";
 
-            return $"{ItemName} | {stats} | {ItemDescription}";
+            string description = WrapText(ItemDescription, 30); // 30자 기준 줄바꿈
+            return $"{ItemName} | {stats}\n{description}";
+        }
+
+        // 문자열 줄바꿈 함수
+        private string WrapText(string text, int maxLength)
+        {
+            StringBuilder result = new StringBuilder();
+            int current = 0;
+
+            while (current < text.Length)
+            {
+                int length = Math.Min(maxLength, text.Length - current);
+                result.AppendLine(text.Substring(current, length));
+                current += length;
+            }
+
+            return result.ToString();
         }
     }
 }
