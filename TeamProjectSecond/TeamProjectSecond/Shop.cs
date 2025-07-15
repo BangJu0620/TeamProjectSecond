@@ -34,7 +34,8 @@ namespace TeamProjectSecond
                         string priceDisplay = item.IsOwned && item.ItemType != ItemType.Consumable ? "구매완료" : $"{item.ItemPrice} G";
 
                         string quantityInfo = item.ItemType == ItemType.Consumable && item.IsOwned ? $" (보유: {item.Quantity})" : ""; //소모품 보유 수량
-                        Console.WriteLine($"- {shopItems.Count}. {item.ToString()} | {priceDisplay}");
+                        Console.WriteLine($"- {shopItems.Count}. {item.ItemName}{quantityInfo}");
+                        Console.WriteLine($"  {item.ToString()}가격: {priceDisplay}");
                     }
                 }
 
@@ -74,7 +75,7 @@ namespace TeamProjectSecond
             {
                 var item = shopItems[index - 1];
 
-                if (item.ItemType == ItemType.Consumable) // 소비템 다중구매가능
+                if (item.ItemType == ItemType.Consumable) // 소비템 다중구매
                 {
                     Console.Write("몇 개를 구매하시겠습니까? >> ");
                     if (int.TryParse(Console.ReadLine(), out int amount) && amount > 0)
@@ -87,14 +88,38 @@ namespace TeamProjectSecond
                         }
                         else
                         {
-                            Character.Instance.Gold -= totalCost;
+                            bool allSuccess = true;
+
+                            int addedCount = 0;
 
                             for (int i = 0; i < amount; i++)
                             {
-                                Item.AddItem(item.ItemName);
+                                if (Item.AddItem(item.ItemName))
+                                {
+                                    addedCount++;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("아이템 추가에 실패했습니다.");
+                                    // 롤백 처리
+                                    var rollbackItem = Item.Instance.FirstOrDefault(it => it.ItemName == item.ItemName);
+                                    if (rollbackItem != null)
+                                    {
+                                        rollbackItem.Quantity -= addedCount;
+                                    }
+                                    allSuccess = false;
+                                    break;
+                                }
                             }
-
-                            Console.WriteLine($"{item.ItemName}을(를) {amount}개 구매했습니다.");
+                            if (allSuccess)
+                            {
+                                Character.Instance.Gold -= totalCost;
+                                Console.WriteLine($"{item.ItemName}을(를) {amount}개 구매했습니다.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("일부 아이템 추가에 실패하여 구매가 취소되었습니다.");
+                            }
                         }
                     }
                     else
@@ -104,19 +129,31 @@ namespace TeamProjectSecond
                 }
                 else // 장비
                 {
+                    int totalCost = item.ItemPrice;
+
                     if (item.IsOwned)
                     {
                         Console.WriteLine("이미 구매한 아이템입니다.");
                     }
-                    else if (Character.Instance.Gold < item.ItemPrice)
+                    else if (Character.Instance.Gold < totalCost)
                     {
                         Console.WriteLine("Gold가 부족합니다.");
                     }
                     else
                     {
-                        Character.Instance.Gold -= item.ItemPrice;
-                        Item.AddItem(item.ItemName);
-                        Console.WriteLine($"{item.ItemName}을(를) 구매했습니다.");
+                        Character.Instance.Gold -= totalCost;
+                        bool added = Item.AddItem(item.ItemName);
+
+                        if (added)
+                        {
+                            Console.WriteLine($"{item.ItemName}을(를) 구매했습니다.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("아이템 추가에 실패했습니다.");
+                        }
+
+                        Console.WriteLine("계속하려면 아무 키나 누르세요...");
                     }
                 }
             }
@@ -127,7 +164,5 @@ namespace TeamProjectSecond
 
             Console.ReadKey();
         }
-
     }
-  
 }

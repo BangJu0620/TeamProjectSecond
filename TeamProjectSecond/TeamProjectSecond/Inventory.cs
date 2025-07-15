@@ -38,6 +38,7 @@ namespace TeamProjectSecond
                 }
                 //
                 Console.WriteLine("\n1. 장착 관리");
+                Console.WriteLine("2. 포션 사용");
                 Console.WriteLine("0. 나가기");
                 Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
 
@@ -46,6 +47,10 @@ namespace TeamProjectSecond
                 if (input == "1")
                 {
                     ManageEquippedItems();
+                }
+                else if (input == "2")
+                {
+                    UsePotionFlow();
                 }
                 else if (input == "0")
                 {
@@ -171,6 +176,47 @@ namespace TeamProjectSecond
 
             Console.WriteLine("포션이 부족하거나 존재하지 않습니다.");
             return false;
+        }
+
+        private static void UsePotionFlow()
+        {
+            var potions = Item.Instance
+                .Where(i => i.IsOwned && i.ItemType == ItemType.Consumable && i.Quantity > 0)
+                .ToList();
+
+            if (potions.Count == 0)
+            {
+                Console.WriteLine("사용할 수 있는 포션이 없습니다.");
+                Console.ReadKey();
+                return;
+            }
+
+            Console.WriteLine("\n[사용 가능한 포션 목록]");
+            for (int i = 0; i < potions.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {potions[i].ItemName} (보유 수량: {potions[i].Quantity})");
+            }
+
+            Console.Write("\n사용할 포션 번호를 선택하세요 (0. 취소): ");
+            string input = Console.ReadLine();
+
+            if (input == "0") return;
+
+            if (int.TryParse(input, out int index) && index >= 1 && index <= potions.Count)
+            {
+                bool success = Inventory.UsePotion(potions[index - 1].ItemName);
+
+                if (!success)
+                {
+                    Console.WriteLine("포션 사용에 실패했습니다.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("잘못된 입력입니다.");
+            }
+
+            Console.ReadKey();
         }
     }
 }
