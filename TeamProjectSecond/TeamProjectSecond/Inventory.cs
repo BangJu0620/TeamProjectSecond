@@ -13,6 +13,7 @@ namespace TeamProjectSecond
             while (true)
             {
                 Console.Clear();
+                Item.Instance.Sort((x, y) => y.IsEquipped.CompareTo(x.IsEquipped)); // 장착 중인 아이템을 맨 위로 정렬
                 //UI 만들어지면 불러오기
                 Console.WriteLine("인벤토리 - 보유 중인 아이템을 관리할 수 있습니다.\n");
                 Console.WriteLine("[아이템 목록]");
