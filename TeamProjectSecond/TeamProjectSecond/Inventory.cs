@@ -16,7 +16,7 @@ namespace TeamProjectSecond
                 //UI 만들어지면 불러오기
                 Console.WriteLine("인벤토리 - 보유 중인 아이템을 관리할 수 있습니다.\n");
                 Console.WriteLine("[아이템 목록]");
-
+                //
                 bool hasItem = false; //아이템 존재 확인
 
                 for (int i = 0; i < Item.Instance.Count; i++)
@@ -35,7 +35,7 @@ namespace TeamProjectSecond
                 {
                     Console.WriteLine("- 보유 중인 아이템이 없습니다.");
                 }
-
+                //
                 Console.WriteLine("\n1. 장착 관리");
                 Console.WriteLine("0. 나가기");
                 Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
@@ -65,7 +65,7 @@ namespace TeamProjectSecond
                 Console.Clear();
                 //UI 만들어지면 불러오기
                 Console.WriteLine("인벤토리 - 장착 관리\n");
-
+                //
                 var ownedItems = new List<ItemData>(); //보유 중인 아이템만
                 for (int i = 0; i < Item.Instance.Count; i++)
                 {
