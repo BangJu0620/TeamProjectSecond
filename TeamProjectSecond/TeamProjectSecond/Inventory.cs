@@ -23,7 +23,7 @@ namespace TeamProjectSecond
                 for (int i = 0; i < Item.Instance.Count; i++)
                 {
                     var item = Item.Instance[i];
-                    if (item.IsOwned)
+                    if (item.IsOwned && (item.ItemType != ItemType.Consumable || item.Quantity > 0))
                     {
                         hasItem = true;
                         string equipped = item.IsEquipped ? "[E]" : "";

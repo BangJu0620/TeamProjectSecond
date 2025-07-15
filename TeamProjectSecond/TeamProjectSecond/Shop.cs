@@ -22,20 +22,27 @@ namespace TeamProjectSecond
                 //
                 var shopItems = new List<ItemData>();
 
+                int displayIndex = 1;
                 for (int i = 0; i < Item.Instance.Count; i++)
                 {
                     var item = Item.Instance[i];
                     if (item.IsShopItem)
                     {
                         shopItems.Add(item);
+
                         string stats = item.ItemType == ItemType.Weapon ? $"공격력 +{item.ItemAttackPoint}" :
                                        item.ItemType == ItemType.Armor ? $"방어력 +{item.ItemDefensePoint}" : "";
 
-                        string priceDisplay = item.IsOwned && item.ItemType != ItemType.Consumable ? "구매완료" : $"{item.ItemPrice} G";
+                        string priceDisplay = item.IsOwned && item.ItemType != ItemType.Consumable
+                            ? "구매완료"
+                            : $"{item.ItemPrice} G";
 
-                        string quantityInfo = item.ItemType == ItemType.Consumable && item.IsOwned ? $" (보유: {item.Quantity})" : ""; //소모품 보유 수량
-                        Console.WriteLine($"- {shopItems.Count}. {item.ItemName}{quantityInfo}");
-                        Console.WriteLine($"  {item.ToString()}가격: {priceDisplay}");
+                        string quantityInfo = item.ItemType == ItemType.Consumable && item.IsOwned
+                            ? $" (보유: {item.Quantity})"
+                            : "";
+
+                        Console.WriteLine($"- {displayIndex}. {item.ItemName}{quantityInfo} | {stats} | 가격: {priceDisplay}");
+                        displayIndex++;
                     }
                 }
 

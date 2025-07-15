@@ -143,7 +143,7 @@ namespace TeamProjectSecond
         {
             return (int)(ItemPrice * 0.85f);
         }
-        
+
         public override string ToString()
         {
             string stats = ItemType == ItemType.Weapon
@@ -152,24 +152,7 @@ namespace TeamProjectSecond
                     ? $"방어력 +{ItemDefensePoint}"
                     : "";
 
-            string description = WrapText(ItemDescription, 30); // 30자 기준 줄바꿈
-            return $"{ItemName} | {stats}\n{description}";
-        }
-
-        // 문자열 줄바꿈 함수
-        private string WrapText(string text, int maxLength)
-        {
-            StringBuilder result = new StringBuilder();
-            int current = 0;
-
-            while (current < text.Length)
-            {
-                int length = Math.Min(maxLength, text.Length - current);
-                result.AppendLine(text.Substring(current, length));
-                current += length;
-            }
-
-            return result.ToString();
+            return $"{ItemName} | {stats} | {ItemDescription}";
         }
     }
 }
