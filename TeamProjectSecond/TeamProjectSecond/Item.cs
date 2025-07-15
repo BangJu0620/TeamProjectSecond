@@ -55,7 +55,8 @@ namespace TeamProjectSecond
 
         // 아이템 획득 로직
         // 활용 예시 Item.AddItem(item.ItemName);
-        public static bool AddItem(string itemName)
+        // 기존 메서드에 선택적 매개변수 추가
+        public static bool AddItem(string itemName, int count = 1, bool showMessage = true)
         {
             var item = Instance.FirstOrDefault(i => i.ItemName == itemName);
 
@@ -65,17 +66,25 @@ namespace TeamProjectSecond
 
                 if (item.ItemType == ItemType.Consumable)
                 {
-                    item.Quantity++;
+                    item.Quantity += count;
                 }
 
-                Console.WriteLine($"{itemName}을(를) 획득했습니다!");
+                if (showMessage)
+                {
+                    if (item.ItemType == ItemType.Consumable)
+                        Console.WriteLine($"{itemName}을(를) {count}개 획득했습니다!");
+                    else
+                        Console.WriteLine($"{itemName}을(를) 획득했습니다!");
+                }
+
                 return true;
             }
-            else
+            if (showMessage)
             {
-                Console.WriteLine($"[AddItem 실패] '{itemName}'은(는) 존재하지 않는 아이템입니다.");
-                return false;
+                Console.WriteLine("존재하지 않는 아이템입니다.");
             }
+                
+            return false;
         }
     }
 
@@ -146,7 +155,7 @@ namespace TeamProjectSecond
         {
             return (int)(ItemPrice * 0.85f);
         }
-        
+
         public override string ToString()
         {
             string stats = ItemType == ItemType.Weapon
@@ -155,24 +164,7 @@ namespace TeamProjectSecond
                     ? $"방어력 +{ItemDefensePoint}"
                     : "";
 
-            string description = WrapText(ItemDescription, 30); // 30자 기준 줄바꿈
-            return $"{ItemName} | {stats}\n{description}";
-        }
-
-        // 문자열 줄바꿈 함수
-        private string WrapText(string text, int maxLength)
-        {
-            StringBuilder result = new StringBuilder();
-            int current = 0;
-
-            while (current < text.Length)
-            {
-                int length = Math.Min(maxLength, text.Length - current);
-                result.AppendLine(text.Substring(current, length));
-                current += length;
-            }
-
-            return result.ToString();
+            return $"{ItemName} | {stats} | {ItemDescription}";
         }
     }
 }
