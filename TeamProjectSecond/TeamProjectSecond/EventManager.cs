@@ -8,9 +8,10 @@ namespace TeamProjectSecond
 {
     public class EventManager
     {
-        // 다른 UI를 아래 케이스에 메서드를 넣어서 불러오고
-        // 그 메서드 끝에 break 넣어주시면 다시 이 화면으로 돌아올 겁니다.
-        public static void DisplayMainUI(SaveLoadUI saveLoadUI)
+        // UI 출력하는 메서드를 while, for 반복문을 이용해서 무한루프 상태로 만들어주세요.
+        // 그리고 break를 넣으면 무한루프 반복문이 종료되면서 그 메서드가 끝나게 해주시면 됩니다.
+        // UI 출력하는 메서드를 아래 주석 위치에 맞게 넣어주시고 실행하시면 될겁니다.
+        public static void DisplayMainUI()
         {
             while (true)
             {
