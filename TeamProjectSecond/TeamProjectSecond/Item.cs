@@ -56,41 +56,42 @@ namespace TeamProjectSecond
 
     public class ItemData
     {
-        public string itemName;
-        public ItemType itemType;
-        public int itemAttackPoint;
-        public int itemDefensePoint;
-        public string itemDescription;
-        public int itemPrice;
-        public bool isOwned;
-        public bool isEquipped;
-        public int itemHealHPAmount;
-        public int itemHealMPAmount;
+        public string ItemName { get; set; }
+        public ItemType ItemType { get; set; }
+        public int ItemAttackPoint { get; set; }
+        public int ItemDefensePoint { get; set; }
+        public string ItemDescription { get; set; }
+        public int ItemPrice { get; set; }
+        public bool IsOwned { get; set; }
+        public bool IsEquipped { get; set; }
+        public int ItemHealHPAmount { get; set; }
+        public int ItemHealMPAmount { get; set; }
 
 
-        public ItemData(string iName, ItemType iType, int iAP, int iDP, string iDescription, int iPrice, bool iOwned, bool iEquipped)
+        public ItemData(string name, ItemType type, int atk, int def, string description, int price, bool owned, bool equipped)
         {
-            itemName = iName;
-            itemType = iType;
-            itemAttackPoint = iAP;
-            itemDefensePoint = iDP;
-            itemDescription = iDescription;
-            itemPrice = iPrice;
-            isOwned = iOwned;
-            isEquipped = iEquipped;
-            ParseHealAmountFromDescription(iDescription); //회복량 자동 추출
+            ItemName = name;
+            ItemType = type;
+            ItemAttackPoint = atk;
+            ItemDefensePoint = def;
+            ItemDescription = description;
+            ItemPrice = price;
+            IsOwned = owned;
+            IsEquipped = equipped;
+            ParseHealAmountFromDescription(description);
         }
+
 
         //HP, MP 회복 구분
         private void ParseHealAmountFromDescription(string description)
         {
             if (description.Contains("HP"))
             {
-                itemHealHPAmount = ExtractFirstNumber(description);
+                ItemHealHPAmount = ExtractFirstNumber(description);
             }
             else if (description.Contains("MP"))
             {
-                itemHealMPAmount = ExtractFirstNumber(description);
+                ItemHealMPAmount = ExtractFirstNumber(description);
             }
         }
 
@@ -110,16 +111,16 @@ namespace TeamProjectSecond
         //아이템 판매 가격 계산 (구매가 85%)
         public int GetSellPrice()
         {
-            return (int)(itemPrice * 0.85f);
+            return (int)(ItemPrice * 0.85f);
         }
 
         public override string ToString()
         {
-            string stats = itemType == ItemType.Weapon
-                ? $"공격력 +{itemAttackPoint}"
-                : $"방어력 +{itemDefensePoint}";
+            string stats = ItemType == ItemType.Weapon
+                ? $"공격력 +{ItemAttackPoint}"
+                : $"방어력 +{ItemDefensePoint}";
 
-            return $"{itemName} | {stats} | {itemDescription}";
+            return $"{ItemName} | {stats} | {ItemDescription}";
         }
     }
 }
