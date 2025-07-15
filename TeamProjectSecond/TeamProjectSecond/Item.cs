@@ -54,6 +54,11 @@ namespace TeamProjectSecond
         }
     }
 
+    public class ItemListData
+    {
+        public List<ItemData> Items { get; set; } = new List<ItemData>();
+    }
+
     public class ItemData
     {
         public string ItemName { get; set; }
@@ -67,6 +72,7 @@ namespace TeamProjectSecond
         public int ItemHealHPAmount { get; set; }
         public int ItemHealMPAmount { get; set; }
 
+        public ItemData() { }
 
         public ItemData(string name, ItemType type, int atk, int def, string description, int price, bool owned, bool equipped)
         {

@@ -30,8 +30,6 @@ namespace TeamProjectSecond
                         case 1:
                             // 상태보기
                             Console.Clear();
-                            Character.Instance.Level += 1;
-                            Console.WriteLine("레벨변경");
                             Console.WriteLine("상태보기");
                             break;
                         case 2:
