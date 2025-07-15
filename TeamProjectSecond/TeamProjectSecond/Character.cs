@@ -12,7 +12,7 @@ namespace TeamProjectSecond
     // 캐릭터를 수정하시려면 private Character(){} 안에 있는 요소들을 수정하시면 됩니다.
     public class Character
     {
-        private static Character instance;
+        private static Character? instance;
 
         public static Character Instance
         {
@@ -34,6 +34,11 @@ namespace TeamProjectSecond
             AttackPoint = 1;
             DefensePoint = 1;
             HealthPoint = 50;
+            Exp = 0;
+            RequiredExp = 0;
+            CritRate = 15;
+            EvasionRate = 0.1f;
+            ManaPoint = 50;
             Gold = 1500;
         }
 
@@ -43,6 +48,12 @@ namespace TeamProjectSecond
         public int AttackPoint { get; set; }
         public int DefensePoint { get; set; }
         public int HealthPoint { get; set; }
+        public int MaxHealthPoint { get; set; }
         public int Gold { get; set; }
+        public int Exp { get; set; }
+        public int RequiredExp { get; set; }
+        public float CritRate { get; set; }
+        public float EvasionRate { get; set; }
+        public int ManaPoint { get; set; }
     }
 }
