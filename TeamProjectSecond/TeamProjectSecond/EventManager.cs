@@ -10,7 +10,7 @@ namespace TeamProjectSecond
     {
         // 다른 UI를 아래 케이스에 메서드를 넣어서 불러오고
         // 그 메서드 끝에 break 넣어주시면 다시 이 화면으로 돌아올 겁니다.
-        public static void DisplayMainUI()
+        public static void DisplayMainUI(SaveLoadUI saveLoadUI)
         {
             while (true)
             {
@@ -30,6 +30,8 @@ namespace TeamProjectSecond
                         case 1:
                             // 상태보기
                             Console.Clear();
+                            Character.Instance.Level += 1;
+                            Console.WriteLine("레벨변경");
                             Console.WriteLine("상태보기");
                             break;
                         case 2:
@@ -59,6 +61,7 @@ namespace TeamProjectSecond
                             break;
                         case 7:
                             // 저장/불러오기
+                            saveLoadUI.DisplaySaveLoadUI();
                             Console.Clear();
                             Console.WriteLine("저장/불러오기");
                             break;

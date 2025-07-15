@@ -55,5 +55,59 @@ namespace TeamProjectSecond
         public float CritRate { get; set; }
         public float EvasionRate { get; set; }
         public int ManaPoint { get; set; }
+
+        public CharacterData ToData()
+        {
+            return new CharacterData
+            {
+                Level = Level,
+                Name = Name,
+                Job = Job,
+                AttackPoint = AttackPoint,
+                DefensePoint = DefensePoint,
+                HealthPoint = HealthPoint,
+                MaxHealthPoint = MaxHealthPoint,
+                Gold = Gold,
+                Exp = Exp,
+                RequiredExp = RequiredExp,
+                CritRate = CritRate,
+                EvasionRate = EvasionRate,
+                ManaPoint = ManaPoint
+            };
+        }
+
+        public void LoadFromData(CharacterData data)
+        {
+            Level = data.Level;
+            Name = data.Name;
+            Job = data.Job;
+            AttackPoint = data.AttackPoint;
+            DefensePoint = data.DefensePoint;
+            HealthPoint = data.HealthPoint;
+            MaxHealthPoint = data.MaxHealthPoint;
+            Gold = data.Gold;
+            Exp = data.Exp;
+            RequiredExp = data.RequiredExp;
+            CritRate = data.CritRate;
+            EvasionRate= data.EvasionRate;
+            ManaPoint = data.ManaPoint;
+        }
+    }
+
+    public class CharacterData
+    {
+        public int Level { get; set; }
+        public string Name { get; set; }
+        public string Job { get; set; }
+        public int AttackPoint { get; set; }
+        public int DefensePoint { get; set; }
+        public int HealthPoint { get; set; }
+        public int MaxHealthPoint { get; set; }
+        public int Gold { get; set; }
+        public int Exp { get; set; }
+        public int RequiredExp { get; set; }
+        public float CritRate { get; set; }
+        public float EvasionRate { get; set; }
+        public int ManaPoint { get; set; }
     }
 }

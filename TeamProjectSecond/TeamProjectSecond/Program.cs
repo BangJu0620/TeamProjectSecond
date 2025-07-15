@@ -4,7 +4,8 @@
     {
         static void Main(string[] args)
         {
-            EventManager.DisplayMainUI();
+            SaveLoadUI saveLoadUI = new SaveLoadUI();
+            EventManager.DisplayMainUI(saveLoadUI);
         }
     }
 }
