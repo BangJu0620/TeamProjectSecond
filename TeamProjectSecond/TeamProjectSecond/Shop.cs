@@ -40,6 +40,7 @@ namespace TeamProjectSecond
                 }
 
                 Console.WriteLine("\n1. 아이템 구매");
+                Console.WriteLine("2. 아이템 판매");
                 Console.WriteLine("0. 나가기");
                 Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
 
@@ -48,6 +49,10 @@ namespace TeamProjectSecond
                 if (input == "1")
                 {
                     BuyItem(shopItems);
+                }
+                else if (input == "2")
+                {
+                    SellItem();
                 }
                 else if (input == "0")
                 {
@@ -75,7 +80,7 @@ namespace TeamProjectSecond
             {
                 var item = shopItems[index - 1];
 
-                if (item.ItemType == ItemType.Consumable) // 소비템 다중구매
+                if (item.ItemType == ItemType.Consumable)
                 {
                     Console.Write("몇 개를 구매하시겠습니까? >> ");
                     if (int.TryParse(Console.ReadLine(), out int amount) && amount > 0)
@@ -88,37 +93,16 @@ namespace TeamProjectSecond
                         }
                         else
                         {
-                            bool allSuccess = true;
+                            bool added = Item.AddItem(item.ItemName, amount);
 
-                            int addedCount = 0;
-
-                            for (int i = 0; i < amount; i++)
-                            {
-                                if (Item.AddItem(item.ItemName))
-                                {
-                                    addedCount++;
-                                }
-                                else
-                                {
-                                    Console.WriteLine("아이템 추가에 실패했습니다.");
-                                    // 롤백 처리
-                                    var rollbackItem = Item.Instance.FirstOrDefault(it => it.ItemName == item.ItemName);
-                                    if (rollbackItem != null)
-                                    {
-                                        rollbackItem.Quantity -= addedCount;
-                                    }
-                                    allSuccess = false;
-                                    break;
-                                }
-                            }
-                            if (allSuccess)
+                            if (added)
                             {
                                 Character.Instance.Gold -= totalCost;
                                 Console.WriteLine($"{item.ItemName}을(를) {amount}개 구매했습니다.");
                             }
                             else
                             {
-                                Console.WriteLine("일부 아이템 추가에 실패하여 구매가 취소되었습니다.");
+                                Console.WriteLine("아이템 추가에 실패했습니다.");
                             }
                         }
                     }
@@ -142,7 +126,7 @@ namespace TeamProjectSecond
                     else
                     {
                         Character.Instance.Gold -= totalCost;
-                        bool added = Item.AddItem(item.ItemName);
+                        bool added = Item.AddItem(item.ItemName, 1);
 
                         if (added)
                         {
@@ -162,6 +146,68 @@ namespace TeamProjectSecond
                 Console.WriteLine("잘못된 입력입니다.");
             }
 
+            Console.ReadKey();
+        }
+
+        private static void SellItem()
+        {
+            Console.Clear();
+            Console.WriteLine("판매할 아이템을 선택하세요 (0. 취소)\n");
+
+            var ownedItems = Item.Instance
+                .Where(i => i.IsOwned)
+                .ToList();
+
+            if (ownedItems.Count == 0)
+            {
+                Console.WriteLine("판매 가능한 아이템이 없습니다.");
+                Console.ReadKey();
+                return;
+            }
+
+            for (int i = 0; i < ownedItems.Count; i++)
+            {
+                var item = ownedItems[i];
+                string quantityInfo = item.ItemType == ItemType.Consumable ? $" (보유: {item.Quantity})" : "";
+                Console.WriteLine($"{i + 1}. {item.ItemName}{quantityInfo} - 판매가: {item.GetSellPrice()} G");
+            }
+
+            Console.Write("\n판매할 아이템 번호 입력: ");
+            string input = Console.ReadLine();
+
+            if (input == "0") return;
+
+            if (int.TryParse(input, out int index) && index >= 1 && index <= ownedItems.Count)
+            {
+                var item = ownedItems[index - 1];
+                int sellPrice = item.GetSellPrice();
+
+                if (item.ItemType == ItemType.Consumable)
+                {
+                    item.Quantity--;
+                    if (item.Quantity <= 0)
+                    {
+                        item.IsOwned = false;
+                    }
+                }
+                else
+                {
+                    if (item.IsEquipped)
+                    {
+                        item.IsEquipped = false;
+                    }
+                    item.IsOwned = false;
+                }
+
+                Character.Instance.Gold += sellPrice;
+                Console.WriteLine($"{item.ItemName}을(를) 판매했습니다. {sellPrice} G 획득!");
+            }
+            else
+            {
+                Console.WriteLine("잘못된 입력입니다.");
+            }
+
+            Console.WriteLine("\n계속하려면 아무 키나 누르세요...");
             Console.ReadKey();
         }
     }

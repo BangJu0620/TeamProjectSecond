@@ -55,7 +55,7 @@ namespace TeamProjectSecond
 
         // 아이템 획득 로직
         // 활용 예시 Item.AddItem(item.ItemName);
-        public static bool AddItem(string itemName)
+        public static bool AddItem(string itemName, int count)
         {
             var item = Instance.FirstOrDefault(i => i.ItemName == itemName);
 
@@ -65,15 +65,19 @@ namespace TeamProjectSecond
 
                 if (item.ItemType == ItemType.Consumable)
                 {
-                    item.Quantity++;
+                    item.Quantity += count;
+                    Console.WriteLine($"{itemName}을(를) {count}개 획득했습니다!");
+                }
+                else
+                {
+                    Console.WriteLine($"{itemName}을(를) 획득했습니다!");
                 }
 
-                Console.WriteLine($"{itemName}을(를) 획득했습니다!");
                 return true;
             }
             else
             {
-                Console.WriteLine($"[AddItem 실패] '{itemName}'은(는) 존재하지 않는 아이템입니다.");
+                Console.WriteLine("존재하지 않는 아이템입니다.");
                 return false;
             }
         }
