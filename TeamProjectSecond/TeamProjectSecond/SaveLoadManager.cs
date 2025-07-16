@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
+
 namespace TeamProjectSecond
 {
     public class SaveLoadManager
@@ -31,13 +32,10 @@ namespace TeamProjectSecond
 
         public static bool LoadCharacterData(string filePath) // 캐릭터 데이터 불러오기
         {
-            bool isNotExist = false;
             if (!File.Exists(filePath))
             {
-                isNotExist = true;
-                return isNotExist;
+                return false;
             }
-
             string json = File.ReadAllText(filePath);
             CharacterData loadedCharacterData = JsonSerializer.Deserialize<CharacterData>(json);
 
@@ -45,18 +43,15 @@ namespace TeamProjectSecond
             {
                 Character.Instance.LoadFromData(loadedCharacterData);
             }
-            return isNotExist;
+            return true;
         }
 
         public static bool LoadItemData(string filePath) // 아이템 데이터 불러오기
         {
-            bool isNotExist = false;
             if (!File.Exists(filePath))
             {
-                isNotExist = true;
-                return isNotExist;
+                return false;
             }
-
             string json = File.ReadAllText(filePath);
             ItemListData loadedItemListData = JsonSerializer.Deserialize<ItemListData>(json);
 
@@ -65,7 +60,7 @@ namespace TeamProjectSecond
                 Item.Instance.Clear();
                 Item.Instance.AddRange(loadedItemListData.Items);
             }
-            return isNotExist;
+            return true;
         }
     }
 }

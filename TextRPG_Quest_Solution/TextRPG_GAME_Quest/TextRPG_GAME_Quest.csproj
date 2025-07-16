@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TextRPG_Quest_Solution\TextRPGQuest.Data\TextRPGQuest.Data.csproj" />
+    <ProjectReference Include="..\TextRPGQuest.Data\TextRPGQuest.Data.csproj" />
   </ItemGroup>
 
 </Project>
