@@ -36,12 +36,11 @@ namespace TeamProjectSecond
                 {
                     Console.WriteLine("- 보유 중인 아이템이 없습니다.");
                 }
-                //
                 Console.WriteLine("\n1. 장착 관리");
                 Console.WriteLine("2. 포션 사용");
                 Console.WriteLine("0. 나가기");
                 Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
-
+                //
                 string input = Console.ReadLine();
 
                 if (input == "1")
@@ -58,7 +57,7 @@ namespace TeamProjectSecond
                 }
                 else
                 {
-                    Console.WriteLine("잘못된 입력입니다.");
+                    Console.WriteLine("잘못된 입력입니다.");//
                     Console.ReadKey();
                 }
             }
@@ -83,8 +82,10 @@ namespace TeamProjectSecond
 
                 if (ownedItems.Count == 0) //보유 중인 아이템이 없으면
                 {
+                    //
                     Console.WriteLine("장착 가능한 아이템이 없습니다.");
                     Console.WriteLine("\n0. 나가기");
+                    //
                     Console.ReadLine();
                     return;
                 }
@@ -95,10 +96,10 @@ namespace TeamProjectSecond
                     string equipped = item.IsEquipped ? "[E]" : "";
                     Console.WriteLine($"- {i + 1} {equipped}{item.ItemName} | {item.ItemDescription}");
                 }
-
+                //
                 Console.WriteLine("\n0. 나가기");
                 Console.Write("\n장착/해제할 아이템 번호를 선택해주세요.\n>> ");
-
+                //
                 string input = Console.ReadLine();
 
                 if (input == "0") break;
@@ -130,7 +131,7 @@ namespace TeamProjectSecond
                 }
                 else
                 {
-                    Console.WriteLine("잘못된 입력입니다.");
+                    Console.WriteLine("잘못된 입력입니다.");//
                     Console.ReadKey();
                 }
             }
@@ -138,44 +139,45 @@ namespace TeamProjectSecond
 
         // 포션 사용 기능
         // 활용 예시 Inventory.UsePotion("MP포션");
-        public static bool UsePotion(string potionName)
+        // UsePotion("HP포션", false); <<회복했습니다 메세지 안뜸
+        public static bool UsePotion(string potionName, bool showMessage = true)
         {
             var item = Item.Instance.FirstOrDefault(i =>
                 i.ItemName == potionName &&
                 i.ItemType == ItemType.Consumable &&
-                i.Quantity > 0); // 조건을 만족하는 아이템 찾기
+                i.Quantity > 0);
 
             if (item != null)
             {
                 item.Quantity--;
 
-                // HP 회복 처리
-                if (item.ItemHealHPAmount > 0)
+                if (item.ItemHealHPAmount > 0) // HP회복로직
                 {
                     int beforeHP = Character.Instance.HealthPoint;
                     Character.Instance.HealthPoint = Math.Min(
-                    beforeHP + item.ItemHealHPAmount,
-                    Character.Instance.MaxHealthPoint);
+                        beforeHP + item.ItemHealHPAmount,
+                        Character.Instance.MaxHealthPoint);
 
-                    Console.WriteLine($"HP를 {Character.Instance.HealthPoint - beforeHP} 회복했습니다. (현재 HP: {Character.Instance.HealthPoint}/{Character.Instance.MaxHealthPoint})");
+                    if (showMessage)
+                        Console.WriteLine($"HP를 {Character.Instance.HealthPoint - beforeHP} 회복했습니다.");
                 }
 
-                // MP 회복 처리
-                if (item.ItemHealMPAmount > 0)
+                if (item.ItemHealMPAmount > 0) // MP회복 로직
                 {
-
                     int beforeMP = Character.Instance.ManaPoint;
                     Character.Instance.ManaPoint = Math.Min(
-                    beforeMP + item.ItemHealMPAmount,
-                    Character.Instance.MaxManaPoint);
+                        beforeMP + item.ItemHealMPAmount,
+                        Character.Instance.MaxManaPoint);
 
-                    Console.WriteLine($"MP를 {Character.Instance.ManaPoint - beforeMP} 회복했습니다. (현재 MP: {Character.Instance.ManaPoint}/{Character.Instance.MaxManaPoint})");
+                    if (showMessage)
+                        Console.WriteLine($"MP를 {Character.Instance.ManaPoint - beforeMP} 회복했습니다.");
                 }
 
                 return true;
             }
 
-            Console.WriteLine("포션이 부족하거나 존재하지 않습니다.");
+            if (showMessage)
+                Console.WriteLine("포션이 부족하거나 존재하지 않습니다.");
             return false;
         }
 
@@ -190,18 +192,18 @@ namespace TeamProjectSecond
 
                 if (potions.Count == 0)
                 {
-                    Console.WriteLine("사용할 수 있는 포션이 없습니다.");
+                    Console.WriteLine("사용할 수 있는 포션이 없습니다.");//
                     Console.ReadKey();
                     return;
                 }
 
-                Console.WriteLine("\n[사용 가능한 포션 목록]");
+                Console.WriteLine("\n[사용 가능한 포션 목록]");//
                 for (int i = 0; i < potions.Count; i++)
                 {
                     Console.WriteLine($"{i + 1}. {potions[i].ItemName} (보유 수량: {potions[i].Quantity})");
                 }
 
-                Console.Write("\n사용할 포션 번호를 선택하세요 (0. 취소): ");
+                Console.Write("\n사용할 포션 번호를 선택하세요 (0. 취소): ");//
                 string input = Console.ReadLine();
 
                 if (input == "0") break;
@@ -212,10 +214,10 @@ namespace TeamProjectSecond
                 }
                 else
                 {
-                    Console.WriteLine("잘못된 입력입니다.");
+                    Console.WriteLine("잘못된 입력입니다.");//
                 }
 
-                Console.WriteLine("\n계속 사용하려면 아무 키나 누르세요. (0 입력 시 종료)");
+                Console.WriteLine("\n계속 사용하려면 아무 키나 누르세요. (0 입력 시 종료)");//
                 if (Console.ReadLine() == "0") break;
             }
         }

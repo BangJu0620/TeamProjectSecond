@@ -10,6 +10,22 @@ namespace TeamProjectSecond
 {
     public class Rest
     {
+        private static Rest? instance;
+        public static Rest Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Rest();
+                }
+                return instance;
+            }
+        }
+
+        private Rest() { }              // 외부에서 Rest 인스턴스를 생성하는 것을 방지합니다.
+
+
         private int? restCost;          // restCost라는 null값도 받을 수 있는 변수를 선언
         public int RestCost             // 그 변수에 값을 입력하기 위해 호출되는 변수를 선언
         {
@@ -23,6 +39,7 @@ namespace TeamProjectSecond
             }                           // 호출된 RestCost에 (int)restCost라는 값을 반환합니다.
                                         // int?는 int를 암시적 형변환 하는 것이 불가능하기 때문에 
                                         // (int)를 통해 형변환합니다.
+
             set
             {
                 restCost = value;       // 외부에서 RestCost에 값을 입력하려고 시도하면 set이라는 함수가 작동합니다
@@ -34,41 +51,65 @@ namespace TeamProjectSecond
 
             while (true)
             {
-                if (character.HealthPoint == character.MaxHealthPoint)      // 체력이 최대일 경우 휴식 시도는 실패합니다.
-                {
-                    Console.WriteLine("이미 체력이 최대치입니다.");
-                    Console.ReadKey();                                      // 키를 입력하면 다시 메뉴가 반복됩니다.
-                }
-                else if (character.HealthPoint < character.MaxHealthPoint)
-                {
-                    if (character.Gold >= RestCost)
-                    {
+                EventManager.Clear();
+                EventManager.Background();
+                Console.SetCursorPosition(0, 2);
+                EventManager.To(55); Console.Write(" 휴 식 하 기");
+                Console.WriteLine();
+                EventManager.To(41); Console.Write("골드를 지불하여 체력을 회복할 수 있습니다.\n\n\n\n");
+                EventManager.To(41); Console.Write($"1. 휴식하기 - {RestCost} 골드\n\n");
+                Console.SetCursorPosition(0, 22);
+                EventManager.To(41); Console.Write($"Enter. 돌아가기\n\n");
 
-                        if (character.HealthPoint + 100 > character.MaxHealthPoint)     // 체력을 회복했을 때 그 값이 최대체력보다 많다면
-                        {                                                               // 최대체력까지만 회복합니다.
-                            character.HealthPoint = character.MaxHealthPoint;
-                            character.Gold -= RestCost;
-                            Console.WriteLine($"체력이 {character.MaxHealthPoint}까지 회복되었습니다.");
-                            Console.ReadKey();   // 키를 입력해야만 다음 장면이 진행
-                            break;               // 반복문을 깨고 나갑니다.
-                        }
+                EventManager.Select();
 
-                        else if (character.HealthPoint + 100 <= character.MaxHealthPoint)  //최대체력보다 적거나 같다면 회복량만큼 회복합니다
+                switch (EventManager.CheckInput())
+                {
+                    case 1:
+                        if (character.HealthPoint == character.MaxHealthPoint)      // 체력이 최대일 경우 휴식 시도는 실패합니다.
                         {
-                            character.HealthPoint += 100;
-                            character.Gold -= RestCost;
-                            Console.WriteLine($"체력이 {character.HealthPoint}까지 회복되었습니다.");
-                            Console.ReadKey();   //키를 입력해야만 다음 장면이 진행
-                            break;               // 반복문을 깨고 나갑니다.
+                            Console.WriteLine("이미 체력이 최대치입니다.");
+                            Console.ReadKey();                                      // 키를 입력하면 다시 메뉴가 반복됩니다.
                         }
-                    }
-                    else if (character.Gold < RestCost)  // 휴식을 시도했으나 돈이 부족할 때, 휴식 시도는 실패합니다.
-                    {
-                        Console.WriteLine("골드가 부족합니다. 이 가난뱅이!");
-                        Console.ReadKey();               // 키를 입력하면 다시 메뉴가 반복됩니다.
-                    }
+                        else if (character.HealthPoint < character.MaxHealthPoint)
+                        {
+                            if (character.Gold >= RestCost)
+                            {
+
+                                if (character.HealthPoint + 100 > character.MaxHealthPoint)     // 체력을 회복했을 때 그 값이 최대체력보다 많다면
+                                {                                                               // 최대체력까지만 회복합니다.
+                                    character.HealthPoint = character.MaxHealthPoint;
+                                    character.Gold -= RestCost;
+                                    Console.WriteLine($"체력이 {character.MaxHealthPoint}까지 회복되었습니다.");
+                                    Console.ReadKey();   // 키를 입력해야만 다음 장면이 진행
+                                    break;               // 반복문을 깨고 나갑니다.
+                                }
+
+                                else if (character.HealthPoint + 100 <= character.MaxHealthPoint)  //최대체력보다 적거나 같다면 회복량만큼 회복합니다
+                                {
+                                    character.HealthPoint += 100;
+                                    character.Gold -= RestCost;
+                                    Console.WriteLine($"체력이 {character.HealthPoint}까지 회복되었습니다.");
+                                    Console.ReadKey();   //키를 입력해야만 다음 장면이 진행
+                                    break;               // 반복문을 깨고 나갑니다.
+                                }
+                            }
+                            else if (character.Gold < RestCost)  // 휴식을 시도했으나 돈이 부족할 때, 휴식 시도는 실패합니다.
+                            {
+                                Console.WriteLine("골드가 부족합니다. 이 가난뱅이!");
+                                Console.ReadKey();               // 키를 입력하면 다시 메뉴가 반복됩니다.
+                            }
+                        }
+                        break;
+                    case null:
+                        return;
+                    default:
+                        EventManager.Wrong();
+                        break;
                 }
+                        
             }
         }
+
     }
 }
