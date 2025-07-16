@@ -168,13 +168,20 @@ namespace TeamProjectSecond
                         break;
                     case 2:
                         Clear();
-                        SaveLoadManager.LoadCharacterData("character.json");
-                        SaveLoadManager.LoadItemData("item.json");
+                        bool isNotExistCharacter;
+                        bool isNotExistItem;
+                        isNotExistCharacter = SaveLoadManager.LoadCharacterData("character.json");
+                        isNotExistItem = SaveLoadManager.LoadItemData("item.json");
                         Console.SetCursorPosition(0, 20);
+                        if(isNotExistCharacter || isNotExistItem)
+                        {
+                            CenterWrite("저장된 파일이 없습니다.");
+                            break;
+                        }
                         CenterWrite("로드가 완료되었습니다.");
                         break;
                     default:
-                        Console.WriteLine("잘못된 입력입니다.");
+                        CenterWrite("잘못된 입력입니다.");
                         break;
                 }
             }
