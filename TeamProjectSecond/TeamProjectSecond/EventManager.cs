@@ -16,26 +16,25 @@ namespace TeamProjectSecond
         public static void DisplayMainUI(SaveLoadUI saveLoadUI)
         {
             var character = Character.Instance;
+            var rest = Rest.Instance;
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.CursorVisible = false;
-
+            
             while (true)
             {
                 Clear();
-
-                Console.SetCursorPosition(0, 0);
+                Background();
+                Console.SetCursorPosition(0, 2);
+                To(55); Console.Write (" 주사위 마을");
                 Console.WriteLine();
-                Console.WriteLine();
-                CenterWrite("주사위 마을");
-                Console.WriteLine();
-                CenterWrite("\b이곳에서 행동을 선택할 수 있습니다.\n\n\n");
-                Console.Write(new string(' ', 35)); Console.Write("1. 상태창\n\n");
-                Console.Write(new string(' ', 35)); Console.Write("2. 소지품 확인\n\n");
-                Console.Write(new string(' ', 35)); Console.Write("3. 상점\n\n");
-                Console.Write(new string(' ', 35)); Console.Write("4. 던전\n\n");
-                Console.Write(new string(' ', 35)); Console.Write("5. 휴식하기\n\n");
-                Console.Write(new string(' ', 35)); Console.Write("6. 퀘스트\n\n");
-                Console.Write(new string(' ', 35)); Console.Write("7. 저장 / 불러오기\n\n");
+                To(45); Console.Write ("이곳에서 행동을 선택할 수 있습니다.\n\n\n\n");
+                To(41); Console.Write("1. 상태창\n\n");
+                To(41); Console.Write("2. 소지품 확인\n\n");
+                To(41); Console.Write("3. 상점\n\n");
+                To(41); Console.Write("4. 던전\n\n");
+                To(41); Console.Write("5. 휴식하기\n\n");
+                To(41); Console.Write("6. 퀘스트\n\n");
+                To(41); Console.Write("7. 저장 / 불러오기\n\n");
                 Select();
 
                 switch (CheckInput())
@@ -60,8 +59,7 @@ namespace TeamProjectSecond
                         break;
                     case 5:
                         // 휴식하기
-                        Console.Clear();
-                        Console.WriteLine("휴식하기");
+                        rest.RestInVillage();
                         break;
                     case 6:
                         // 퀘스트
@@ -73,19 +71,10 @@ namespace TeamProjectSecond
                         Console.Clear();
                         Console.WriteLine("저장/불러오기");
                         break;
-                    case -1:
-                        Clear();
-                        Console.SetCursorPosition(1, 14);
-                        CenterWrite("잘못된 입력입니다.");
-                        Console.ReadKey();
-                        break;
                     case null:
                         break;
                     default:
-                        Clear();
-                        Console.SetCursorPosition(1, 14);
-                        CenterWrite("잘못된 입력입니다.");
-                        Console.ReadKey();
+                        Wrong();
                         break;
                 }
             }
@@ -99,37 +88,39 @@ namespace TeamProjectSecond
         public static void DisplayStatus()
         {
             var character = Character.Instance;
-
-            Clear();
-            Console.SetCursorPosition(0, 3);
-            CenterWrite(" 상 태 창");
-            Console.WriteLine("\n\n");
-            Console.Write(new string(' ', 35)); Console.Write($"Lv. {character.Level} {character.Job}\n\n");
-            Console.Write(new string(' ', 35)); Console.Write($"경험치 {character.Exp} / {character.RequiredExp}\n\n");
-            Console.Write(new string(' ', 35)); Console.Write($"{character.Name}\n\n");
-            Console.Write(new string(' ', 35)); Console.Write($"공격력 : {character.AttackPoint}\n\n");
-            Console.Write(new string(' ', 35)); Console.Write($"방어력 : {character.DefensePoint}\n\n");
-            Console.Write(new string(' ', 35)); Console.Write($"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");
-            Console.SetCursorPosition(0, 24);
-            Console.Write(new string(' ', 43)); Console.Write("1. 스킬 확인         Enter. 돌아가기");
-            Select();
-            switch (CheckInput())
+            while (true)
             {
-                case 1:
-                    Clear();
-                    Console.WriteLine("미구현 상태");
-                    Console.ReadKey();
-                    break;
-                case null:
-                    return;
-                default:
-                    Clear();
-                    Console.WriteLine("미구현 상태");
-                    Console.ReadKey();
-                    break;
+                Clear();
+                Background();
+                Console.SetCursorPosition(0, 2);
+                To(56); Console.Write(" 상 태 창\n");
+                To(45); Console.Write("캐릭터의 정보를 확인할 수 있습니다.");
+                Console.WriteLine("\n\n\n");
+                To(41); Console.Write($"Lv. {character.Level} {character.Job}\n\n");
+                To(41); Console.Write($"경험치 {character.Exp} / {character.RequiredExp}\n\n");
+                To(41); Console.Write($"{character.Name}\n\n");
+                To(41); Console.Write($"공격력 : {character.AttackPoint}\n\n");
+                To(41); Console.Write($"방어력 : {character.DefensePoint}\n\n");
+                To(41); Console.Write($"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");
+                Console.SetCursorPosition(0, 24);
+                To(43); Console.Write("1. 스킬 확인         Enter. 돌아가기");
+                Select();
+             
+                switch (CheckInput())
+                {
+                    case 1:
+                        Clear();
+                        Background();
+                        Console.WriteLine("미구현 상태");
+                        Console.ReadKey();
+                        break;
+                    case null:
+                        return;
+                    default:
+                        Wrong();
+                        break;
+                }
             }
-
-
         }
 
 
@@ -137,13 +128,24 @@ namespace TeamProjectSecond
         {
             var character = Character.Instance;
 
-            Clear();
-            Console.WriteLine("소지품");
-            Console.WriteLine($"");
-            Console.WriteLine($"");
+            while (true)
+            {
+                Clear();
+                Console.SetCursorPosition(0, 3);
+                To(55); Console.Write("인 벤 토 리");
+                Console.WriteLine("\n\n");
+
+                for (int i = 0; ;)
+                {
+                    To(35); Console.Write($"");
+                    Console.WriteLine($"");
+                    Console.WriteLine($"");
+                }
+            }
         }
 
-        public static int? CheckInput()  // 선택지
+
+        public static int? CheckInput()  // 선택을 입력받는 함수
         {
             int number;
             while (true)
@@ -151,19 +153,19 @@ namespace TeamProjectSecond
                 string? input = Console.ReadLine();
                 bool isNumber = int.TryParse(input, out number);
 
-                if (input == "")
+                if (input == "")                        // 엔터만 눌렀을 때
                 {
-                    return null;
+                    return null;                        // null값을 반환합니다.
                 } 
 
-                if (isNumber)
+                if (isNumber)                           // 숫자를 입력했을 때, 
                 {
-                    return number;
+                    return number;                      // 그 값을 반환합니다.
                 }
 
-                else if (!isNumber && (input != ""))
+                else if (!isNumber && (input != ""))    // 숫자가 아닌 값을 입력했을 떄
                 {
-                    return -1;
+                    return -1;                          // -1을 반환합니다.
                 }
             }
         }
@@ -175,7 +177,7 @@ namespace TeamProjectSecond
 
             Console.WriteLine(new string(' ', leftPadding) + text);
         }
-        static double GetDisplayWidth(string text)
+        static double GetDisplayWidth(string text)  // 한글은 1.5칸 , 나머지는 1칸으로 계산하는 함수
         {
             double width = 0;
             foreach (char c in text)
@@ -187,13 +189,19 @@ namespace TeamProjectSecond
                     width += 1;
             }
             return width;
-        } // 한글은 1.5칸 , 나머지는 1칸으로 계산하는 함수
-        static bool IsKorean(char c)
+        }
+        static bool IsKorean(char c)  // 입력된 글자가 한글인지 체크하는 함수
         {
             return (c >= 0xAC00 && c <= 0xD7A3); // 가 ~ 힣
-        } // 입력된 글자가 한글인지 체크하는 함수
+        }
 
-        static void Clear()  //화면을 청소하는 함수
+        public static void To(int i)
+        {
+            Console.Write(new string(' ', i));
+        }
+
+
+        public static void Clear()  // 화면을 청소하는 함수
         {
             for (int i = 1; i < 29; i++)
             {
@@ -203,18 +211,21 @@ namespace TeamProjectSecond
         }
 
 
-        static void Select()
+        public static void Select() // 선택지 입력창을 호출하는 함수
         {
             Console.SetCursorPosition(0, 26);
-            CenterWrite("\b\b원하시는 행동의 번호를 입력해주세요.");
-            Console.SetCursorPosition(43, 27);
-            Console.Write("▶▶ ");
-            Background();
-            Console.SetCursorPosition(60, 27);
+            To(43); Console.Write ("원하시는 행동의 번호를 입력해주세요.\n");
+            To(43); Console.Write("▶▶ ");
         }
 
-
-        public static void Background()
+        public static void Wrong()  // "잘못된 입력입니다."를 출력하는 함수
+        {
+            Clear();
+            Console.SetCursorPosition(0, 14);
+            To(53); Console.Write("잘못된 입력입니다.");
+            Console.ReadKey();
+        }
+        public static void Background() // 화면 위 아래의 주사위를 그리는 함수
         {
             string[] repeated = { "⚀", "⚁", "⚂", "⚃", "⚄", "⚅" };
 
@@ -234,6 +245,7 @@ namespace TeamProjectSecond
                     Console.Write(" ");
                 }
             }
+            Console.SetCursorPosition(0, 0);
         }
     }
 }
