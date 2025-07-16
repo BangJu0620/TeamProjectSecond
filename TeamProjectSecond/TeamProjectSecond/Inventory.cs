@@ -12,11 +12,17 @@ namespace TeamProjectSecond
         {
             while (true)
             {
-                Console.Clear();
+                EventManager.Clear();
+                EventManager.Background();
+                Console.SetCursorPosition(0, 2);
+                EventManager.To(56); Console.Write("인 벤 토 리");
+                Console.WriteLine();
+                EventManager.To(44); Console.Write("보유 중인 아이템을 관리할 수 있습니다.\n\n");
+
                 Item.Instance.Sort((x, y) => y.IsEquipped.CompareTo(x.IsEquipped)); // 장착 중인 아이템을 맨 위로 정렬
                 //UI 만들어지면 불러오기
-                Console.WriteLine("인벤토리 - 보유 중인 아이템을 관리할 수 있습니다.\n");
-                Console.WriteLine("[아이템 목록]");
+
+                EventManager.To(55); Console.Write("[아이템 목록]\n\n");
                 //
                 bool hasItem = false; //아이템 존재 확인
 
@@ -27,39 +33,34 @@ namespace TeamProjectSecond
                     {
                         hasItem = true;
                         string equipped = item.IsEquipped ? "[E]" : "";
-                        Console.WriteLine($"- {i + 1} {equipped}{item.ToString()} x{item.Quantity}");
+                        EventManager.To(25); Console.Write($"- {i + 1} {equipped}{item.ToString()} x{item.Quantity}\n\n");
                     }
                 }
 
                 //UI 만들어지면 불러오기
                 if (!hasItem)
                 {
-                    Console.WriteLine("- 보유 중인 아이템이 없습니다.");
+                    Console.SetCursorPosition(0, 8);
+                    EventManager.To(46); Console.Write("- 보유 중인 아이템이 없습니다.");
                 }
                 //
-                Console.WriteLine("\n1. 장착 관리");
-                Console.WriteLine("2. 포션 사용");
-                Console.WriteLine("0. 나가기");
-                Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
+                Console.SetCursorPosition(0, 24);
+                EventManager.To(40); Console.Write($"1. 장착 관리   2. 포션 사용  Enter. 돌아가기\n\n");
+                EventManager.Select();
 
-                string input = Console.ReadLine();
-
-                if (input == "1")
+                switch (EventManager.CheckInput())
                 {
-                    ManageEquippedItems();
-                }
-                else if (input == "2")
-                {
-                    UsePotionFlow();
-                }
-                else if (input == "0")
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("잘못된 입력입니다.");
-                    Console.ReadKey();
+                    case 1:
+                        ManageEquippedItems();
+                        break;
+                    case 2:
+                        UsePotionFlow();
+                        break;
+                    case null:
+                        return;
+                    default:
+                        EventManager.Wrong();
+                        break;
                 }
             }
         }
@@ -68,10 +69,14 @@ namespace TeamProjectSecond
         {
             while (true)
             {
-                Console.Clear();
-                //UI 만들어지면 불러오기
-                Console.WriteLine("인벤토리 - 장착 관리\n");
-                //
+                EventManager.Clear();
+                EventManager.Background();
+                Console.SetCursorPosition(0, 2);
+                EventManager.To(56); Console.Write("인 벤 토 리");
+                Console.WriteLine();
+                EventManager.To(44); Console.Write("장비를 장착하거나 해제할 수 있습니다.\n\n");
+                EventManager.To(55); Console.Write("[아이템 목록]\n\n");
+
                 var ownedItems = new List<ItemData>(); //보유 중인 아이템만
                 for (int i = 0; i < Item.Instance.Count; i++)
                 {
@@ -83,34 +88,35 @@ namespace TeamProjectSecond
 
                 if (ownedItems.Count == 0) //보유 중인 아이템이 없으면
                 {
-                    Console.WriteLine("장착 가능한 아이템이 없습니다.");
-                    Console.WriteLine("\n0. 나가기");
-                    Console.ReadLine();
-                    return;
+                    Console.SetCursorPosition(0, 8);
+                    EventManager.To(46); Console.Write("- 장착 가능한 아이템이 없습니다.");
                 }
 
                 for (int i = 0; i < ownedItems.Count; i++) //보유템 나열
                 {
                     var item = ownedItems[i];
                     string equipped = item.IsEquipped ? "[E]" : "";
-                    Console.WriteLine($"- {i + 1} {equipped}{item.ItemName} | {item.ItemDescription}");
+                    EventManager.To(25); Console.Write($"- {i + 1} {equipped}{item.ItemName} | {item.ItemDescription}");
                 }
+                Console.SetCursorPosition(0, 24);
+                EventManager.To(35); Console.Write($"장착/해제할 아이템 번호를 선택해주세요.   Enter. 돌아가기\n\n");
+                EventManager.Select();
 
-                Console.WriteLine("\n0. 나가기");
-                Console.Write("\n장착/해제할 아이템 번호를 선택해주세요.\n>> ");
+                int? input = EventManager.CheckInput();
+                if (input == null)
+                    return;
 
-                string input = Console.ReadLine();
-
-                if (input == "0") break;
-
-                if (int.TryParse(input, out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= ownedItems.Count) //숫자인지, 유효한 번호인지 검증
+                else if (input >= 1 && input <= ownedItems.Count)
                 {
-                    var selectedItem = ownedItems[selectedIndex - 1]; //선택 아이템 저장
+                    var selectedItem = ownedItems[(int)input - 1]; //선택 아이템 저장
 
                     if (selectedItem.IsEquipped) //기존 장착 해제
                     {
                         selectedItem.IsEquipped = false;
-                        Console.WriteLine($"\n{selectedItem.ItemName}을(를) 장착 해제했습니다.");
+
+                        EventManager.Clear();
+                        EventManager.Background();
+                        EventManager.To(25); Console.Write($"\n{selectedItem.ItemName}을(를) 장착 해제했습니다.");
                     }
                     else
                     {
@@ -124,21 +130,69 @@ namespace TeamProjectSecond
                         }
 
                         selectedItem.IsEquipped = true;
-                        Console.WriteLine($"\n{selectedItem.ItemName}을(를) 장착했습니다.");
+
+                        EventManager.Clear();
+                        EventManager.Background();
+                        EventManager.To(25);Console.Write($"\n{selectedItem.ItemName}을(를) 장착했습니다.");
                     }
                     Console.ReadKey();
                 }
+
                 else
                 {
-                    Console.WriteLine("잘못된 입력입니다.");
-                    Console.ReadKey();
+                    EventManager.Wrong();
+                }
+            }
+        }
+
+
+        private static void UsePotionFlow()
+        {
+            while (true)
+            {
+                var potions = Item.Instance
+                    .Where(i => i.IsOwned && i.ItemType == ItemType.Consumable && i.Quantity > 0)
+                    .ToList();
+
+                EventManager.Clear();
+                EventManager.Background();
+                Console.SetCursorPosition(0, 2);
+                EventManager.To(56); Console.Write("인 벤 토 리");
+                Console.WriteLine();
+                EventManager.To(44); Console.Write("보유중인 포션을 사용할 수 있습니다.\n\n");
+                EventManager.To(55); Console.Write("[포션 목록]\n\n");
+
+                if (potions.Count == 0)
+                {
+                    Console.SetCursorPosition(0, 8);
+                    EventManager.To(46); Console.Write("- 사용 가능한 포션이 없습니다.");
+                }
+
+                for (int i = 0; i < potions.Count; i++)
+                {
+                    EventManager.To(25); Console.Write($"{i + 1}. {potions[i].ItemName} (보유 수량: {potions[i].Quantity})");
+                }
+
+                Console.SetCursorPosition(0, 24);
+                EventManager.To(35); Console.Write($"사용할 아이템 번호를 선택해주세요.   Enter. 돌아가기\n\n");
+                EventManager.Select();
+
+                int? input = EventManager.CheckInput();
+                if (input == null) return;
+                else if (input >=1 && input <= potions.Count)
+                {
+                    Inventory.UsePotion(potions[(int)input - 1].ItemName);
+                }
+                else
+                {
+                    EventManager.Wrong();
                 }
             }
         }
 
         // 포션 사용 기능
         // 활용 예시 Inventory.UsePotion("MP포션");
-        public static bool UsePotion(string potionName)
+        public static void UsePotion(string potionName)
         {
             var item = Item.Instance.FirstOrDefault(i =>
                 i.ItemName == potionName &&
@@ -157,7 +211,11 @@ namespace TeamProjectSecond
                     beforeHP + item.ItemHealHPAmount,
                     Character.Instance.MaxHealthPoint);
 
-                    Console.WriteLine($"HP를 {Character.Instance.HealthPoint - beforeHP} 회복했습니다. (현재 HP: {Character.Instance.HealthPoint}/{Character.Instance.MaxHealthPoint})");
+                    EventManager.Clear();
+                    Console.SetCursorPosition(0, 14);
+                    EventManager.To(45); Console.Write($"HP를 {Character.Instance.HealthPoint - beforeHP}" +
+                        $" 회복했습니다. (현재 HP: {Character.Instance.HealthPoint}/{Character.Instance.MaxHealthPoint})\n");
+                    Console.ReadKey();
                 }
 
                 // MP 회복 처리
@@ -169,54 +227,12 @@ namespace TeamProjectSecond
                     beforeMP + item.ItemHealMPAmount,
                     Character.Instance.MaxManaPoint);
 
-                    Console.WriteLine($"MP를 {Character.Instance.ManaPoint - beforeMP} 회복했습니다. (현재 MP: {Character.Instance.ManaPoint}/{Character.Instance.MaxManaPoint})");
-                }
-
-                return true;
-            }
-
-            Console.WriteLine("포션이 부족하거나 존재하지 않습니다.");
-            return false;
-        }
-
-        private static void UsePotionFlow()
-        {
-            while (true)
-            {
-                Console.Clear();
-                var potions = Item.Instance
-                    .Where(i => i.IsOwned && i.ItemType == ItemType.Consumable && i.Quantity > 0)
-                    .ToList();
-
-                if (potions.Count == 0)
-                {
-                    Console.WriteLine("사용할 수 있는 포션이 없습니다.");
+                    EventManager.Clear();
+                    Console.SetCursorPosition(0, 14);
+                    EventManager.To(45); Console.Write($"MP를 {Character.Instance.ManaPoint - beforeMP}" +
+                        $" 회복했습니다. (현재 MP: {Character.Instance.ManaPoint}/{Character.Instance.MaxManaPoint})");
                     Console.ReadKey();
-                    return;
                 }
-
-                Console.WriteLine("\n[사용 가능한 포션 목록]");
-                for (int i = 0; i < potions.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {potions[i].ItemName} (보유 수량: {potions[i].Quantity})");
-                }
-
-                Console.Write("\n사용할 포션 번호를 선택하세요 (0. 취소): ");
-                string input = Console.ReadLine();
-
-                if (input == "0") break;
-
-                if (int.TryParse(input, out int index) && index >= 1 && index <= potions.Count)
-                {
-                    Inventory.UsePotion(potions[index - 1].ItemName);
-                }
-                else
-                {
-                    Console.WriteLine("잘못된 입력입니다.");
-                }
-
-                Console.WriteLine("\n계속 사용하려면 아무 키나 누르세요. (0 입력 시 종료)");
-                if (Console.ReadLine() == "0") break;
             }
         }
     }
