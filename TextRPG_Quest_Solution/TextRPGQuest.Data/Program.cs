@@ -17,7 +17,7 @@ class Program
         var player = SaveManager.LoadPlayer();
 
         QuestDatabase.Register();
-        QuestDatabase.Load();
+        QuestDatabase.Load("quest.json");
 
         QuestBoard.Show(player); // 퀘스트 수락
 

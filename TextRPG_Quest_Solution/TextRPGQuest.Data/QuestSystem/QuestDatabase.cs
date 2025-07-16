@@ -25,18 +25,23 @@ namespace TextRPG_Quest_Solution.QuestSystem
             AllQuests.Add(new Quest(IDManager.Generate(), "던전 1층 클리어", "던전 1층을 클리어하세요", QuestCategory.ClearDungeon, 1, 300, 150));
         }
 
-        public static void Save()
+        public static void Save(string filePath)
         {
             var json = JsonSerializer.Serialize(AllQuests, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText("TextRPGQuest.json", json);
+            File.WriteAllText(filePath, json);
         }
 
-        public static void Load()
+        public static bool Load(string filePath)
         {
-            if (File.Exists("TextRPGQuest.json"))
+            if (File.Exists(filePath))
             {
-                var json = File.ReadAllText("TextRPGQuest.json");
+                var json = File.ReadAllText(filePath);
                 AllQuests = JsonSerializer.Deserialize<List<Quest>>(json);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

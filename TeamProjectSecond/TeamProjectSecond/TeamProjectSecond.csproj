@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\TextRPG_Quest_Solution\TextRPGQuest.Data\TextRPGQuest.Data.csproj" />
+  </ItemGroup>
+
 </Project>

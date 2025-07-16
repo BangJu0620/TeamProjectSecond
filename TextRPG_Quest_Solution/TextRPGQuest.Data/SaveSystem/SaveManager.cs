@@ -18,7 +18,7 @@ namespace TextRPG_Quest_Solution.SaveSystem
     {
         public static void SaveAll(Player player)
         {
-            QuestDatabase.Save();
+            QuestDatabase.Save("quest.json");
             var json = JsonSerializer.Serialize(player, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText("PlayerData.json", json);
         }

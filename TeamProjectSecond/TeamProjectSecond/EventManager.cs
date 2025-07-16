@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamProjectSecond;
+using TextRPG_Quest_Solution.QuestSystem;
+using TextRPG_Quest_Solution.SaveSystem;
+using TextRPGQuest.Data.QuestSystem;
 
 
 namespace TeamProjectSecond
@@ -140,15 +143,18 @@ namespace TeamProjectSecond
                         Clear();
                         SaveLoadManager.SaveCharacterData("character.json");
                         SaveLoadManager.SaveItemData("item.json");
+                        QuestDatabase.Save("quest.json");
                         Announce(49, "세이브가 완료되었습니다.");
                         break;
                     case 2: // 캐릭터, 아이템 정보를 로드
                         Clear();
-                        bool isNotExistCharacter;   // 캐릭터 저장 파일 있는지 확인하는 불리언  true: 없음, false: 있음
-                        bool isNotExistItem;        // 아이템 저장 파일 있는지 확인하는 불리언  true: 없음, false: 있음
-                        isNotExistCharacter = SaveLoadManager.LoadCharacterData("character.json");
-                        isNotExistItem = SaveLoadManager.LoadItemData("item.json");
-                        if(isNotExistCharacter || isNotExistItem)   // 둘 중 하나라도 없으면 없다고 출력
+                        bool isExistCharacter;   // 캐릭터 저장 파일 있는지 확인하는 불리언  true: 있음, false: 없음
+                        bool isExistItem;        // 아이템 저장 파일 있는지 확인하는 불리언  true: 있음, false: 없음
+                        bool isExistQuest;
+                        isExistCharacter = SaveLoadManager.LoadCharacterData("character.json");
+                        isExistItem = SaveLoadManager.LoadItemData("item.json");
+                        isExistQuest = QuestDatabase.Load("quest.json");
+                        if(!isExistCharacter || !isExistItem || !isExistQuest)   // 셋 중 하나라도 없으면 없다고 출력
                         {
                             Announce(50, "세이브 파일이 없습니다.");
                             break;
