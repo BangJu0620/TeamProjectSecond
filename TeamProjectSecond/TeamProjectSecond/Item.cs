@@ -10,7 +10,8 @@ namespace TeamProjectSecond
     {
         Weapon,     // 무기
         Armor,      // 방어구
-        Consumable  // 소모품 (예: 포션)
+        Consumable,  // 소모품 (예: 포션)
+        Accessory
     }
     // 다른 클래스에서 사용하시려면
     // Console.WriteLine(Item.Instance[0].itemName); > 출력: 천 갑옷
@@ -36,21 +37,26 @@ namespace TeamProjectSecond
         {
             instance = new List<ItemData>();
             //드랍 전용 아이템 = 마지막에 false 추가
-            //consumables 종류
-            instance.Add(new ItemData("HP 포션", ItemType.Consumable, 0, 0, "HP를 30 회복시켜주는 포션입니다.", 500, false, false));
-            instance.Add(new ItemData("MP 포션", ItemType.Consumable, 0, 0, "MP를 30 회복시켜주는 포션입니다.", 500, false, false));
+            //"템이름", 아이템타입, 공, 방, "설명", 가격, 보유여부, 착용여부, 속도, 최대체력, 최대마나, 상점 판매여부
+            //consumables
+            instance.Add(new ItemData(1, "HP 포션", ItemType.Consumable, 0, 0, "HP를 30 회복시켜주는 포션입니다.", 500, false, false));
+            instance.Add(new ItemData(2, "MP 포션", ItemType.Consumable, 0, 0, "MP를 30 회복시켜주는 포션입니다.", 500, false, false));
 
-            //Armor 종류
-            instance.Add(new ItemData("천 갑옷", ItemType.Armor, 0, 3, "얇지만 움직이기 쉬운 천 갑옷입니다.", 700, false, false));
-            instance.Add(new ItemData("수련자 갑옷", ItemType.Armor, 0, 5, "수련에 도움을 주는 갑옷입니다.", 1000, false, false));
-            instance.Add(new ItemData("무쇠갑옷", ItemType.Armor, 0, 9, "무쇠로 만들어져 튼튼한 갑옷입니다.", 1800, false, false));
-            instance.Add(new ItemData("스파르타의 갑옷", ItemType.Armor, 0, 15, "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 3500, false, false));
+            //Armor
+            instance.Add(new ItemData(10, "천 갑옷", ItemType.Armor, 0, 3, "얇지만 움직이기 쉬운 천 갑옷입니다.", 700, false, false));
+            instance.Add(new ItemData(11, "수련자 갑옷", ItemType.Armor, 0, 5, "수련에 도움을 주는 갑옷입니다.", 1000, false, false));
+            instance.Add(new ItemData(12, "무쇠갑옷", ItemType.Armor, 0, 9, "무쇠로 만들어져 튼튼한 갑옷입니다.", 1800, false, false));
+            instance.Add(new ItemData(13, "스파르타의 갑옷", ItemType.Armor, 0, 15, "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 3500, false, false));
 
-            //Weapon 종류
-            instance.Add(new ItemData("낡은 검", ItemType.Weapon, 2, 0, "쉽게 볼 수 있는 낡은 검입니다.", 600, false, false));
-            instance.Add(new ItemData("짧은 단검", ItemType.Weapon, 3, 0, "빠르고 가볍지만 위력이 낮은 단검입니다.", 900, false, false));
-            instance.Add(new ItemData("청동 도끼", ItemType.Weapon, 5, 0, "어디선가 사용됐던거 같은 도끼입니다.", 1500, false, false));
-            instance.Add(new ItemData("스파르타의 창", ItemType.Weapon, 7, 0, "스파르타의 전사들이 사용했다는 전설의 창입니다.", 2700, false, false));
+            //Weapon
+            instance.Add(new ItemData(100, "낡은 검", ItemType.Weapon, 2, 0, "쉽게 볼 수 있는 낡은 검입니다.", 600, false, false));
+            instance.Add(new ItemData(101, "짧은 단검", ItemType.Weapon, 3, 0, "빠르고 가볍지만 위력이 낮은 단검입니다.", 900, false, false));
+            instance.Add(new ItemData(102, "청동 도끼", ItemType.Weapon, 5, 0, "어디선가 사용됐던거 같은 도끼입니다.", 1500, false, false));
+            instance.Add(new ItemData(103, "스파르타의 창", ItemType.Weapon, 7, 0, "스파르타의 전사들이 사용했다는 전설의 창입니다.", 2700, false, false));
+
+            //Accessory
+            instance.Add(new ItemData(200, "신속의 신발", ItemType.Accessory, 0, 0, "속도를 높여주는 신발입니다.", 800, false, false, speed: 3));
+            instance.Add(new ItemData(201, "체력의 반지", ItemType.Accessory, 0, 2, "최대 체력을 높여주는 반지입니다.", 800, false, false, 0, 30));
         }
 
         // 아이템 획득 로직
@@ -63,21 +69,11 @@ namespace TeamProjectSecond
             if (item != null)
             {
                 item.IsOwned = true;
+                item.Quantity += count;
 
-                if (item.ItemType == ItemType.Consumable)
+                if (showMessage)
                 {
-                    item.Quantity += count;
-                    if (showMessage)
-                    {
-                        Console.WriteLine($"{itemName}을(를) {count}개 획득했습니다!");
-                    }
-                }
-                else
-                {
-                    if (showMessage)
-                    {
-                        Console.WriteLine($"{itemName}을(를) 획득했습니다!");
-                    }
+                    Console.WriteLine($"{itemName}을(를) {count}개 획득했습니다!");
                 }
 
                 return true;
@@ -100,6 +96,7 @@ namespace TeamProjectSecond
 
     public class ItemData
     {
+        public int ID { get; set; }
         public string ItemName { get; set; }
         public ItemType ItemType { get; set; }
         public int ItemAttackPoint { get; set; }
@@ -108,6 +105,9 @@ namespace TeamProjectSecond
         public int ItemPrice { get; set; }
         public bool IsOwned { get; set; }
         public bool IsEquipped { get; set; }
+        public int ItemSpeed { get; set; } = 0;
+        public int ItemMaxHP { get; set; } = 0;
+        public int ItemMaxMP { get; set; } = 0;
         public int ItemHealHPAmount { get; set; }
         public int ItemHealMPAmount { get; set; }
         public int Quantity { get; set; } = 0; //소모품 갯수
@@ -115,17 +115,22 @@ namespace TeamProjectSecond
 
         public ItemData() { }
 
-        public ItemData(string name, ItemType type, int atk, int def, string description, int price, bool owned, bool equipped, bool isShopItem = true)
+        public ItemData(int id, string name, ItemType type, int atk, int def, string description, int price, bool owned, bool equipped, int speed = 0, int maxHP = 0, int maxMP = 0, bool isShopItem = true)
         {
+            ID = id;
             ItemName = name;
             ItemType = type;
             ItemAttackPoint = atk;
             ItemDefensePoint = def;
+            ItemSpeed = speed;
+            ItemMaxHP = maxHP;
+            ItemMaxMP = maxMP;
             ItemDescription = description;
             ItemPrice = price;
             IsOwned = owned;
             IsEquipped = equipped;
             IsShopItem = isShopItem;
+
             ParseHealAmountFromDescription(description);
         }
 
@@ -163,13 +168,13 @@ namespace TeamProjectSecond
 
         public override string ToString()
         {
-            string stats = ItemType == ItemType.Weapon
-                ? $"공격력 +{ItemAttackPoint}"
-                : ItemType == ItemType.Armor
-                    ? $"방어력 +{ItemDefensePoint}"
-                    : "";
+            string stats = "";
 
-            return $"{ItemName} | {stats} | {ItemDescription}";
+            if (ItemAttackPoint > 0) stats += $"공격력 +{ItemAttackPoint} ";
+            if (ItemDefensePoint > 0) stats += $"방어력 +{ItemDefensePoint} ";
+
+            string description = ItemDescription;
+            return $"{ItemName} | {stats}\n{description}";
         }
     }
 }

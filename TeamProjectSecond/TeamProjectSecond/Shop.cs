@@ -19,32 +19,30 @@ namespace TeamProjectSecond
                 Console.WriteLine();
                 EventManager.To(41,"필요한 아이템을 얻을 수 있는 상점입니다.");
                 EventManager.To(20, $"보유 골드 : {Character.Instance.Gold} G\n\n");
-
-                var shopItems = new List<ItemData>();
+                //
+                var shopItems = Item.Instance
+                    .Where(item => item.IsShopItem)
+                    .ToList();
 
                 int displayIndex = 1;
-                for (int i = 0; i < Item.Instance.Count; i++)
+
+                for (int i = 0; i < shopItems.Count; i++)
                 {
-                    var item = Item.Instance[i];
-                    if (item.IsShopItem)
-                    {
-                        shopItems.Add(item);
+                    var item = shopItems[i];
+                    string stats = "";
+                    if (item.ItemAttackPoint > 0) stats += $"공격력 +{item.ItemAttackPoint} ";
+                    if (item.ItemDefensePoint > 0) stats += $"방어력 +{item.ItemDefensePoint} ";
 
-                        string stats = item.ItemType == ItemType.Weapon ? $"공격력 +{item.ItemAttackPoint}" :
-                                       item.ItemType == ItemType.Armor ? $"방어력 +{item.ItemDefensePoint}" : "";
+                    string priceDisplay = item.IsOwned && item.ItemType != ItemType.Consumable
+                        ? "구매완료" : $"{item.ItemPrice} G";
 
-                        string priceDisplay = item.IsOwned && item.ItemType != ItemType.Consumable
-                            ? "구매완료"
-                            : $"{item.ItemPrice} G";
+                    string quantityInfo = item.ItemType == ItemType.Consumable && item.IsOwned
+                        ? $" (보유: {item.Quantity})" : "";
 
-                        string quantityInfo = item.ItemType == ItemType.Consumable && item.IsOwned
-                            ? $" (보유: {item.Quantity})"
-                            : "";
-
-                        EventManager.To(30,$"- {displayIndex}. {item.ItemName}{quantityInfo} | {stats} | 가격: {priceDisplay}\n\n");
-                        displayIndex++;
-                    }
+                    EventManager.To(30,$"- {i + 1}. {item.ItemName}{quantityInfo} | {stats}| 가격: {priceDisplay}");
                 }
+
+                string input = Console.ReadLine();
 
                 Console.SetCursorPosition(0, 24);
                 EventManager.To(40, $"1. 아이템 구매   2. 아이템 판매  Enter. 돌아가기\n\n");
@@ -83,11 +81,20 @@ namespace TeamProjectSecond
                 for (int i = 0; i < shopItems.Count; i++)
                 {
                     var item = shopItems[i];
+
                     string quantityInfo = item.ItemType == ItemType.Consumable && item.IsOwned
-                                          ? $" (보유: {item.Quantity})" : "";
+                        ? $" (보유: {item.Quantity})"
+                        : "";
+
                     string priceDisplay = item.IsOwned && item.ItemType != ItemType.Consumable
-                                          ? "구매완료" : $"{item.ItemPrice} G";
-                    EventManager.To(30,$"{i + 1}. {item.ItemName}{quantityInfo} - {priceDisplay}\n");
+                        ? "구매완료"
+                        : $"{item.ItemPrice} G";
+
+                    string stats = "";
+                    if (item.ItemAttackPoint > 0) stats += $"공격력 +{item.ItemAttackPoint} ";
+                    if (item.ItemDefensePoint > 0) stats += $"방어력 +{item.ItemDefensePoint} ";
+
+                    EventManager.To(30,$"{i + 1}. {item.ItemName}{quantityInfo} | {stats}| 가격: {priceDisplay}");
                 }
 
                 Console.SetCursorPosition(0, 24);
