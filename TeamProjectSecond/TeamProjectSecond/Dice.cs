@@ -51,7 +51,7 @@ namespace TeamProjectSecond
 
         public override string ToString()   // 이게 굳이 필요할까요?
         {
-            return $"{Type}{Index}";        // 저는 아직 모르겠습니당.
+            return $"{Type}{Index}";        // 저는 아직 모르겠습니당. 직접
         }
     }
 }
