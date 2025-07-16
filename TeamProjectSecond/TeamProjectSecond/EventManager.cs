@@ -145,12 +145,12 @@ namespace TeamProjectSecond
             while (true)
             {
                 Console.SetCursorPosition(0, 3);
-                CenterWrite(" 세 이 브 / 로 드");
+                To(52); Console.Write(" 세 이 브 / 로 드");
                 Console.WriteLine("\n\n");
-                Console.Write(new string(' ', 35)); Console.Write("1. 세이브\n\n");
-                Console.Write(new string(' ', 35)); Console.Write("2. 로드\n\n");
+                To(41); Console.Write("1. 세이브\n\n");
+                To(41); Console.Write("2. 로드\n\n");
                 Console.SetCursorPosition(0, 24);
-                CenterWrite("Enter. 돌아가기");
+                To(53); Console.Write("Enter. 돌아가기");
                 Select();
                 switch (CheckInput())
                 {
@@ -161,7 +161,7 @@ namespace TeamProjectSecond
                         SaveLoadManager.SaveCharacterData("character.json");
                         SaveLoadManager.SaveItemData("item.json");
                         Console.SetCursorPosition(0, 20);
-                        CenterWrite("세이브가 완료되었습니다.");
+                        To(49); Console.Write("세이브가 완료되었습니다.");
                         break;
                     case 2:
                         Clear();
@@ -172,13 +172,15 @@ namespace TeamProjectSecond
                         Console.SetCursorPosition(0, 20);
                         if(isNotExistCharacter || isNotExistItem) // 둘 중 하나라도 없으면 없다고 출력
                         {
-                            CenterWrite("저장된 파일이 없습니다.");
+                            To(50); Console.Write("저장된 파일이 없습니다.");
                             break;
                         }
-                        CenterWrite("로드가 완료되었습니다.");
+                        To(50); Console.Write("로드가 완료되었습니다.");
                         break;
                     default:
-                        CenterWrite("잘못된 입력입니다.");
+                        Clear();
+                        Console.SetCursorPosition(0, 20);
+                        To(52); Console.Write("잘못된 입력입니다.");
                         break;
                 }
             }
