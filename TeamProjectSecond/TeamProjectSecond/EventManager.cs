@@ -13,7 +13,7 @@ namespace TeamProjectSecond
         // UI 출력하는 메서드를 while, for 반복문을 이용해서 무한루프 상태로 만들어주세요.
         // 그리고 break를 넣으면 무한루프 반복문이 종료되면서 그 메서드가 끝나게 해주시면 됩니다.
         // UI 출력하는 메서드를 아래 주석 위치에 맞게 넣어주시고 실행하시면 될겁니다.
-        public static void DisplayMainUI(SaveLoadUI saveLoadUI)
+        public static void DisplayMainUI()
         {
             var character = Character.Instance;
             Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -70,8 +70,8 @@ namespace TeamProjectSecond
                         break;
                     case 7:
                         // 저장/불러오기
-                        Console.Clear();
-                        Console.WriteLine("저장/불러오기");
+                        Clear();
+                        DisplaySaveLoadUI();
                         break;
                     case -1:
                         Clear();
@@ -141,6 +141,43 @@ namespace TeamProjectSecond
             Console.WriteLine("소지품");
             Console.WriteLine($"");
             Console.WriteLine($"");
+        }
+
+        public static void DisplaySaveLoadUI()
+        {
+            while (true)
+            {
+                Console.SetCursorPosition(0, 3);
+                CenterWrite(" 세 이 브 / 로 드");
+                Console.WriteLine("\n\n");
+                Console.Write(new string(' ', 35)); Console.Write("1. 세이브\n\n");
+                Console.Write(new string(' ', 35)); Console.Write("2. 로드\n\n");
+                Console.SetCursorPosition(0, 24);
+                CenterWrite("Enter. 돌아가기");
+                Select();
+                switch (CheckInput())
+                {
+                    case null:
+                        return;
+                    case 1:
+                        Clear();
+                        SaveLoadManager.SaveCharacterData("character.json");
+                        SaveLoadManager.SaveItemData("item.json");
+                        Console.SetCursorPosition(0, 20);
+                        CenterWrite("세이브가 완료되었습니다.");
+                        break;
+                    case 2:
+                        Clear();
+                        SaveLoadManager.LoadCharacterData("character.json");
+                        SaveLoadManager.LoadItemData("item.json");
+                        Console.SetCursorPosition(0, 20);
+                        CenterWrite("로드가 완료되었습니다.");
+                        break;
+                    default:
+                        Console.WriteLine("잘못된 입력입니다.");
+                        break;
+                }
+            }
         }
 
         public static int? CheckInput()  // 선택지
