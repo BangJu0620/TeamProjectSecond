@@ -34,6 +34,7 @@ namespace TeamProjectSecond
             AttackPoint = 1;
             DefensePoint = 1;
             HealthPoint = 50;
+            MaxHealthPoint = 100;
             Exp = 0;
             RequiredExp = 0;
             CritRate = 0.15f;
@@ -104,41 +105,44 @@ namespace TeamProjectSecond
         // 직업별 스탯 바꾸시려면 아래에 있는 수치 바꾸시면 됩니다.
         public void PromoteToWarrior()
         {
-            Character.Instance.Job = "워리어";
-            Character.Instance.AttackPoint = 10;
-            Character.Instance.DefensePoint = 5;
-            Character.Instance.HealthPoint = 100;
-            Character.Instance.MaxHealthPoint = 100;
-            Character.Instance.CritRate = 0.15f;
-            Character.Instance.EvasionRate = 0.1f;
-            Character.Instance.ManaPoint = 50;
-            Character.Instance.MaxManaPoint = 50;
+            var character = Character.Instance;
+            character.Job = "워리어";
+            character.AttackPoint = 10;
+            character.DefensePoint = 5;
+            character.HealthPoint = 100;
+            character.MaxHealthPoint = 100;
+            character.CritRate = 0.15f;
+            character.EvasionRate = 0.1f;
+            character.ManaPoint = 50;
+            character.MaxManaPoint = 50;
         }
 
         public void PromoteToRogue()
         {
-            Character.Instance.Job = "로그";
-            Character.Instance.AttackPoint = 12;
-            Character.Instance.DefensePoint = 3;
-            Character.Instance.HealthPoint = 70;
-            Character.Instance.MaxHealthPoint = 70;
-            Character.Instance.CritRate = 0.2f;
-            Character.Instance.EvasionRate = 0.2f;
-            Character.Instance.ManaPoint = 50;
-            Character.Instance.MaxManaPoint = 50;
+            var character = Character.Instance;
+            character.Job = "로그";
+            character.AttackPoint = 12;
+            character.DefensePoint = 3;
+            character.HealthPoint = 70;
+            character.MaxHealthPoint = 70;
+            character.CritRate = 0.2f;
+            character.EvasionRate = 0.2f;
+            character.ManaPoint = 50;
+            character.MaxManaPoint = 50;
         }
 
         public void PromoteToMage()
         {
-            Character.Instance.Job = "메이지";
-            Character.Instance.AttackPoint = 14;
-            Character.Instance.DefensePoint = 2;
-            Character.Instance.HealthPoint = 50;
-            Character.Instance.MaxHealthPoint = 50;
-            Character.Instance.CritRate = 0.15f;
-            Character.Instance.EvasionRate = 0.05f;
-            Character.Instance.ManaPoint = 100;
-            Character.Instance.MaxManaPoint = 100;
+            var character = Character.Instance;
+            character.Job = "메이지";
+            character.AttackPoint = 14;
+            character.DefensePoint = 2;
+            character.HealthPoint = 50;
+            character.MaxHealthPoint = 50;
+            character.CritRate = 0.15f;
+            character.EvasionRate = 0.05f;
+            character.ManaPoint = 100;
+            character.MaxManaPoint = 100;
         }
     }
 

@@ -36,6 +36,10 @@ namespace TeamProjectSecond
         {
             instance = new List<ItemData>();
             //드랍 전용 아이템 = 마지막에 false 추가
+            //consumables 종류
+            instance.Add(new ItemData("HP 포션", ItemType.Consumable, 0, 0, "HP를 30 회복시켜주는 포션입니다.", 500, false, false));
+            instance.Add(new ItemData("MP 포션", ItemType.Consumable, 0, 0, "MP를 30 회복시켜주는 포션입니다.", 500, false, false));
+
             //Armor 종류
             instance.Add(new ItemData("천 갑옷", ItemType.Armor, 0, 3, "얇지만 움직이기 쉬운 천 갑옷입니다.", 700, false, false));
             instance.Add(new ItemData("수련자 갑옷", ItemType.Armor, 0, 5, "수련에 도움을 주는 갑옷입니다.", 1000, false, false));
@@ -47,15 +51,12 @@ namespace TeamProjectSecond
             instance.Add(new ItemData("짧은 단검", ItemType.Weapon, 3, 0, "빠르고 가볍지만 위력이 낮은 단검입니다.", 900, false, false));
             instance.Add(new ItemData("청동 도끼", ItemType.Weapon, 5, 0, "어디선가 사용됐던거 같은 도끼입니다.", 1500, false, false));
             instance.Add(new ItemData("스파르타의 창", ItemType.Weapon, 7, 0, "스파르타의 전사들이 사용했다는 전설의 창입니다.", 2700, false, false));
-
-            //consumables 종류
-            instance.Add(new ItemData("HP 포션", ItemType.Consumable, 0, 0, "HP를 30 회복시켜주는 포션입니다.", 500, false, false));
-            instance.Add(new ItemData("MP 포션", ItemType.Consumable, 0, 0, "MP를 30 회복시켜주는 포션입니다.", 500, false, false));
         }
 
         // 아이템 획득 로직
         // 활용 예시 Item.AddItem(item.ItemName);
-        public static bool AddItem(string itemName)
+        // Item.AddItem("HP포션", 1, false) <<획득 메세지 스킵
+        public static bool AddItem(string itemName, int count = 1, bool showMessage = true)
         {
             var item = Instance.FirstOrDefault(i => i.ItemName == itemName);
 
@@ -65,15 +66,28 @@ namespace TeamProjectSecond
 
                 if (item.ItemType == ItemType.Consumable)
                 {
-                    item.Quantity++;
+                    item.Quantity += count;
+                    if (showMessage)
+                    {
+                        Console.WriteLine($"{itemName}을(를) {count}개 획득했습니다!");
+                    }
+                }
+                else
+                {
+                    if (showMessage)
+                    {
+                        Console.WriteLine($"{itemName}을(를) 획득했습니다!");
+                    }
                 }
 
-                Console.WriteLine($"{itemName}을(를) 획득했습니다!");
                 return true;
             }
             else
             {
-                Console.WriteLine($"[AddItem 실패] '{itemName}'은(는) 존재하지 않는 아이템입니다.");
+                if (showMessage)
+                {
+                    Console.WriteLine("존재하지 않는 아이템입니다.");
+                }
                 return false;
             }
         }
@@ -146,7 +160,7 @@ namespace TeamProjectSecond
         {
             return (int)(ItemPrice * 0.85f);
         }
-        
+
         public override string ToString()
         {
             string stats = ItemType == ItemType.Weapon
@@ -155,24 +169,7 @@ namespace TeamProjectSecond
                     ? $"방어력 +{ItemDefensePoint}"
                     : "";
 
-            string description = WrapText(ItemDescription, 30); // 30자 기준 줄바꿈
-            return $"{ItemName} | {stats}\n{description}";
-        }
-
-        // 문자열 줄바꿈 함수
-        private string WrapText(string text, int maxLength)
-        {
-            StringBuilder result = new StringBuilder();
-            int current = 0;
-
-            while (current < text.Length)
-            {
-                int length = Math.Min(maxLength, text.Length - current);
-                result.AppendLine(text.Substring(current, length));
-                current += length;
-            }
-
-            return result.ToString();
+            return $"{ItemName} | {stats} | {ItemDescription}";
         }
     }
 }
