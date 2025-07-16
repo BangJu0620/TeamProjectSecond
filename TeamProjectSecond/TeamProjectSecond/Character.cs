@@ -33,7 +33,7 @@ namespace TeamProjectSecond
             Name = "이름없음";
             ClassType = ClassType.Warrior;
             Exp = 0;
-            Gold = 0;
+            Gold = 1500;
             ManaPoint = MaxManaPoint;
             HealthPoint = MaxHealthPoint;
         }
