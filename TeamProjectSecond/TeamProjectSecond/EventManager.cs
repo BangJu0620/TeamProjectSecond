@@ -90,10 +90,6 @@ namespace TeamProjectSecond
                 }
             }
         }
-        // UI를 표현하기만 하는 거라면 static으로 하는 게 깔끔할 거 같기도 하고?
-        // 아니면 싱글톤을 하거나, 메인 메서드에 객체를 생성하거나인데
-        // 아니면 인터페이스? 델리게이트랑 이벤트?
-        // 델리게이트랑 이벤트가 UI 쪽에서 쓴다는데 이걸 써볼까?
 
 
         public static void DisplayStatus()
@@ -168,12 +164,12 @@ namespace TeamProjectSecond
                         break;
                     case 2:
                         Clear();
-                        bool isNotExistCharacter;
-                        bool isNotExistItem;
+                        bool isNotExistCharacter; // 캐릭터 저장 파일 있는지 확인하는 불리언  true: 없음, false: 있음
+                        bool isNotExistItem; // 아이템 저장 파일 있는지 확인하는 불리언  true: 없음, false: 있음
                         isNotExistCharacter = SaveLoadManager.LoadCharacterData("character.json");
                         isNotExistItem = SaveLoadManager.LoadItemData("item.json");
                         Console.SetCursorPosition(0, 20);
-                        if(isNotExistCharacter || isNotExistItem)
+                        if(isNotExistCharacter || isNotExistItem) // 둘 중 하나라도 없으면 없다고 출력
                         {
                             CenterWrite("저장된 파일이 없습니다.");
                             break;
