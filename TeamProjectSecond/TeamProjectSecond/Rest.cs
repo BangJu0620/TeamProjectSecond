@@ -68,8 +68,7 @@ namespace TeamProjectSecond
                     case 1:
                         if (character.HealthPoint == character.MaxHealthPoint)      // 체력이 최대일 경우 휴식 시도는 실패합니다.
                         {
-                            Console.WriteLine("이미 체력이 최대치입니다.");
-                            Console.ReadKey();                                      // 키를 입력하면 다시 메뉴가 반복됩니다.
+                            EventManager.Announce(45,"이미 체력이 최대치입니다.");
                         }
                         else if (character.HealthPoint < character.MaxHealthPoint)
                         {
@@ -80,23 +79,21 @@ namespace TeamProjectSecond
                                 {                                                               // 최대체력까지만 회복합니다.
                                     character.HealthPoint = character.MaxHealthPoint;
                                     character.Gold -= RestCost;
-                                    Console.WriteLine($"체력이 {character.MaxHealthPoint}까지 회복되었습니다.");
-                                    Console.ReadKey();   // 키를 입력해야만 다음 장면이 진행
-                                    break;               // 반복문을 깨고 나갑니다.
+                                    EventManager.Announce(48, $"체력이 {character.MaxHealthPoint}까지 회복되었습니다.");
+                                    break;
                                 }
 
                                 else if (character.HealthPoint + 100 <= character.MaxHealthPoint)  //최대체력보다 적거나 같다면 회복량만큼 회복합니다
                                 {
                                     character.HealthPoint += 100;
                                     character.Gold -= RestCost;
-                                    Console.WriteLine($"체력이 {character.HealthPoint}까지 회복되었습니다.");
-                                    Console.ReadKey();   //키를 입력해야만 다음 장면이 진행
-                                    break;               // 반복문을 깨고 나갑니다.
+                                    EventManager.Announce(48, $"체력이 {character.HealthPoint}까지 회복되었습니다.");
+                                    break;
                                 }
                             }
                             else if (character.Gold < RestCost)  // 휴식을 시도했으나 돈이 부족할 때, 휴식 시도는 실패합니다.
                             {
-                                Console.WriteLine("골드가 부족합니다. 이 가난뱅이!");
+                                EventManager.Announce(50,"골드가 부족합니다. 이 가난뱅이!");
                                 Console.ReadKey();               // 키를 입력하면 다시 메뉴가 반복됩니다.
                             }
                         }

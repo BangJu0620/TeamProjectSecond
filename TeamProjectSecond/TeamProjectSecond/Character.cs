@@ -34,7 +34,7 @@ namespace TeamProjectSecond
             AttackPoint = 1;
             DefensePoint = 1;
             HealthPoint = 50;
-            MaxHealthPoint = 50;
+            MaxHealthPoint = 100;
             Exp = 0;
             RequiredExp = 0;
             CritRate = 0.15f;

@@ -114,9 +114,7 @@ namespace TeamProjectSecond
                     {
                         selectedItem.IsEquipped = false;
 
-                        EventManager.Clear();
-                        EventManager.Background();
-                        EventManager.To(25); Console.Write($"\n{selectedItem.ItemName}을(를) 장착 해제했습니다.");
+                        EventManager.Announce(45, $"{selectedItem.ItemName}을(를) 장착 해제했습니다.");
                     }
                     else
                     {
@@ -131,11 +129,8 @@ namespace TeamProjectSecond
 
                         selectedItem.IsEquipped = true;
 
-                        EventManager.Clear();
-                        EventManager.Background();
-                        EventManager.To(25);Console.Write($"\n{selectedItem.ItemName}을(를) 장착했습니다.");
+                        EventManager.Announce(45, $"\n{selectedItem.ItemName}을(를) 장착했습니다.");
                     }
-                    Console.ReadKey();
                 }
 
                 else
@@ -213,7 +208,7 @@ namespace TeamProjectSecond
 
                     EventManager.Clear();
                     Console.SetCursorPosition(0, 14);
-                    EventManager.To(45); Console.Write($"HP를 {Character.Instance.HealthPoint - beforeHP}" +
+                    EventManager.Announce(45,$"HP를 {Character.Instance.HealthPoint - beforeHP}" +
                         $" 회복했습니다. (현재 HP: {Character.Instance.HealthPoint}/{Character.Instance.MaxHealthPoint})\n");
                     Console.ReadKey();
                 }
@@ -227,7 +222,7 @@ namespace TeamProjectSecond
 
                     EventManager.Clear();
                     Console.SetCursorPosition(0, 14);
-                    EventManager.To(45); Console.Write($"MP를 {Character.Instance.ManaPoint - beforeMP}" +
+                    EventManager.Announce(45,$"MP를 {Character.Instance.ManaPoint - beforeMP}" +
                         $" 회복했습니다. (현재 MP: {Character.Instance.ManaPoint}/{Character.Instance.MaxManaPoint})");
                     Console.ReadKey();
                 }
