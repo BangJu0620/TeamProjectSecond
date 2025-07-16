@@ -18,7 +18,7 @@ namespace TeamProjectSecond
                 EventManager.To(58, "상 점");
                 Console.WriteLine();
                 EventManager.To(41,"필요한 아이템을 얻을 수 있는 상점입니다.");
-                EventManager.To(20, $"보유 골드 : {Character.Instance.Gold} G\n\n");
+                EventManager.To(18, $"보유 골드 : {Character.Instance.Gold} G\n\n");
                 //
                 var shopItems = Item.Instance
                     .Where(item => item.IsShopItem)
@@ -39,10 +39,8 @@ namespace TeamProjectSecond
                     string quantityInfo = item.ItemType == ItemType.Consumable && item.IsOwned
                         ? $" (보유: {item.Quantity})" : "";
 
-                    EventManager.To(30,$"- {i + 1}. {item.ItemName}{quantityInfo} | {stats}| 가격: {priceDisplay}");
+                    EventManager.To(30,$"- {i + 1}. {item.ItemName}{quantityInfo} | {stats}| 가격: {priceDisplay}\n");
                 }
-
-                string input = Console.ReadLine();
 
                 Console.SetCursorPosition(0, 24);
                 EventManager.To(40, $"1. 아이템 구매   2. 아이템 판매  Enter. 돌아가기\n\n");
@@ -74,9 +72,8 @@ namespace TeamProjectSecond
                 Console.SetCursorPosition(0, 2);
                 EventManager.To(58, "상 점");
                 Console.WriteLine();
-                EventManager.To(41, "필요한 아이템을 얻을 수 있는 상점입니다.\n");
-                EventManager.To(44, $"[보유 골드] {Character.Instance.Gold} G\n");
-                EventManager.To(55,"[아이템 목록]\n\n");
+                EventManager.To(41, "필요한 아이템을 얻을 수 있는 상점입니다.");
+                EventManager.To(18, $"보유 골드 : {Character.Instance.Gold} G\n\n");
 
                 for (int i = 0; i < shopItems.Count; i++)
                 {
@@ -94,7 +91,7 @@ namespace TeamProjectSecond
                     if (item.ItemAttackPoint > 0) stats += $"공격력 +{item.ItemAttackPoint} ";
                     if (item.ItemDefensePoint > 0) stats += $"방어력 +{item.ItemDefensePoint} ";
 
-                    EventManager.To(30,$"{i + 1}. {item.ItemName}{quantityInfo} | {stats}| 가격: {priceDisplay}");
+                    EventManager.To(30,$"{i + 1}. {item.ItemName}{quantityInfo} | {stats}| 가격: {priceDisplay}\n");
                 }
 
                 Console.SetCursorPosition(0, 24);
@@ -113,9 +110,9 @@ namespace TeamProjectSecond
                         {
                             EventManager.Clear();
                             EventManager.Background();
-                            Console.SetCursorPosition(0, 13);
-                            EventManager.To(55, $"구매하려는 물품 : {item.ItemName}\n\n");
-                            EventManager.To(53, "몇 개를 구매하시겠습니까?");
+                            Console.SetCursorPosition(0, 12);
+                            EventManager.To(50, $"구매하려는 물품 : {item.ItemName}\n\n");
+                            EventManager.To(50, "몇 개를 구매하시겠습니까?");
                             Console.SetCursorPosition(0, 24);
                             EventManager.To(40, $"구매할 아이템 수량을 입력하세요.       Enter. 돌아가기\n\n");
                             EventManager.Select();
