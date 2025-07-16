@@ -37,23 +37,24 @@ namespace TeamProjectSecond
         {
             instance = new List<ItemData>();
             //드랍 전용 아이템 = 마지막에 false 추가
-            //consumables 종류
+            //"템이름", 아이템타입, 공, 방, "설명", 가격, 보유여부, 착용여부, 속도, 최대체력, 최대마나, 상점 판매여부
+            //consumables
             instance.Add(new ItemData("HP 포션", ItemType.Consumable, 0, 0, "HP를 30 회복시켜주는 포션입니다.", 500, false, false));
             instance.Add(new ItemData("MP 포션", ItemType.Consumable, 0, 0, "MP를 30 회복시켜주는 포션입니다.", 500, false, false));
 
-            //Armor 종류
+            //Armor
             instance.Add(new ItemData("천 갑옷", ItemType.Armor, 0, 3, "얇지만 움직이기 쉬운 천 갑옷입니다.", 700, false, false));
             instance.Add(new ItemData("수련자 갑옷", ItemType.Armor, 0, 5, "수련에 도움을 주는 갑옷입니다.", 1000, false, false));
             instance.Add(new ItemData("무쇠갑옷", ItemType.Armor, 0, 9, "무쇠로 만들어져 튼튼한 갑옷입니다.", 1800, false, false));
             instance.Add(new ItemData("스파르타의 갑옷", ItemType.Armor, 0, 15, "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 3500, false, false));
 
-            //Weapon 종류
+            //Weapon
             instance.Add(new ItemData("낡은 검", ItemType.Weapon, 2, 0, "쉽게 볼 수 있는 낡은 검입니다.", 600, false, false));
             instance.Add(new ItemData("짧은 단검", ItemType.Weapon, 3, 0, "빠르고 가볍지만 위력이 낮은 단검입니다.", 900, false, false));
             instance.Add(new ItemData("청동 도끼", ItemType.Weapon, 5, 0, "어디선가 사용됐던거 같은 도끼입니다.", 1500, false, false));
             instance.Add(new ItemData("스파르타의 창", ItemType.Weapon, 7, 0, "스파르타의 전사들이 사용했다는 전설의 창입니다.", 2700, false, false));
 
-            //Accessory 종류
+            //Accessory
             instance.Add(new ItemData("신속의 신발", ItemType.Accessory, 0, 0, "속도를 높여주는 신발입니다.", 800, false, false, speed: 3));
             instance.Add(new ItemData("체력의 반지", ItemType.Accessory, 0, 2, "최대 체력을 높여주는 반지입니다.", 800, false, false, 0, 30));
         }

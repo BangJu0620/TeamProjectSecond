@@ -120,12 +120,28 @@ namespace TeamProjectSecond
                     }
                     else
                     {
-                        // 타입별로 하나만 장착되도록 제한
-                        foreach (var item in ownedItems)
+                        if (selectedItem.ItemType == ItemType.Accessory)
                         {
-                            if (item.ItemType == selectedItem.ItemType && item.IsEquipped)
+                            // 액세서리는 최대 5개까지 중복 착용 가능
+                            int equippedCount = ownedItems.Count(i => i.ItemType == ItemType.Accessory && i.IsEquipped);
+                            if (equippedCount >= 5)
                             {
-                                item.IsEquipped = false;
+                                EventManager.Clear();
+                                EventManager.Background();
+                                EventManager.To(25); Console.WriteLine("\n액세서리는 최대 5개까지 착용할 수 있습니다.");
+                                Console.ReadKey();
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            // 무기 또는 방어구는 1개만 장착되도록 제한
+                            foreach (var item in ownedItems)
+                            {
+                                if (item.ItemType == selectedItem.ItemType && item.IsEquipped)
+                                {
+                                    item.IsEquipped = false;
+                                }
                             }
                         }
 
