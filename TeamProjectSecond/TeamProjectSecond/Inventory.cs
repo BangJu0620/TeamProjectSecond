@@ -19,21 +19,27 @@ namespace TeamProjectSecond
                 Console.WriteLine();
                 EventManager.To(44); Console.Write("보유 중인 아이템을 관리할 수 있습니다.\n\n");
 
-                Item.Instance.Sort((x, y) => y.IsEquipped.CompareTo(x.IsEquipped)); // 장착 중인 아이템을 맨 위로 정렬
-                //UI 만들어지면 불러오기
+                var sortedItems = Item.Instance
+                .Where(i => i.IsOwned)
+                .OrderByDescending(i => i.IsEquipped)
+                .ThenBy(i => i.ID)
+                .ToList();
+
 
                 EventManager.To(55); Console.Write("[아이템 목록]\n\n");
-                //
+                
                 bool hasItem = false; //아이템 존재 확인
 
-                for (int i = 0; i < Item.Instance.Count; i++)
+                for (int i = 0; i < sortedItems.Count; i++)
                 {
-                    var item = Item.Instance[i];
-                    if (item.IsOwned && (item.ItemType != ItemType.Consumable || item.Quantity > 0))
+                    var item = sortedItems[i];
+
+                    bool isConsumable = item.ItemType == ItemType.Consumable;
+                    if (item.IsOwned && (isConsumable ? item.Quantity > 0 : true))
                     {
                         hasItem = true;
                         string equipped = item.IsEquipped ? "[E]" : "";
-                        EventManager.To(25); Console.Write($"- {i + 1} {equipped}{item.ToString()} x{item.Quantity}\n\n");
+                        EventManager.To(25); Console.Write($"- {i + 1} {equipped}{item.ItemName} | {item.ToString()} x{item.Quantity}");
                     }
                 }
 
@@ -77,14 +83,11 @@ namespace TeamProjectSecond
                 EventManager.To(44); Console.Write("장비를 장착하거나 해제할 수 있습니다.\n\n");
                 EventManager.To(55); Console.Write("[아이템 목록]\n\n");
 
-                var ownedItems = new List<ItemData>(); //보유 중인 아이템만
-                for (int i = 0; i < Item.Instance.Count; i++)
-                {
-                    if (Item.Instance[i].IsOwned && Item.Instance[i].ItemType != ItemType.Consumable)
-                    {
-                        ownedItems.Add(Item.Instance[i]);
-                    }
-                }
+                var ownedItems = Item.Instance
+                .Where(i => i.IsOwned && i.ItemType != ItemType.Consumable)
+                .OrderByDescending(i => i.IsEquipped)
+                .ThenBy(i => i.ID)
+                .ToList();
 
                 if (ownedItems.Count == 0) //보유 중인 아이템이 없으면
                 {
@@ -96,7 +99,7 @@ namespace TeamProjectSecond
                 {
                     var item = ownedItems[i];
                     string equipped = item.IsEquipped ? "[E]" : "";
-                    EventManager.To(25); Console.Write($"- {i + 1} {equipped}{item.ItemName} | {item.ItemDescription}");
+                    EventManager.To(25); Console.Write($"- {i + 1} {equipped}{item.ItemName} | {item.ToString()} x{item.Quantity}");
                 }
                 Console.SetCursorPosition(0, 24);
                 EventManager.To(35); Console.Write($"장착/해제할 아이템 번호를 선택해주세요.   Enter. 돌아가기\n\n");
