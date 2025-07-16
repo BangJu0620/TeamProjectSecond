@@ -94,7 +94,7 @@ namespace TeamProjectSecond
                 To(56," 상 태 창\n");
                 To(45,"캐릭터의 정보를 확인할 수 있습니다.");
                 Console.WriteLine("\n\n\n");
-                To(41,$"Lv. {character.Level} {character.Job}\n\n");
+                To(41,$"Lv. {character.Level} {character.ClassType}\n\n");
                 To(41,$"경험치 {character.Exp} / {character.RequiredExp}\n\n");
                 To(41,$"{character.Name}\n\n");
                 To(41,$"공격력 : {character.AttackPoint}\n\n");

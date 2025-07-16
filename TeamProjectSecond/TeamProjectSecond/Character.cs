@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamProjectSecond;
 
 namespace TeamProjectSecond
 {
@@ -30,137 +31,113 @@ namespace TeamProjectSecond
         {
             Level = 1;
             Name = "이름없음";
-            Job = "초보자";
-            AttackPoint = 1;
-            DefensePoint = 1;
-            HealthPoint = 50;
-            MaxHealthPoint = 100;
+            ClassType = ClassType.Warrior;
             Exp = 0;
-            RequiredExp = 0;
-            CritRate = 0.15f;
-            EvasionRate = 0.1f;
-            ManaPoint = 50;
-            MaxManaPoint = 50;
-            Gold = 1500;
+            Gold = 0;
+            ManaPoint = MaxManaPoint;
+            HealthPoint = MaxHealthPoint;
         }
 
-        public int Level { get; set; }
         public string Name { get; set; }
-        public string Job { get; set; }
-        public int AttackPoint { get; set; }
-        public int DefensePoint { get; set; }
-        public int HealthPoint { get; set; }
-        public int MaxHealthPoint { get; set; }
-        public int Gold { get; set; }
+        public int Level { get; set; }
+        public ClassType ClassType { get; set; }  // 변수들 몇개 좀 ClassData쪽으로 옮겨서 관리하겄슴다 
         public int Exp { get; set; }
-        public int RequiredExp { get; set; }
-        public float CritRate { get; set; }
-        public float EvasionRate { get; set; }
+        public int Gold { get; set; }
+        public int HealthPoint { get; set; }
         public int ManaPoint { get; set; }
-        public int MaxManaPoint { get; set; }
+
+        public ClassData ClassData => new ClassData(ClassType);
+
+        public int MaxHealthPoint => ClassData.MaxHPByLevel(Level);
+        public int MaxManaPoint => ClassData.MaxMPByLevel(Level);
+        public int DefensePoint => ClassData.DefenseByLevel(Level);
+        public int DiceCount => ClassData.DiceCountByLevel
+                                  .Where(kv => kv.Key <= Level)
+                                  .Select(kv => kv.Value)
+                                  .Last();
+        public int RerollCount => ClassData.RerollCountByLevel
+                                  .Where(kv => kv.Key <= Level)
+                                  .Select(kv => kv.Value)
+                                  .Last();
+
+        public List<SkillData> ActiveSkills => ClassData.ActiveSkills
+            .Where(skill => skill.RequiredLevel <= Level)
+            .ToList();
+
+        public List<SkillData> PassiveSkills => ClassData.PassiveSkills
+            .Where(skill => skill.RequiredLevel <= Level)
+            .ToList();
+
 
         public CharacterData ToData()
         {
             return new CharacterData
             {
-                Level = Level,
                 Name = Name,
-                Job = Job,
-                AttackPoint = AttackPoint,
-                DefensePoint = DefensePoint,
-                HealthPoint = HealthPoint,
-                MaxHealthPoint = MaxHealthPoint,
-                Gold = Gold,
+                Level = Level,
+                ClassType = ClassType,
                 Exp = Exp,
-                RequiredExp = RequiredExp,
-                CritRate = CritRate,
-                EvasionRate = EvasionRate,
-                ManaPoint = ManaPoint,
-                MaxManaPoint = MaxManaPoint
+                Gold = Gold,
+                HealthPoint = HealthPoint,
+                ManaPoint = ManaPoint
             };
         }
 
         public void LoadFromData(CharacterData data)
         {
-            Level = data.Level;
             Name = data.Name;
-            Job = data.Job;
-            AttackPoint = data.AttackPoint;
-            DefensePoint = data.DefensePoint;
-            HealthPoint = data.HealthPoint;
-            MaxHealthPoint = data.MaxHealthPoint;
-            Gold = data.Gold;
+            Level = data.Level;
+            ClassType = data.ClassType;
             Exp = data.Exp;
-            RequiredExp = data.RequiredExp;
-            CritRate = data.CritRate;
-            EvasionRate = data.EvasionRate;
+            Gold = data.Gold;
+            HealthPoint = data.HealthPoint;
             ManaPoint = data.ManaPoint;
-            MaxManaPoint = data.MaxManaPoint;
         }
     }
 
-    public class JobChange 
+    public class ClassTypeChange
     {
         // 전직 기능, 인트로에 해당 직업에 해당하는 메서드 설정하면 될겁니다. 아마
         // 직업별 스탯 바꾸시려면 아래에 있는 수치 바꾸시면 됩니다.
         public void PromoteToWarrior()
         {
             var character = Character.Instance;
-            character.Job = "워리어";
-            character.AttackPoint = 10;
-            character.DefensePoint = 5;
-            character.HealthPoint = 100;
-            character.MaxHealthPoint = 100;
-            character.CritRate = 0.15f;
-            character.EvasionRate = 0.1f;
-            character.ManaPoint = 50;
-            character.MaxManaPoint = 50;
+            character.ClassType = ClassType.Warrior;
+            character.Level = 1;
+            character.Exp = 0;
+            character.HealthPoint = character.MaxHealthPoint;
+            character.ManaPoint = character.MaxManaPoint;
         }
 
         public void PromoteToRogue()
         {
             var character = Character.Instance;
-            character.Job = "로그";
-            character.AttackPoint = 12;
-            character.DefensePoint = 3;
-            character.HealthPoint = 70;
-            character.MaxHealthPoint = 70;
-            character.CritRate = 0.2f;
-            character.EvasionRate = 0.2f;
-            character.ManaPoint = 50;
-            character.MaxManaPoint = 50;
+            character.ClassType = ClassType.Rogue;
+            character.Level = 1;
+            character.Exp = 0;
+            character.HealthPoint = character.MaxHealthPoint;
+            character.ManaPoint = character.MaxManaPoint;
         }
 
         public void PromoteToMage()
         {
             var character = Character.Instance;
-            character.Job = "메이지";
-            character.AttackPoint = 14;
-            character.DefensePoint = 2;
-            character.HealthPoint = 50;
-            character.MaxHealthPoint = 50;
-            character.CritRate = 0.15f;
-            character.EvasionRate = 0.05f;
-            character.ManaPoint = 100;
-            character.MaxManaPoint = 100;
+            character.ClassType = ClassType.Mage;
+            character.Level = 1;
+            character.Exp = 0;
+            character.HealthPoint = character.MaxHealthPoint;
+            character.ManaPoint = character.MaxManaPoint;
         }
     }
 
     public class CharacterData
     {
-        public int Level { get; set; }
         public string Name { get; set; }
-        public string Job { get; set; }
-        public int AttackPoint { get; set; }
-        public int DefensePoint { get; set; }
-        public int HealthPoint { get; set; }
-        public int MaxHealthPoint { get; set; }
-        public int Gold { get; set; }
+        public int Level { get; set; }
+        public ClassType ClassType { get; set; }
         public int Exp { get; set; }
-        public int RequiredExp { get; set; }
-        public float CritRate { get; set; }
-        public float EvasionRate { get; set; }
+        public int Gold { get; set; }
+        public int HealthPoint { get; set; }
         public int ManaPoint { get; set; }
-        public int MaxManaPoint { get; set; }
     }
 }
