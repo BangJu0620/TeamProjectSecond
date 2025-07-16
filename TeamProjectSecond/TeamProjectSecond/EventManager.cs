@@ -144,6 +144,7 @@ namespace TeamProjectSecond
         {
             while (true)
             {
+                Clear();
                 Console.SetCursorPosition(0, 3);
                 To(52); Console.Write(" 세 이 브 / 로 드");
                 Console.WriteLine("\n\n");
@@ -156,31 +157,27 @@ namespace TeamProjectSecond
                 {
                     case null:
                         return;
-                    case 1:
+                    case 1: // 캐릭터, 아이템 정보를 세이브
                         Clear();
                         SaveLoadManager.SaveCharacterData("character.json");
                         SaveLoadManager.SaveItemData("item.json");
-                        Console.SetCursorPosition(0, 20);
-                        To(49); Console.Write("세이브가 완료되었습니다.");
+                        Announce(49, "세이브가 완료되었습니다.");
                         break;
-                    case 2:
+                    case 2: // 캐릭터, 아이템 정보를 로드
                         Clear();
-                        bool isNotExistCharacter; // 캐릭터 저장 파일 있는지 확인하는 불리언  true: 없음, false: 있음
-                        bool isNotExistItem; // 아이템 저장 파일 있는지 확인하는 불리언  true: 없음, false: 있음
+                        bool isNotExistCharacter;   // 캐릭터 저장 파일 있는지 확인하는 불리언  true: 없음, false: 있음
+                        bool isNotExistItem;        // 아이템 저장 파일 있는지 확인하는 불리언  true: 없음, false: 있음
                         isNotExistCharacter = SaveLoadManager.LoadCharacterData("character.json");
                         isNotExistItem = SaveLoadManager.LoadItemData("item.json");
-                        Console.SetCursorPosition(0, 20);
-                        if(isNotExistCharacter || isNotExistItem) // 둘 중 하나라도 없으면 없다고 출력
+                        if(isNotExistCharacter || isNotExistItem)   // 둘 중 하나라도 없으면 없다고 출력
                         {
-                            To(50); Console.Write("저장된 파일이 없습니다.");
+                            Announce(50, "세이브 파일이 없습니다.");
                             break;
                         }
-                        To(50); Console.Write("로드가 완료되었습니다.");
+                        Announce(50, "로드가 완료되었습니다.");
                         break;
                     default:
-                        Clear();
-                        Console.SetCursorPosition(0, 20);
-                        To(52); Console.Write("잘못된 입력입니다.");
+                        Wrong();
                         break;
                 }
             }
@@ -266,6 +263,15 @@ namespace TeamProjectSecond
             To(53); Console.Write("잘못된 입력입니다.");
             Console.ReadKey();
         }
+
+        public static void Announce(int i, string input)    // Wrong의 변형, 출력 위치와 출력 문구를 매개변수로 받아 출력
+        {
+            Clear();
+            Console.SetCursorPosition(0, 14);
+            To(i); Console.Write(input);
+            Console.ReadKey();
+        }
+
         public static void Background() // 화면 위 아래의 주사위를 그리는 함수
         {
             string[] repeated = { "⚀", "⚁", "⚂", "⚃", "⚄", "⚅" };
