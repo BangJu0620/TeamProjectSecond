@@ -45,12 +45,12 @@ namespace TeamProjectSecond
                         displayIndex++;
                     }
                 }
-
+                //
                 Console.WriteLine("\n1. 아이템 구매");
                 Console.WriteLine("2. 아이템 판매");
                 Console.WriteLine("0. 나가기");
                 Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
-
+                //
                 string input = Console.ReadLine();
 
                 if (input == "1")
@@ -67,7 +67,7 @@ namespace TeamProjectSecond
                 }
                 else
                 {
-                    Console.WriteLine("잘못된 입력입니다.");
+                    Console.WriteLine("잘못된 입력입니다.");//
                     Console.ReadKey();
                 }
             }
@@ -79,7 +79,7 @@ namespace TeamProjectSecond
             {
                 Console.Clear();
                 //UI
-                Console.WriteLine("구매할 아이템 번호를 입력하세요. (0. 취소)\n");
+                Console.WriteLine("구매할 아이템 번호를 입력하세요. (0. 취소)\n");//
                 //
                 for (int i = 0; i < shopItems.Count; i++)
                 {
@@ -91,7 +91,7 @@ namespace TeamProjectSecond
                     Console.WriteLine($"{i + 1}. {item.ItemName}{quantityInfo} - {priceDisplay}");
                 }
                 //UI
-                Console.WriteLine("\n구매할 아이템 번호를 입력하세요. (0. 취소)");
+                Console.WriteLine("\n구매할 아이템 번호를 입력하세요. (0. 취소)");//
                 //
                 string input = Console.ReadLine();
 
@@ -104,14 +104,14 @@ namespace TeamProjectSecond
 
                     if (item.ItemType == ItemType.Consumable)
                     {
-                        Console.Write("몇 개를 구매하시겠습니까? >> ");
+                        Console.Write("몇 개를 구매하시겠습니까? >> ");//
                         if (int.TryParse(Console.ReadLine(), out int amount) && amount > 0)
                         {
                             int totalCost = item.ItemPrice * amount;
 
                             if (Character.Instance.Gold < totalCost)
                             {
-                                Console.WriteLine("Gold가 부족합니다.");
+                                Console.WriteLine("Gold가 부족합니다.");//
                             }
                             else
                             {
@@ -120,17 +120,17 @@ namespace TeamProjectSecond
                                 if (added)
                                 {
                                     Character.Instance.Gold -= totalCost;
-                                    Console.WriteLine($"{item.ItemName}을(를) {amount}개 구매했습니다.");
+                                    Console.WriteLine($"{item.ItemName}을(를) {amount}개 구매했습니다.");//
                                 }
                                 else
                                 {
-                                    Console.WriteLine("아이템 추가에 실패했습니다.");
+                                    Console.WriteLine("아이템 추가에 실패했습니다.");//
                                 }
                             }
                         }
                         else
                         {
-                            Console.WriteLine("잘못된 입력입니다.");
+                            Console.WriteLine("잘못된 입력입니다.");//
                         }
                     }
                     else // 장비
@@ -139,11 +139,11 @@ namespace TeamProjectSecond
 
                         if (item.IsOwned)
                         {
-                            Console.WriteLine("이미 구매한 아이템입니다.");
+                            Console.WriteLine("이미 구매한 아이템입니다.");//
                         }
                         else if (Character.Instance.Gold < totalCost)
                         {
-                            Console.WriteLine("Gold가 부족합니다.");
+                            Console.WriteLine("Gold가 부족합니다.");//
                         }
                         else
                         {
@@ -152,21 +152,21 @@ namespace TeamProjectSecond
 
                             if (added)
                             {
-                                Console.WriteLine($"{item.ItemName}을(를) 구매했습니다.");
+                                Console.WriteLine($"{item.ItemName}을(를) 구매했습니다.");//
                             }
                             else
                             {
                                 Console.WriteLine("아이템 추가에 실패했습니다.");
                             }
 
-                            Console.WriteLine("\n[Enter]를 누르면 계속 구매할 수 있습니다. (종료하려면 0 입력)");
+                            Console.WriteLine("\n[Enter]를 누르면 계속 구매할 수 있습니다. (종료하려면 0 입력)");//
                             if (Console.ReadLine() == "0") break;
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine("잘못된 입력입니다.");
+                    Console.WriteLine("잘못된 입력입니다.");//
                 }
 
                 Console.ReadKey();
@@ -196,7 +196,7 @@ namespace TeamProjectSecond
                     Console.WriteLine($"{i + 1}. {item.ItemName}{quantityInfo} - 판매가: {item.GetSellPrice()} G");
                 }
 
-                Console.Write("\n판매할 아이템 번호 입력: ");
+                Console.Write("\n판매할 아이템 번호 입력: ");//
                 string input = Console.ReadLine();
 
                 if (input == "0") break;
@@ -234,7 +234,7 @@ namespace TeamProjectSecond
                     Console.WriteLine("잘못된 입력입니다.");
                 }
 
-                Console.WriteLine("\n계속하려면 아무 키나 누르세요...");
+                Console.WriteLine("\n계속하려면 아무 키나 누르세요...");//
                 Console.ReadKey();
             }
         }
