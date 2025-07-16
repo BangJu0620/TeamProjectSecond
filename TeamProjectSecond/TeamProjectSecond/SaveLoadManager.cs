@@ -29,12 +29,13 @@ namespace TeamProjectSecond
             File.WriteAllText(filePath, json);
         }
 
-        public static void LoadCharacterData(string filePath) // 캐릭터 데이터 불러오기
+        public static bool LoadCharacterData(string filePath) // 캐릭터 데이터 불러오기
         {
+            bool isNotExist = false;
             if (!File.Exists(filePath))
             {
-                Console.WriteLine("저장된 파일이 없습니다.");
-                return;
+                isNotExist = true;
+                return isNotExist;
             }
 
             string json = File.ReadAllText(filePath);
@@ -44,14 +45,16 @@ namespace TeamProjectSecond
             {
                 Character.Instance.LoadFromData(loadedCharacterData);
             }
+            return isNotExist;
         }
 
-        public static void LoadItemData(string filePath) // 아이템 데이터 불러오기
+        public static bool LoadItemData(string filePath) // 아이템 데이터 불러오기
         {
+            bool isNotExist = false;
             if (!File.Exists(filePath))
             {
-                Console.WriteLine("저장된 파일이 없습니다.");
-                return;
+                isNotExist = true;
+                return isNotExist;
             }
 
             string json = File.ReadAllText(filePath);
@@ -62,55 +65,7 @@ namespace TeamProjectSecond
                 Item.Instance.Clear();
                 Item.Instance.AddRange(loadedItemListData.Items);
             }
-        }
-    }
-
-    public class SaveLoadUI
-    {
-        public void DisplaySaveLoadUI()
-        {
-            while (true)
-            {
-                Console.WriteLine("1. 저장하기");
-                Console.WriteLine("2. 불러오기");
-                Console.WriteLine("0. 나가기");
-
-                string input = Console.ReadLine();
-                int userSelect;
-                bool isInt = int.TryParse(input, out userSelect);
-                if (isInt)
-                {
-                    if (userSelect == 0)
-                    {
-                        Console.Clear();
-                        break;
-                    }
-                    else if (userSelect == 1)
-                    {
-                        Console.Clear();
-                        SaveLoadManager.SaveCharacterData("character.json");
-                        SaveLoadManager.SaveItemData("item.json");
-                        Console.WriteLine("저장하기 완료");
-                    }
-                    else if(userSelect == 2)
-                    {
-                        Console.Clear();
-                        SaveLoadManager.LoadCharacterData("character.json");
-                        SaveLoadManager.LoadItemData("item.json");
-                        Console.WriteLine("불러오기 완료");
-                    }
-                    else
-                    {
-                        Console.Clear();
-                        Console.WriteLine("잘못된 입력입니다.");
-                    }
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine("잘못된 입력입니다.");
-                }
-            }
+            return isNotExist;
         }
     }
 }
