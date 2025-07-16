@@ -54,12 +54,12 @@ namespace TeamProjectSecond
                 EventManager.Clear();
                 EventManager.Background();
                 Console.SetCursorPosition(0, 2);
-                EventManager.To(55); Console.Write(" 휴 식 하 기");
+                EventManager.To(55," 휴 식 하 기");
                 Console.WriteLine();
-                EventManager.To(41); Console.Write("골드를 지불하여 체력을 회복할 수 있습니다.\n\n\n\n");
-                EventManager.To(41); Console.Write($"1. 휴식하기 - {RestCost} 골드\n\n");
+                EventManager.To(41,"골드를 지불하여 체력을 회복할 수 있습니다.\n\n\n\n");
+                EventManager.To(41,$"1. 휴식하기 - {RestCost} 골드\n\n");
                 Console.SetCursorPosition(0, 22);
-                EventManager.To(41); Console.Write($"Enter. 돌아가기\n\n");
+                EventManager.To(41,$"Enter. 돌아가기\n\n");
 
                 EventManager.Select();
 

@@ -28,16 +28,16 @@ namespace TeamProjectSecond
                 Clear();
                 Background();
                 Console.SetCursorPosition(0, 2);
-                To(55); Console.Write (" 주사위 마을");
+                To(55," 주사위 마을");
                 Console.WriteLine();
-                To(44); Console.Write ("이곳에서 행동을 선택할 수 있습니다.\n\n\n\n");
-                To(41); Console.Write("1. 상태창\n\n");
-                To(41); Console.Write("2. 소지품 확인\n\n");
-                To(41); Console.Write("3. 상점\n\n");
-                To(41); Console.Write("4. 던전\n\n");
-                To(41); Console.Write("5. 휴식하기\n\n");
-                To(41); Console.Write("6. 퀘스트\n\n");
-                To(41); Console.Write("7. 저장 / 불러오기\n\n");
+                To(44,"이곳에서 행동을 선택할 수 있습니다.\n\n\n\n");
+                To(41,"1. 상태창\n\n");
+                To(41,"2. 소지품 확인\n\n");
+                To(41,"3. 상점\n\n");
+                To(41,"4. 던전\n\n");
+                To(41,"5. 휴식하기\n\n");
+                To(41,"6. 퀘스트\n\n");
+                To(41,"7. 저장 / 불러오기\n\n");
                 Select();
 
                 switch (CheckInput())
@@ -52,8 +52,7 @@ namespace TeamProjectSecond
                         break;
                     case 3:
                         // 상점
-                        Console.Clear();
-                        Console.WriteLine("상점");
+                        Shop.EnterShop();
                         break;
                     case 4:
                         // 던전
@@ -92,26 +91,23 @@ namespace TeamProjectSecond
                 Clear();
                 Background();
                 Console.SetCursorPosition(0, 2);
-                To(56); Console.Write(" 상 태 창\n");
-                To(45); Console.Write("캐릭터의 정보를 확인할 수 있습니다.");
+                To(56," 상 태 창\n");
+                To(45,"캐릭터의 정보를 확인할 수 있습니다.");
                 Console.WriteLine("\n\n\n");
-                To(41); Console.Write($"Lv. {character.Level} {character.Job}\n\n");
-                To(41); Console.Write($"경험치 {character.Exp} / {character.RequiredExp}\n\n");
-                To(41); Console.Write($"{character.Name}\n\n");
-                To(41); Console.Write($"공격력 : {character.AttackPoint}\n\n");
-                To(41); Console.Write($"방어력 : {character.DefensePoint}\n\n");
-                To(41); Console.Write($"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");
+                To(41,$"Lv. {character.Level} {character.Job}\n\n");
+                To(41,$"경험치 {character.Exp} / {character.RequiredExp}\n\n");
+                To(41,$"{character.Name}\n\n");
+                To(41,$"공격력 : {character.AttackPoint}\n\n");
+                To(41,$"방어력 : {character.DefensePoint}\n\n");
+                To(41,$"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");
                 Console.SetCursorPosition(0, 24);
-                To(43); Console.Write("1. 스킬 확인         Enter. 돌아가기");
+                To(43,"1. 스킬 확인         Enter. 돌아가기");
                 Select();
              
                 switch (CheckInput())
                 {
                     case 1:
-                        Clear();
-                        Background();
-                        Console.WriteLine("미구현 상태");
-                        Console.ReadKey();
+                        Announce(55,"미구현");
                         break;
                     case null:
                         return;
@@ -128,12 +124,12 @@ namespace TeamProjectSecond
             {
                 Clear();
                 Console.SetCursorPosition(0, 3);
-                To(52); Console.Write(" 세 이 브 / 로 드");
+                To(53,"세 이 브 / 로 드");
                 Console.WriteLine("\n\n");
-                To(41); Console.Write("1. 세이브\n\n");
-                To(41); Console.Write("2. 로드\n\n");
+                To(41,"1. 세이브\n\n");
+                To(41,"2. 로드\n\n");
                 Console.SetCursorPosition(0, 24);
-                To(53); Console.Write("Enter. 돌아가기");
+                To(53,"Enter. 돌아가기");
                 Select();
                 switch (CheckInput())
                 {
@@ -222,6 +218,11 @@ namespace TeamProjectSecond
             Console.Write(new string(' ', i));
         }
 
+        public static void To(int i, string text)  //입력된 숫자만큼 띄어쓰기 + 문자열을 출력하는 함수
+        {
+            Console.Write(new string(' ', i)); Console.Write(text);
+        }
+
         public static void Clear()  // 화면을 청소하는 함수
         {
             for (int i = 1; i < 29; i++)
@@ -231,12 +232,11 @@ namespace TeamProjectSecond
             }
         }
 
-
         public static void Select() // 선택지 입력창을 호출하는 함수
         {
             Console.SetCursorPosition(0, 26);
-            To(43); Console.Write ("원하시는 행동의 번호를 입력해주세요.\n");
-            To(43); Console.Write("▶▶ ");
+            To(43,"원하시는 행동의 번호를 입력해주세요.\n");
+            To(43,"▶▶ ");
         }
 
         public static void Wrong()  // "잘못된 입력입니다."를 출력하는 함수
@@ -244,7 +244,7 @@ namespace TeamProjectSecond
             Clear();
             Background();
             Console.SetCursorPosition(0, 14);
-            To(53); Console.Write("잘못된 입력입니다.");
+            To(53,"잘못된 입력입니다.");
             Console.ReadKey();
         }
 
@@ -253,7 +253,7 @@ namespace TeamProjectSecond
             Clear();
             Background();
             Console.SetCursorPosition(0, 14);
-            To(i); Console.Write(input);
+            To(i,input);
             Console.ReadKey();
         }
 
