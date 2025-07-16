@@ -27,7 +27,7 @@ namespace TeamProjectSecond
                 Console.SetCursorPosition(0, 2);
                 To(55); Console.Write (" 주사위 마을");
                 Console.WriteLine();
-                To(45); Console.Write ("이곳에서 행동을 선택할 수 있습니다.\n\n\n\n");
+                To(44); Console.Write ("이곳에서 행동을 선택할 수 있습니다.\n\n\n\n");
                 To(41); Console.Write("1. 상태창\n\n");
                 To(41); Console.Write("2. 소지품 확인\n\n");
                 To(41); Console.Write("3. 상점\n\n");
@@ -45,7 +45,7 @@ namespace TeamProjectSecond
                         break;
                     case 2:
                         // 소지품 확인
-                        DisplayInventory();
+                        Inventory.ShowInventory();
                         break;
                     case 3:
                         // 상점
@@ -119,27 +119,6 @@ namespace TeamProjectSecond
             }
         }
 
-
-        public static void DisplayInventory()    // 인벤토리 메뉴
-        {
-            var character = Character.Instance;
-
-            while (true)
-            {
-                Clear();
-                Console.SetCursorPosition(0, 3);
-                To(55); Console.Write("인 벤 토 리");
-                Console.WriteLine("\n\n");
-
-                for (int i = 0; ;)
-                {
-                    To(35); Console.Write($"");
-                    Console.WriteLine($"");
-                    Console.WriteLine($"");
-                }
-            }
-        }
-
         public static void DisplaySaveLoadUI()
         {
             while (true)
@@ -182,7 +161,6 @@ namespace TeamProjectSecond
                 }
             }
         }
-
         public static int? CheckInput()  // 선택을 입력받는 함수
         {
             int number;
@@ -233,11 +211,10 @@ namespace TeamProjectSecond
             return (c >= 0xAC00 && c <= 0xD7A3); // 가 ~ 힣
         }
 
-        public static void To(int i)
+        public static void To(int i)  // 입력된 숫자만큼 띄어쓰기를 해주는 함수
         {
             Console.Write(new string(' ', i));
         }
-
 
         public static void Clear()  // 화면을 청소하는 함수
         {
