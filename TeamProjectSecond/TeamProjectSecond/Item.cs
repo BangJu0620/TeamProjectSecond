@@ -198,7 +198,7 @@ namespace TeamProjectSecond
     public class DropEntry
     {
         public string ItemName { get; set; }
-        public DungeonDifficulty Difficulty { get; set; } //easy, normal, hard 던전 필요
+        //public DungeonDifficulty Difficulty { get; set; } //easy, normal, hard 던전 필요
         public int MinStage { get; set; }
         public int MaxStage { get; set; }
         public float DropChance { get; set; } // 0.0 ~ 1.0 사이
