@@ -13,8 +13,6 @@ namespace TeamProjectSecond
             while (true)
             {
                 EventManager.Clear();
-                EventManager.Background();
-                Console.SetCursorPosition(0, 2);
                 EventManager.To(56,"인 벤 토 리");
                 Console.WriteLine();
                 EventManager.To(44,"보유 중인 아이템을 관리할 수 있습니다.\n\n");
@@ -76,7 +74,6 @@ namespace TeamProjectSecond
             while (true)
             {
                 EventManager.Clear();
-                EventManager.Background();
                 Console.SetCursorPosition(0, 2);
                 EventManager.To(56,"인 벤 토 리");
                 Console.WriteLine();
@@ -116,7 +113,6 @@ namespace TeamProjectSecond
                     if (selectedItem.IsEquipped) //기존 장착 해제
                     {
                         selectedItem.IsEquipped = false;
-
                         EventManager.Announce(45, $"{selectedItem.ItemName}을(를) 장착 해제했습니다.");
                     }
                     else
@@ -127,10 +123,7 @@ namespace TeamProjectSecond
                             int equippedCount = ownedItems.Count(i => i.ItemType == ItemType.Accessory && i.IsEquipped);
                             if (equippedCount >= 5)
                             {
-                                EventManager.Clear();
-                                EventManager.Background();
-                                EventManager.To(25); Console.WriteLine("\n액세서리는 최대 5개까지 착용할 수 있습니다.");
-                                Console.ReadKey();
+                                EventManager.Announce(45,"\n액세서리는 최대 5개까지 착용할 수 있습니다.");
                                 continue;
                             }
                         }
@@ -147,7 +140,7 @@ namespace TeamProjectSecond
                         }
 
                         selectedItem.IsEquipped = true;
-
+                        
                         EventManager.Announce(45, $"\n{selectedItem.ItemName}을(를) 장착했습니다.");
                     }
                 }
@@ -168,8 +161,6 @@ namespace TeamProjectSecond
                     .ToList();
 
                 EventManager.Clear();
-                EventManager.Background();
-                Console.SetCursorPosition(0, 2);
                 EventManager.To(56,"인 벤 토 리");
                 Console.WriteLine();
                 EventManager.To(44,"보유중인 포션을 사용할 수 있습니다.\n\n");
@@ -224,8 +215,6 @@ namespace TeamProjectSecond
                         beforeHP + item.ItemHealHPAmount,
                         Character.Instance.MaxHealthPoint);
 
-                    EventManager.Clear();
-                    Console.SetCursorPosition(0, 14);
                     EventManager.Announce(45,$"HP를 {Character.Instance.HealthPoint - beforeHP}" +
                         $" 회복했습니다. (현재 HP: {Character.Instance.HealthPoint}/{Character.Instance.MaxHealthPoint})\n");
                 }
@@ -237,8 +226,6 @@ namespace TeamProjectSecond
                         beforeMP + item.ItemHealMPAmount,
                         Character.Instance.MaxManaPoint);
 
-                    EventManager.Clear();
-                    Console.SetCursorPosition(0, 14);
                     EventManager.Announce(45,$"MP를 {Character.Instance.ManaPoint - beforeMP}" +
                         $" 회복했습니다. (현재 MP: {Character.Instance.ManaPoint}/{Character.Instance.MaxManaPoint})");
                 }
