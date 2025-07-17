@@ -5,10 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-// 열거형 타입 관리
-
-namespace TextRPGQuest.Data.QuestSystem
+namespace TextRPGQuest.QuestSystem
 {
-    public enum QuestCategory { KillMonster, ClearDungeon }
-    public enum QuestStatus { NotAccepted, InProgress, Completed }
+    /// <summary>
+    /// 퀘스트의 상태를 나타냅니다.
+    /// </summary>
+    public enum QuestStatus
+    {
+        NotStarted,
+        InProgress,
+        Completed,
+        Rewarded
+    }
 }
+
+

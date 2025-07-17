@@ -5,10 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-//열거형 타입 관리
 
-namespace TextRPG_Quest_Solution.QuestSystem
+namespace TextRPGQuest.QuestSystem
 {
-    public enum QuestCategory { KillMonster, ClearDungeon }
-    public enum QuestStatus { NotAccepted, InProgress, Completed }
+    /// <summary>
+    /// 퀘스트의 종류를 구분합니다.
+    /// </summary>
+    public enum QuestCategory
+    {
+        Collect,
+        Hunt,
+        Explore
+    }
 }
+
+
