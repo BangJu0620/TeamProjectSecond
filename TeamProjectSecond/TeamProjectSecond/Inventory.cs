@@ -27,7 +27,7 @@ namespace TeamProjectSecond
 
 
                 EventManager.To(55,"[아이템 목록]\n\n");
-                //
+                
                 bool hasItem = false; //아이템 존재 확인
 
                 for (int i = 0; i < sortedItems.Count; i++)
@@ -43,13 +43,12 @@ namespace TeamProjectSecond
                     }
                 }
 
-                //UI 만들어지면 불러오기
                 if (!hasItem)
                 {
                     Console.SetCursorPosition(0, 8);
                     EventManager.To(46,"- 보유 중인 아이템이 없습니다.");
                 }
-                //
+                
                 Console.SetCursorPosition(0, 24);
                 EventManager.To(40,$"1. 장착 관리   2. 포션 사용  Enter. 돌아가기\n\n");
                 EventManager.Select();
@@ -99,7 +98,7 @@ namespace TeamProjectSecond
                 {
                     var item = ownedItems[i];
                     string equipped = item.IsEquipped ? "[E]" : "";
-                    EventManager.To(25,$"- {i + 1} {equipped}{item.ItemName} | {item.ToString()} x{item.Quantity}");
+                    EventManager.To(25, $"- {i + 1} {equipped}{item.ItemName} | {item.ItemEffectDesc} | {item.ItemLoreDesc} x{item.Quantity}");
                 }
                 Console.SetCursorPosition(0, 24);
                 EventManager.To(35,$"장착/해제할 아이템 번호를 선택해주세요.   Enter. 돌아가기\n\n");
@@ -183,7 +182,8 @@ namespace TeamProjectSecond
 
                 for (int i = 0; i < potions.Count; i++)
                 {
-                    EventManager.To(25,$"{i + 1}. {potions[i].ItemName} (보유 수량: {potions[i].Quantity})");
+                    var potion = potions[i];
+                    EventManager.To(25, $"{i + 1}. {potion.ItemName} | {potion.ItemEffectDesc} | {potion.ItemLoreDesc} (보유: {potion.Quantity})");
                 }
 
                 Console.SetCursorPosition(0, 24);
