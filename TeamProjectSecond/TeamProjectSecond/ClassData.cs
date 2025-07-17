@@ -35,6 +35,7 @@ namespace TeamProjectSecond
                     DefenseByLevel = lv => 2 * lv + 3;
                     DiceCountByLevel = new() { { 1, 1 }, { 6, 2 }, { 11, 3 }, { 16, 4 }, { 20, 5 } };
                     RerollCountByLevel = new() { { 1, 1 }, { 11, 2 } };
+                    Character.Instance.Speed = 15;
 
                     PassiveSkills.Add(new SkillData("BonusDmgPerLevel", "레벨당 뻥딜 보너스", 0, 1, false));
                     PassiveSkills.Add(new SkillData("FlatDmg+0.5", "뻥딜 +0.5f", 0, 8, false));
@@ -51,6 +52,7 @@ namespace TeamProjectSecond
                     DefenseByLevel = lv => lv / 2;
                     DiceCountByLevel = new() { { 1, 2 }, { 6, 3 }, { 11, 4 }, { 16, 5 }, { 20, 6 } };
                     RerollCountByLevel = new() { { 1, 1 }, { 6, 2 }, { 11, 3 }, { 16, 4 } };
+                    Character.Instance.Speed = 10;
 
                     PassiveSkills.Add(new SkillData("NoCrit / MPShield", "크리 없음 / 피해의 80%를 MP로 감당", 0, 1, false));
                     PassiveSkills.Add(new SkillData("EvenDD+1.0", "짝수 DD마다 뻥딜 +1", 0, 16, false));
@@ -67,6 +69,7 @@ namespace TeamProjectSecond
                     DefenseByLevel = lv => lv + 4;
                     DiceCountByLevel = new() { { 1, 3 }, { 6, 4 }, { 11, 5 }, { 16, 6 }, { 20, 7 } };
                     RerollCountByLevel = new() { { 1, 1 } };
+                    Character.Instance.Speed = 20;
 
                     PassiveSkills.Add(new SkillData("Crit+0.5 / Crit9+", "기본뻥딜+0.5 / 크리 9+", 0, 1, false));
                     PassiveSkills.Add(new SkillData("6+Bonus+1f", "6이상 눈마다 +1f", 0, 4, false));
@@ -82,11 +85,11 @@ namespace TeamProjectSecond
 
     public class SkillData
     {
-        public string Name;
-        public string Description;
-        public int ManaCost;
-        public int RequiredLevel;
-        public bool IsActive;
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int ManaCost { get; set; }
+        public int RequiredLevel { get; set; }
+        public bool IsActive { get; set; }
 
         public SkillData(string name, string desc, int manaCost, int level, bool isActive)
         {
