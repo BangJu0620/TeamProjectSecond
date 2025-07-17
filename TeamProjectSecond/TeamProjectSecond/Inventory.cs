@@ -13,8 +13,6 @@ namespace TeamProjectSecond
             while (true)
             {
                 EventManager.Clear();
-                EventManager.Background();
-                Console.SetCursorPosition(0, 2);
                 EventManager.To(56,"인 벤 토 리");
                 Console.WriteLine();
                 EventManager.To(44,"보유 중인 아이템을 관리할 수 있습니다.\n\n");
@@ -75,8 +73,6 @@ namespace TeamProjectSecond
             while (true)
             {
                 EventManager.Clear();
-                EventManager.Background();
-                Console.SetCursorPosition(0, 2);
                 EventManager.To(56,"인 벤 토 리");
                 Console.WriteLine();
                 EventManager.To(44,"장비를 장착하거나 해제할 수 있습니다.\n\n");
@@ -127,7 +123,6 @@ namespace TeamProjectSecond
                             if (equippedCount >= 5)
                             {
                                 EventManager.Clear();
-                                EventManager.Background();
                                 EventManager.To(25); Console.WriteLine("\n액세서리는 최대 5개까지 착용할 수 있습니다.");
                                 Console.ReadKey();
                                 continue;
@@ -167,8 +162,6 @@ namespace TeamProjectSecond
                     .ToList();
 
                 EventManager.Clear();
-                EventManager.Background();
-                Console.SetCursorPosition(0, 2);
                 EventManager.To(56,"인 벤 토 리");
                 Console.WriteLine();
                 EventManager.To(44,"보유중인 포션을 사용할 수 있습니다.\n\n");

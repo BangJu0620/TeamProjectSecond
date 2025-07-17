@@ -24,8 +24,6 @@ namespace TeamProjectSecond
             while (true)
             {
                 Clear();
-                Background();
-                Console.SetCursorPosition(0, 2);
                 To(55," 주사위 마을");
                 Console.WriteLine();
                 To(44,"이곳에서 행동을 선택할 수 있습니다.\n\n\n\n");
@@ -87,8 +85,6 @@ namespace TeamProjectSecond
             while (true)
             {
                 Clear();
-                Background();
-                Console.SetCursorPosition(0, 2);
                 To(56," 상 태 창\n");
                 To(45,"캐릭터의 정보를 확인할 수 있습니다.");
                 Console.WriteLine("\n\n\n");
@@ -188,7 +184,7 @@ namespace TeamProjectSecond
 
         public static void DisplayIntro(ClassTypeChange classTypeChange)
         {
-            Background();   // 맨 처음에 실행되게 해서 주사위배경 그려주기
+            Clear();   // 맨 처음에 실행되게 해서 주사위배경 그려주기
             if (SaveLoadManager.CheckExistSaveData())
             {
                 SetName();  // 이름 받기
@@ -321,7 +317,6 @@ namespace TeamProjectSecond
             while (true)
             {
                 Clear();
-                Console.SetCursorPosition(0, 2);
                 To(51, $"선택한 직업: {Character.Instance.ClassType}\n\n\n");
                 To(49, "이대로 진행하시겠습니까?\n\n\n");
                 To(46, "1. 진행하기\n\n\n");
@@ -360,47 +355,14 @@ namespace TeamProjectSecond
                 string? input = Console.ReadLine();
                 bool isNumber = int.TryParse(input, out number);
 
-                if (input == "")                        // 엔터만 눌렀을 때
-                {
-                    return null;                        // null값을 반환합니다.
-                } 
-
-                if (isNumber)                           // 숫자를 입력했을 때, 
-                {
-                    return number;                      // 그 값을 반환합니다.
-                }
-
-                else if (!isNumber && (input != ""))    // 숫자가 아닌 값을 입력했을 떄
-                {
-                    return -1;                          // -1을 반환합니다.
-                }
+                if (input == "")                        return null;
+                if (isNumber && number > 0)             return number;
+                else if (input == "a" || input == "A")  return -1;
+                else if (input == "d" || input == "D")  return -2;
+                else                                    return -3;
             }
         }
-        static void CenterWrite(string text)
-        {
-            double width = Console.WindowWidth;
-            double textWidth = GetDisplayWidth(text);
-            int leftPadding = (int)Math.Max((width - textWidth) / 2, 0);
 
-            Console.WriteLine(new string(' ', leftPadding) + text);
-        }
-        static double GetDisplayWidth(string text)  // 한글은 1.5칸 , 나머지는 1칸으로 계산하는 함수
-        {
-            double width = 0;
-            foreach (char c in text)
-            {
-                // 한글 유니코드 범위면 2칸, 아니면 1칸
-                if (IsKorean(c))
-                    width += 1.5;
-                else
-                    width += 1;
-            }
-            return width;
-        }
-        static bool IsKorean(char c)  // 입력된 글자가 한글인지 체크하는 함수
-        {
-            return (c >= 0xAC00 && c <= 0xD7A3); // 가 ~ 힣
-        }
 
         public static void To(int i)  // 입력된 숫자만큼 띄어쓰기를 해주는 함수
         {
@@ -410,15 +372,6 @@ namespace TeamProjectSecond
         public static void To(int i, string text)  //입력된 숫자만큼 띄어쓰기 + 문자열을 출력하는 함수
         {
             Console.Write(new string(' ', i)); Console.Write(text);
-        }
-
-        public static void Clear()  // 화면을 청소하는 함수
-        {
-            for (int i = 1; i < 29; i++)
-            {
-                Console.SetCursorPosition(0,i);
-                Console.Write(new string(' ', 120));
-            }
         }
 
         public static void Select() // 선택지 입력창을 호출하는 함수
@@ -431,7 +384,6 @@ namespace TeamProjectSecond
         public static void Wrong()  // "잘못된 입력입니다."를 출력하는 함수
         {
             Clear();
-            Background();
             Console.SetCursorPosition(0, 14);
             To(53,"잘못된 입력입니다.");
             Console.ReadKey();
@@ -440,13 +392,12 @@ namespace TeamProjectSecond
         public static void Announce(int i, string input)    // Wrong의 변형, 출력 위치와 출력 문구를 매개변수로 받아 출력
         {
             Clear();
-            Background();
             Console.SetCursorPosition(0, 14);
             To(i,input);
             Console.ReadKey();
         }
 
-        public static void Background() // 화면 위 아래의 주사위를 그리는 함수
+        public static void Clear() // 화면을 청소하는 함수
         {
             string[] repeated = { "⚀", "⚁", "⚂", "⚃", "⚄", "⚅" };
 
@@ -459,6 +410,12 @@ namespace TeamProjectSecond
                     Console.Write(" ");
                 }
 
+                for (int i = 1; i < 28; i++)
+                {
+                    Console.SetCursorPosition(0, i);
+                    Console.WriteLine(new string(' ', 120));
+                }
+
                 Console.SetCursorPosition(0, 29);
                 for (int i = 60; i > 0; i--)
                 {
@@ -466,7 +423,7 @@ namespace TeamProjectSecond
                     Console.Write(" ");
                 }
             }
-            Console.SetCursorPosition(0, 0);
+            Console.SetCursorPosition(0, 2);
         }
     }
 }

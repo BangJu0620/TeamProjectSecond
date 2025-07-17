@@ -52,7 +52,6 @@ namespace TeamProjectSecond
             while (true)
             {
                 EventManager.Clear();
-                EventManager.Background();
                 Console.SetCursorPosition(0, 2);
                 EventManager.To(55," 휴 식 하 기");
                 Console.WriteLine();
