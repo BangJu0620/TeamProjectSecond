@@ -48,7 +48,9 @@ namespace TeamProjectSecond
 
         public ClassData ClassData => new ClassData(ClassType);
 
-        public int MaxHealthPoint => ClassData.MaxHPByLevel(Level);
+        public int MaxHealthPoint => MaxBaseHealthPoint + MaxConsumableHealthPoint;
+        public int MaxBaseHealthPoint => ClassData.MaxHPByLevel(Level);
+        public int MaxConsumableHealthPoint { get; set; }
         public int MaxManaPoint => ClassData.MaxMPByLevel(Level);
         public int DefensePoint => ClassData.DefenseByLevel(Level);
         public int DiceCount => ClassData.DiceCountByLevel
@@ -79,6 +81,7 @@ namespace TeamProjectSecond
                 Exp = Exp,
                 Gold = Gold,
                 HealthPoint = HealthPoint,
+                MaxConsumableHealthPoint = MaxConsumableHealthPoint,
                 ManaPoint = ManaPoint
             };
         }
@@ -91,6 +94,7 @@ namespace TeamProjectSecond
             Exp = data.Exp;
             Gold = data.Gold;
             HealthPoint = data.HealthPoint;
+            MaxConsumableHealthPoint = data.MaxConsumableHealthPoint;
             ManaPoint = data.ManaPoint;
         }
     }
@@ -138,6 +142,7 @@ namespace TeamProjectSecond
         public int Exp { get; set; }
         public int Gold { get; set; }
         public int HealthPoint { get; set; }
+        public int MaxConsumableHealthPoint {  get; set; }
         public int ManaPoint { get; set; }
     }
 }

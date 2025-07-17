@@ -95,11 +95,13 @@ namespace TeamProjectSecond
                 To(45,"캐릭터의 정보를 확인할 수 있습니다.");
                 Console.WriteLine("\n\n\n");
                 To(41,$"Lv. {character.Level} {character.ClassType}\n\n");
-                To(41,$"경험치 {character.Exp} / {character.RequiredExp}\n\n");
+                To(41,$"경험치 {character.Exp}\n\n");  //  / {character.RequiredExp}
                 To(41,$"{character.Name}\n\n");
-                To(41,$"공격력 : {character.AttackPoint}\n\n");
+                To(41,$"주사위 수 : {character.DiceCount}\n\n");
+                To(41,$"리롤 횟수 : {character.RerollCount}\n\n");
                 To(41,$"방어력 : {character.DefensePoint}\n\n");
-                To(41,$"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");
+                To(41,$"생명력 : {character.HealthPoint} / {character.MaxHealthPoint} (+{character.MaxConsumableHealthPoint})\n\n");
+                To(41,$"마  력 : {character.ManaPoint} / {character.MaxManaPoint}\n\n");
                 Console.SetCursorPosition(0, 24);
                 To(43,"1. 스킬 확인         Enter. 돌아가기");
                 Select();
