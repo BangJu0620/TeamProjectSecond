@@ -212,11 +212,10 @@ namespace TeamProjectSecond
         public static string WriteName()
         {
             Clear();
-            Console.SetCursorPosition(0, 2);
-            To(55, " 주사위 마을\n\n\n\n");
+            Console.SetCursorPosition(0, 12);
             To(52, "이름을 입력해주세요.");
             Console.SetCursorPosition(0, 20);
-            To(50, "▶▶ ");
+            To(43, "▶▶ ");
             string name = Console.ReadLine();
             return name;
         }
@@ -226,34 +225,24 @@ namespace TeamProjectSecond
             while (true)
             {
                 Clear();
-                Console.SetCursorPosition(0, 2);
-                To(51, $"입력한 이름: {name}\n\n\n");
-                To(49, "이대로 진행하시겠습니까?\n\n\n");
-                To(46, "1. 진행하기\n\n\n");
-                To(46, "2. 다시 입력");
+                Console.SetCursorPosition(0, 11);
+                To(50, $"입력한 이름: {name}\n\n\n");
+                To(49, "이대로 진행하시겠습니까?\n\n\n\n");
+                To(46, "1. 진행하기     Enter. 다시 입력");
                 Console.SetCursorPosition(0, 20);
-                To(50, "▶▶ ");
-                string input = Console.ReadLine();
-                bool isInt = int.TryParse(input, out int userSelect);
-                if (isInt)
+                To(43, "▶▶ ");
+
+                int? input = CheckInput();
+
+                switch (input)
                 {
-                    if (userSelect == 1)
-                    {
+                    case 1:
                         Character.Instance.Name = name;
-                        return userSelect;
-                    }
-                    else if (userSelect == 2)
-                    {
-                        return userSelect;
-                    }
-                    else
-                    {
+                        return (int)input;
+                    case null: return 2;
+                    default:
                         Wrong();
-                    }
-                }
-                else
-                {
-                    Wrong();
+                        break;
                 }
             }
         }
