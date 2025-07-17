@@ -182,159 +182,7 @@ namespace TeamProjectSecond
             }
         }
 
-        public static void DisplayIntro(ClassTypeChange classTypeChange)
-        {
-            Clear();   // 맨 처음에 실행되게 해서 주사위배경 그려주기
-            if (SaveLoadManager.CheckExistSaveData())
-            {
-                SetName();  // 이름 받기
-                SetClass(classTypeChange);  // 클래스 설정
-            }
-            else
-            {
-                SaveLoadManager.LoadCharacterData("character.json");
-                SaveLoadManager.LoadItemData("item.json");
-                QuestDatabase.Load("quest.json");
-                Announce(50, "다시 오신 걸 환영합니다.");
-            }
-        }
 
-        public static void SetName()
-        {
-            while (true)
-            {
-                string name = WriteName();  // 이름 입력받기
-                int userSelect = CheckName(name);   // 이름 맞는지 확인
-                if (userSelect == 1) break;
-            }
-        }
-
-        public static string WriteName()
-        {
-            Clear();
-            Console.SetCursorPosition(0, 12);
-            To(52, "이름을 입력해주세요.");
-            Console.SetCursorPosition(0, 20);
-            To(43, "▶▶ ");
-            string name = Console.ReadLine();
-            return name;
-        }
-
-        public static int CheckName(string name)
-        {
-            while (true)
-            {
-                Clear();
-                Console.SetCursorPosition(0, 11);
-                To(50, $"입력한 이름: {name}\n\n\n");
-                To(49, "이대로 진행하시겠습니까?\n\n\n\n");
-                To(46, "1. 진행하기     Enter. 다시 입력");
-                Console.SetCursorPosition(0, 20);
-                To(43, "▶▶ ");
-
-                int? input = CheckInput();
-
-                switch (input)
-                {
-                    case 1:
-                        Character.Instance.Name = name;
-                        return (int)input;
-                    case null: return 2;
-                    default:
-                        Wrong();
-                        break;
-                }
-            }
-        }
-
-        public static void SetClass(ClassTypeChange classTypeChange)
-        {
-            while (true)
-            {
-                SelectClass(classTypeChange);   // 클래스 입력받기
-                int userSelect = CheckClass();  // 클래스 맞는지 확인하기
-                if (userSelect == 1) break;
-            }
-        }
-
-        public static void SelectClass(ClassTypeChange classTypeChange)
-        {
-            while (true)
-            {
-                Clear();
-                Console.SetCursorPosition(0, 2);
-                To(55, " 주사위 마을\n\n\n");
-                To(52, "직업을 선택해주세요.\n\n\n");
-                To(46, "1. Warrior\n\n\n");
-                To(46, "2. Mage\n\n\n");
-                To(46, "3. Rogue\n\n\n");
-                Console.SetCursorPosition(0, 20);
-                To(50, "▶▶ ");
-                string input = Console.ReadLine();
-                bool isInt = int.TryParse(input, out int userSelect);
-                if (isInt)
-                {
-                    if (userSelect == 1)
-                    {
-                        classTypeChange.PromoteToWarrior();
-                        break;
-                    }
-                    else if (userSelect == 2)
-                    {
-                        classTypeChange.PromoteToMage();
-                        break;
-                    }
-                    else if (userSelect == 3)
-                    {
-                        classTypeChange.PromoteToRogue();
-                        break;
-                    }
-                    else
-                    {
-                        Wrong();
-                    }
-                }
-                else
-                {
-                    Wrong();
-                }
-            }
-        }
-
-        public static int CheckClass()
-        {
-            while (true)
-            {
-                Clear();
-                To(51, $"선택한 직업: {Character.Instance.ClassType}\n\n\n");
-                To(49, "이대로 진행하시겠습니까?\n\n\n");
-                To(46, "1. 진행하기\n\n\n");
-                To(46, "2. 다시 입력");
-                Console.SetCursorPosition(0, 20);
-                To(50, "▶▶ ");
-                string input = Console.ReadLine();
-                bool isInt = int.TryParse(input, out int userSelect);
-                if (isInt)
-                {
-                    if (userSelect == 1)
-                    {
-                        return userSelect;
-                    }
-                    else if (userSelect == 2)
-                    {
-                        return userSelect;
-                    }
-                    else
-                    {
-                        Wrong();
-                    }
-                }
-                else
-                {
-                    Wrong();
-                }
-            }
-        }
 
         public static int? CheckInput()  // 선택을 입력받는 함수
         {
@@ -373,23 +221,26 @@ namespace TeamProjectSecond
         public static void Wrong()  // "잘못된 입력입니다."를 출력하는 함수
         {
             Clear();
-            Console.SetCursorPosition(0, 14);
-            To(53,"잘못된 입력입니다.");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition(0, 13);
+            To(54,"잘못된 입력입니다.");
+            Console.ResetColor();
             Console.ReadKey();
         }
 
         public static void Announce(int i, string input)    // Wrong의 변형, 출력 위치와 출력 문구를 매개변수로 받아 출력
         {
             Clear();
-            Console.SetCursorPosition(0, 14);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.SetCursorPosition(0, 13);
             To(i,input);
+            Console.ResetColor();
             Console.ReadKey();
         }
 
         public static void Clear() // 화면을 청소하는 함수
         {
             string[] repeated = { "⚀", "⚁", "⚂", "⚃", "⚄", "⚅" };
-
             for (int j = 0; j < 6; j++)
             {
                 Console.SetCursorPosition(0, 0);

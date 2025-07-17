@@ -10,7 +10,7 @@ namespace TeamProjectSecond
             Console.CursorVisible = false;
             ClassTypeChange classTypeChange = new ClassTypeChange();
             QuestDatabase.Register();
-            EventManager.DisplayIntro(classTypeChange);
+            Intro.DisplayIntro(classTypeChange);
             EventManager.DisplayMainUI();
         }
     }

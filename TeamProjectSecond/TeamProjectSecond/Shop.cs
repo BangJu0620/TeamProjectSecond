@@ -16,7 +16,7 @@ namespace TeamProjectSecond
                 EventManager.Clear();
                 EventManager.To(60, "상 점");
                 Console.WriteLine();
-                EventManager.To(43,"필요한 아이템을 얻을 수 있는 상점입니다.");
+                EventManager.To(45,"아이템을 거래할 수 있는 상점입니다.");
                 EventManager.To(13, $"보유 골드 : {Character.Instance.Gold} G\n\n");
                 
                 var shopItems = Item.Instance
@@ -73,7 +73,7 @@ namespace TeamProjectSecond
                 EventManager.Clear();
                 EventManager.To(60, "상 점");
                 Console.WriteLine();
-                EventManager.To(43, "필요한 아이템을 얻을 수 있는 상점입니다.");
+                EventManager.To(45, "아이템을 거래할 수 있는 상점입니다.");
                 EventManager.To(13, $"보유 골드 : {Character.Instance.Gold} G\n\n");
 
                 for (int i = (listIndex * 9) - 9; i < Math.Min(listIndex * 9, shopItems.Count - listIndex * 9 % 9); i++)
@@ -170,9 +170,9 @@ namespace TeamProjectSecond
             while (true)
             {
                 EventManager.Clear();
-                EventManager.To(58, "상 점");
+                EventManager.To(60, "상 점");
                 Console.WriteLine();
-                EventManager.To(41, "필요한 아이템을 얻을 수 있는 상점입니다.");
+                EventManager.To(45, "아이템을 거래할 수 있는 상점입니다.");
                 EventManager.To(18, $"보유 골드 : {Character.Instance.Gold} G\n\n");
                 
                 var ownedItems = Item.Instance.Where(i => i.IsOwned).ToList();
@@ -227,9 +227,6 @@ namespace TeamProjectSecond
 
                     Character.Instance.Gold += sellPrice;
                     EventManager.Announce(48,$"{item.ItemName}을(를) 판매했습니다. {sellPrice} G 획득!");
-
-                    Console.WriteLine("\n[Enter]를 누르면 계속 판매할 수 있습니다. (종료하려면 0 입력)");
-                    if (Console.ReadLine() == "0") break;
                 }
                 else
                 {
