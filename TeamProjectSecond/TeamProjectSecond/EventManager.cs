@@ -20,7 +20,6 @@ namespace TeamProjectSecond
         {
             var character = Character.Instance;
             var rest = Rest.Instance;
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             while (true)
             {
@@ -94,11 +93,13 @@ namespace TeamProjectSecond
                 To(45,"캐릭터의 정보를 확인할 수 있습니다.");
                 Console.WriteLine("\n\n\n");
                 To(41,$"Lv. {character.Level} {character.ClassType}\n\n");
-                To(41,$"경험치 {character.Exp}\n\n");  // / {character.RequiredExp}
+                To(41,$"경험치 {character.Exp}\n\n");  //  / {character.RequiredExp}
                 To(41,$"{character.Name}\n\n");
-                //To(41,$"공격력 : {character.AttackPoint}\n\n");
+                To(41,$"주사위 수 : {character.DiceCount}\n\n");
+                To(41,$"리롤 횟수 : {character.RerollCount}\n\n");
                 To(41,$"방어력 : {character.DefensePoint}\n\n");
-                To(41,$"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");
+                To(41,$"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");   //(+{character.MaxConsumableHealthPoint})
+                To(41,$"마  력 : {character.ManaPoint} / {character.MaxManaPoint}\n\n");
                 Console.SetCursorPosition(0, 24);
                 To(43,"1. 스킬 확인         Enter. 돌아가기");
                 Select();
@@ -123,10 +124,10 @@ namespace TeamProjectSecond
             {
                 Clear();
                 Console.SetCursorPosition(0, 3);
-                To(53,"세 이 브 / 로 드");
+                To(57,"세 이 브");
                 Console.WriteLine("\n\n");
-                To(41,"1. 세이브\n\n");
-                To(41,"2. 로드\n\n");
+                To(41,"1. 세이브\n\n\n");
+                To(41,"2. 세이브 삭제\n\n\n");
                 Console.SetCursorPosition(0, 24);
                 To(53,"Enter. 돌아가기");
                 Select();
@@ -143,18 +144,15 @@ namespace TeamProjectSecond
                         break;
                     case 2: // 캐릭터, 아이템 정보를 로드
                         Clear();
-                        bool isExistCharacter;   // 캐릭터 저장 파일 있는지 확인하는 불리언  true: 있음, false: 없음
-                        bool isExistItem;        // 아이템 저장 파일 있는지 확인하는 불리언  true: 있음, false: 없음
-                        bool isExistQuest;
-                        isExistCharacter = SaveLoadManager.LoadCharacterData("character.json");
-                        isExistItem = SaveLoadManager.LoadItemData("item.json");
-                        isExistQuest = QuestDatabase.Load("quest.json");
-                        if(!isExistCharacter || !isExistItem || !isExistQuest)   // 셋 중 하나라도 없으면 없다고 출력
+                        if(SaveLoadManager.CheckExistSaveData())   // 셋 중 하나라도 없으면 없다고 출력
                         {
                             Announce(50, "세이브 파일이 없습니다.");
                             break;
                         }
-                        Announce(50, "로드가 완료되었습니다.");
+                        File.Delete("character.json");
+                        File.Delete("item.json");
+                        File.Delete("quest.json");
+                        Announce(50, "세이브가 삭제되었습니다.");
                         break;
                     default:
                         Wrong();
@@ -165,22 +163,27 @@ namespace TeamProjectSecond
 
         public static void DisplayIntro(ClassTypeChange classTypeChange)
         {
-            var character = Character.Instance;
-            var rest = Rest.Instance;
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-            Console.CursorVisible = false;
-
-            Background();
-            SetName();
-            SetClass(classTypeChange);
+            Background();   // 맨 처음에 실행되게 해서 주사위배경 그려주기
+            if (SaveLoadManager.CheckExistSaveData())
+            {
+                SetName();  // 이름 받기
+                SetClass(classTypeChange);  // 클래스 설정
+            }
+            else
+            {
+                SaveLoadManager.LoadCharacterData("character.json");
+                SaveLoadManager.LoadItemData("item.json");
+                QuestDatabase.Load("quest.json");
+                Announce(50, "다시 오신 걸 환영합니다.");
+            }
         }
 
         public static void SetName()
         {
             while (true)
             {
-                string name = WriteName();
-                int userSelect = CheckName(name);
+                string name = WriteName();  // 이름 입력받기
+                int userSelect = CheckName(name);   // 이름 맞는지 확인
                 if (userSelect == 1) break;
             }
         }
@@ -238,8 +241,8 @@ namespace TeamProjectSecond
         {
             while (true)
             {
-                SelectClass(classTypeChange);
-                int userSelect = CheckClass();
+                SelectClass(classTypeChange);   // 클래스 입력받기
+                int userSelect = CheckClass();  // 클래스 맞는지 확인하기
                 if (userSelect == 1) break;
             }
         }
@@ -324,6 +327,7 @@ namespace TeamProjectSecond
                 }
             }
         }
+
         public static int? CheckInput()  // 선택을 입력받는 함수
         {
             int number;

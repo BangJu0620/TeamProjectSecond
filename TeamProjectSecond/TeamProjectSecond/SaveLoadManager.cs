@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using TextRPG_Quest_Solution.QuestSystem;
 
 
 namespace TeamProjectSecond
@@ -61,6 +62,12 @@ namespace TeamProjectSecond
                 Item.Instance.AddRange(loadedItemListData.Items);
             }
             return true;
+        }
+
+        public static bool CheckExistSaveData()
+        {
+            if (!File.Exists("character.json") || !File.Exists("item.json") || !File.Exists("quest.json")) return true;
+            else return false;
         }
     }
 }
