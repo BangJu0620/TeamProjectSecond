@@ -69,7 +69,7 @@ namespace TeamProjectSecond
                     case 7:
                         // 저장/불러오기
                         Clear();
-                        DisplaySaveLoadUI();
+                        DisplaySaveUI();
                         break;
                     case null:
                         break;
@@ -118,7 +118,7 @@ namespace TeamProjectSecond
             }
         }
 
-        public static void DisplaySaveLoadUI()
+        public static void DisplaySaveUI()
         {
             while (true)
             {
@@ -149,11 +149,36 @@ namespace TeamProjectSecond
                             Announce(50, "세이브 파일이 없습니다.");
                             break;
                         }
+                        CheckDeleteSaveData();
+                        break;
+                    default:
+                        Wrong();
+                        break;
+                }
+            }
+        }
+
+        public static void CheckDeleteSaveData()
+        {
+            while (true)
+            {
+                Clear();
+                Console.SetCursorPosition(0, 3);
+                To(55, "세이브 삭제\n\n\n\n");
+                To(49, "정말로 삭제하시겠습니까?\n\n\n");
+                Console.SetCursorPosition(0, 24);
+                To(43, "1. 세이브 삭제       Enter. 돌아가기");
+                Select();
+                switch (CheckInput())
+                {
+                    case null: return;
+                    case 1:
+                        Clear();
                         File.Delete("character.json");
                         File.Delete("item.json");
                         File.Delete("quest.json");
                         Announce(50, "세이브가 삭제되었습니다.");
-                        break;
+                        return;
                     default:
                         Wrong();
                         break;
@@ -261,7 +286,6 @@ namespace TeamProjectSecond
                 Console.SetCursorPosition(0, 20);
                 To(50, "▶▶ ");
                 string input = Console.ReadLine();
-                string selectedClass;
                 bool isInt = int.TryParse(input, out int userSelect);
                 if (isInt)
                 {
