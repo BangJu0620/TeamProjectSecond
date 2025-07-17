@@ -24,9 +24,8 @@ namespace TeamProjectSecond
             while (true)
             {
                 Clear();
-                To(55," 주사위 마을");
-                Console.WriteLine();
-                To(44,"이곳에서 행동을 선택할 수 있습니다.\n\n\n\n");
+                To(56," 주사위 마을\n\n");
+                To(46,"이곳에서 행동을 선택할 수 있습니다.\n\n\n");
                 To(41,"1. 상태창\n\n");
                 To(41,"2. 소지품 확인\n\n");
                 To(41,"3. 상점\n\n");
@@ -67,7 +66,7 @@ namespace TeamProjectSecond
                     case 7:
                         // 저장/불러오기
                         Clear();
-                        DisplaySaveUI();
+                        SaveLoadManager.DisplaySaveUI();
                         break;
                     case null:
                         break;
@@ -85,9 +84,8 @@ namespace TeamProjectSecond
             while (true)
             {
                 Clear();
-                To(56," 상 태 창\n");
-                To(45,"캐릭터의 정보를 확인할 수 있습니다.");
-                Console.WriteLine("\n\n\n");
+                To(57," 상 태 창\n\n");
+                To(46,"캐릭터의 정보를 확인할 수 있습니다.\n\n\n");
                 To(41,$"Lv. {character.Level} {character.ClassType}\n\n");
                 To(41,$"경험치 {character.Exp}\n\n");  //  / {character.RequiredExp}
                 To(41,$"{character.Name}\n\n");
@@ -113,76 +111,6 @@ namespace TeamProjectSecond
                 }
             }
         }
-
-        public static void DisplaySaveUI()
-        {
-            while (true)
-            {
-                Clear();
-                Console.SetCursorPosition(0, 3);
-                To(57,"세 이 브");
-                Console.WriteLine("\n\n");
-                To(41,"1. 세이브\n\n\n");
-                To(41,"2. 세이브 삭제\n\n\n");
-                Console.SetCursorPosition(0, 24);
-                To(53,"Enter. 돌아가기");
-                Select();
-                switch (CheckInput())
-                {
-                    case null:
-                        return;
-                    case 1: // 캐릭터, 아이템 정보를 세이브
-                        Clear();
-                        SaveLoadManager.SaveCharacterData("character.json");
-                        SaveLoadManager.SaveItemData("item.json");
-                        QuestDatabase.Save("quest.json");
-                        Announce(49, "세이브가 완료되었습니다.");
-                        break;
-                    case 2: // 캐릭터, 아이템 정보를 로드
-                        Clear();
-                        if(SaveLoadManager.CheckExistSaveData())   // 셋 중 하나라도 없으면 없다고 출력
-                        {
-                            Announce(50, "세이브 파일이 없습니다.");
-                            break;
-                        }
-                        CheckDeleteSaveData();
-                        break;
-                    default:
-                        Wrong();
-                        break;
-                }
-            }
-        }
-
-        public static void CheckDeleteSaveData()
-        {
-            while (true)
-            {
-                Clear();
-                Console.SetCursorPosition(0, 3);
-                To(55, "세이브 삭제\n\n\n\n");
-                To(49, "정말로 삭제하시겠습니까?\n\n\n");
-                Console.SetCursorPosition(0, 24);
-                To(43, "1. 세이브 삭제       Enter. 돌아가기");
-                Select();
-                switch (CheckInput())
-                {
-                    case null: return;
-                    case 1:
-                        Clear();
-                        File.Delete("character.json");
-                        File.Delete("item.json");
-                        File.Delete("quest.json");
-                        Announce(50, "세이브가 삭제되었습니다.");
-                        return;
-                    default:
-                        Wrong();
-                        break;
-                }
-            }
-        }
-
-
 
         public static int? CheckInput()  // 선택을 입력받는 함수
         {
@@ -222,7 +150,7 @@ namespace TeamProjectSecond
         {
             Clear();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.SetCursorPosition(0, 13);
+            Console.SetCursorPosition(0, 14);
             To(54,"잘못된 입력입니다.");
             Console.ResetColor();
             Console.ReadKey();
@@ -232,7 +160,7 @@ namespace TeamProjectSecond
         {
             Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.SetCursorPosition(0, 13);
+            Console.SetCursorPosition(0, 14);
             To(i,input);
             Console.ResetColor();
             Console.ReadKey();

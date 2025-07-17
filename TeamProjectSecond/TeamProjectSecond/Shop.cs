@@ -14,9 +14,8 @@ namespace TeamProjectSecond
             while (true)
             {
                 EventManager.Clear();
-                EventManager.To(60, "상 점");
-                Console.WriteLine();
-                EventManager.To(45,"아이템을 거래할 수 있는 상점입니다.");
+                EventManager.To(60, "상 점\n\n");
+                EventManager.To(46,"아이템을 거래할 수 있는 상점입니다.");
                 EventManager.To(13, $"보유 골드 : {Character.Instance.Gold} G\n\n");
                 
                 var shopItems = Item.Instance
@@ -71,9 +70,8 @@ namespace TeamProjectSecond
             while (true)
             {
                 EventManager.Clear();
-                EventManager.To(60, "상 점");
-                Console.WriteLine();
-                EventManager.To(45, "아이템을 거래할 수 있는 상점입니다.");
+                EventManager.To(60, "상 점\n\n");
+                EventManager.To(46, "아이템을 거래할 수 있는 상점입니다.");
                 EventManager.To(13, $"보유 골드 : {Character.Instance.Gold} G\n\n");
 
                 for (int i = (listIndex * 9) - 9; i < Math.Min(listIndex * 9, shopItems.Count - listIndex * 9 % 9); i++)
@@ -170,9 +168,8 @@ namespace TeamProjectSecond
             while (true)
             {
                 EventManager.Clear();
-                EventManager.To(60, "상 점");
-                Console.WriteLine();
-                EventManager.To(45, "아이템을 거래할 수 있는 상점입니다.");
+                EventManager.To(60, "상 점\n\n");
+                EventManager.To(46, "아이템을 거래할 수 있는 상점입니다.");
                 EventManager.To(18, $"보유 골드 : {Character.Instance.Gold} G\n\n");
                 
                 var ownedItems = Item.Instance.Where(i => i.IsOwned).ToList();
