@@ -27,7 +27,7 @@ namespace TeamProjectSecond
 
 
                 EventManager.To(55,"[아이템 목록]\n\n");
-                //
+                
                 bool hasItem = false; //아이템 존재 확인
 
                 for (int i = 0; i < sortedItems.Count; i++)
@@ -39,17 +39,16 @@ namespace TeamProjectSecond
                     {
                         hasItem = true;
                         string equipped = item.IsEquipped ? "[E]" : "";
-                        EventManager.To(25); Console.Write($"- {i + 1} {equipped}{item.ItemName} | {item.ToString()} x{item.Quantity}");
+                        EventManager.To(25); Console.Write($"- {i + 1} {equipped}{item.ItemName} | {item.ItemEffectDesc} | {item.ItemLoreDesc} x{item.Quantity}");
                     }
                 }
 
-                //UI 만들어지면 불러오기
                 if (!hasItem)
                 {
                     Console.SetCursorPosition(0, 8);
                     EventManager.To(46,"- 보유 중인 아이템이 없습니다.");
                 }
-                //
+                
                 Console.SetCursorPosition(0, 24);
                 EventManager.To(40,$"1. 장착 관리   2. 포션 사용  Enter. 돌아가기\n\n");
                 EventManager.Select();
@@ -99,7 +98,7 @@ namespace TeamProjectSecond
                 {
                     var item = ownedItems[i];
                     string equipped = item.IsEquipped ? "[E]" : "";
-                    EventManager.To(25,$"- {i + 1} {equipped}{item.ItemName} | {item.ToString()} x{item.Quantity}");
+                    EventManager.To(25, $"- {i + 1} {equipped}{item.ItemName} | {item.ItemEffectDesc} | {item.ItemLoreDesc} x{item.Quantity}");
                 }
                 Console.SetCursorPosition(0, 24);
                 EventManager.To(35,$"장착/해제할 아이템 번호를 선택해주세요.   Enter. 돌아가기\n\n");
@@ -183,7 +182,8 @@ namespace TeamProjectSecond
 
                 for (int i = 0; i < potions.Count; i++)
                 {
-                    EventManager.To(25,$"{i + 1}. {potions[i].ItemName} (보유 수량: {potions[i].Quantity})");
+                    var potion = potions[i];
+                    EventManager.To(25, $"{i + 1}. {potion.ItemName} | {potion.ItemEffectDesc} | {potion.ItemLoreDesc} (보유: {potion.Quantity})");
                 }
 
                 Console.SetCursorPosition(0, 24);
@@ -194,7 +194,7 @@ namespace TeamProjectSecond
                 if (input == null) break;
                 else if (input >=1 && input <= potions.Count)
                 {
-                    Inventory.UsePotion(potions[(int)input - 1].ItemName);
+                    Inventory.UsePotion(potions[(int)input - 1]);
                 }
                 else
                 {
@@ -206,43 +206,66 @@ namespace TeamProjectSecond
         // 포션 사용 기능
         // 활용 예시 Inventory.UsePotion("MP포션");
 
-        public static void UsePotion(string potionName)
+        public static void UsePotion(ItemData item)
         {
-            var item = Item.Instance.FirstOrDefault(i =>
-                i.ItemName == potionName &&
-                i.ItemType == ItemType.Consumable &&
-                i.Quantity > 0);
+            if (item == null || item.Quantity <= 0) return;
 
-            if (item != null)
+            item.Quantity--;
+
+            var c = Character.Instance;
+
+            if (item.ItemHealHPAmount > 0)
             {
-                item.Quantity--;
+                int beforeHP = c.HealthPoint;
+                c.HealthPoint = Math.Min(beforeHP + item.ItemHealHPAmount, c.MaxHealthPoint);
 
-                if (item.ItemHealHPAmount > 0) // HP회복로직
-                {
-                    int beforeHP = Character.Instance.HealthPoint;
-                    Character.Instance.HealthPoint = Math.Min(
-                        beforeHP + item.ItemHealHPAmount,
-                        Character.Instance.MaxHealthPoint);
-
-                    EventManager.Clear();
-                    Console.SetCursorPosition(0, 14);
-                    EventManager.Announce(45,$"HP를 {Character.Instance.HealthPoint - beforeHP}" +
-                        $" 회복했습니다. (현재 HP: {Character.Instance.HealthPoint}/{Character.Instance.MaxHealthPoint})\n");
-                }
-
-                if (item.ItemHealMPAmount > 0) // MP회복 로직
-                {
-                    int beforeMP = Character.Instance.ManaPoint;
-                    Character.Instance.ManaPoint = Math.Min(
-                        beforeMP + item.ItemHealMPAmount,
-                        Character.Instance.MaxManaPoint);
-
-                    EventManager.Clear();
-                    Console.SetCursorPosition(0, 14);
-                    EventManager.Announce(45,$"MP를 {Character.Instance.ManaPoint - beforeMP}" +
-                        $" 회복했습니다. (현재 MP: {Character.Instance.ManaPoint}/{Character.Instance.MaxManaPoint})");
-                }
+                EventManager.Clear();
+                Console.SetCursorPosition(0, 14);
+                EventManager.Announce(45, $"HP를 {c.HealthPoint - beforeHP} 회복했습니다. (현재 HP: {c.HealthPoint}/{c.MaxHealthPoint})\n");
             }
+
+            if (item.ItemHealMPAmount > 0)
+            {
+                int beforeMP = c.ManaPoint;
+                c.ManaPoint = Math.Min(beforeMP + item.ItemHealMPAmount, c.MaxManaPoint);
+
+                EventManager.Clear();
+                Console.SetCursorPosition(0, 14);
+                EventManager.Announce(45, $"MP를 {c.ManaPoint - beforeMP} 회복했습니다. (현재 MP: {c.ManaPoint}/{c.MaxManaPoint})");
+            }
+
+            if (item.ItemEffectDesc.Contains("증가 물약"))
+            {
+                ApplyElixirEffect(item);
+                EventManager.Clear();
+                EventManager.Announce(45, $"{item.ItemName}을(를) 사용하여 능력치가 영구 상승했습니다!");
+            }
+        }
+
+        private static void ApplyElixirEffect(ItemData item)
+        {
+            var c = Character.Instance;
+
+            if (item.ItemEffectDesc.Contains("최대 체력"))
+                c.BonusMaxHP += 5;
+
+            else if (item.ItemEffectDesc.Contains("최대 마나"))
+                c.BonusMaxMP += 5;
+
+            else if (item.ItemEffectDesc.Contains("방어력"))
+                c.BonusDefense += 1;
+
+            else if (item.ItemEffectDesc.Contains("속도"))
+                c.BonusSpeed += 1;
+
+            else if (item.ItemEffectDesc.Contains("최소 눈"))
+                c.BonusMinDice += 1;
+
+            else if (item.ItemEffectDesc.Contains("주사위"))
+                c.BonusDiceCount += 1;
+
+            else if (item.ItemEffectDesc.Contains("리롤"))
+                c.BonusRerollCount += 1;
         }
     }
 }

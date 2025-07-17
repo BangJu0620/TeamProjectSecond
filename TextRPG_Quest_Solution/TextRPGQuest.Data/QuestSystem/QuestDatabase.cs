@@ -31,17 +31,12 @@ namespace TextRPG_Quest_Solution.QuestSystem
             File.WriteAllText(filePath, json);
         }
 
-        public static bool Load(string filePath)
+        public static void Load(string filePath)
         {
             if (File.Exists(filePath))
             {
                 var json = File.ReadAllText(filePath);
                 AllQuests = JsonSerializer.Deserialize<List<Quest>>(json);
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
     }
