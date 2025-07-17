@@ -42,21 +42,24 @@ namespace TeamProjectSecond
             instance.Add(new ItemData(1, "HP 포션", ItemType.Consumable, 0, 0, 0, 0, 0, 0, "HP 30 회복", "HP를 30 회복시켜주는 포션.", 500, false, false));
             instance.Add(new ItemData(2, "MP 포션", ItemType.Consumable, 0, 0, 0, 0, 0, 0, "MP 30 회복", "MP를 30 회복시켜주는 포션.", 500, false, false));
 
+            instance.Add(new ItemData(6, "체력 증가 물약", ItemType.Consumable, 0, 0, 0, 0, 0, 0, "maxHP+10", "HP를 10 증가시켜주는 물약.", 1000, false, false, null, false));
+            instance.Add(new ItemData(10, "리롤 증가 물약", ItemType.Consumable, 0, 0, 0, 0, 0, 0, "리롤+1", "리롤 횟수를 1 증가시켜주는 물약.", 1000, false, false, null, false));
+
             //Armor
-            instance.Add(new ItemData(10, "천 갑옷", ItemType.Armor, 3, 0, 0, 0, 0, 0, "방어력+3", "움직이기 쉬운 천 갑옷.", 700, false, false));
-            instance.Add(new ItemData(11, "수련자 갑옷", ItemType.Armor, 5, 0, 0, 0, 0, 0, "방어력+5", "수련에 도움을 주는 갑옷.", 1000, false, false));
-            instance.Add(new ItemData(12, "무쇠갑옷", ItemType.Armor, 7, 0, 0, 0, 0, 0, "방어력+7", "무쇠로 만들어져 튼튼한 갑옷.", 1800, false, false));
-            instance.Add(new ItemData(13, "전설의 갑옷", ItemType.Armor, 15, 0, 0, 0, 0, 0, "방어력+15", "전설적인 모험가의 갑옷.", 3500, false, false));
+            instance.Add(new ItemData(100, "천 갑옷", ItemType.Armor, 3, 0, 0, 0, 0, 0, "방어력+3", "움직이기 쉬운 천 갑옷.", 700, false, false));
+            instance.Add(new ItemData(101, "수련자 갑옷", ItemType.Armor, 5, 0, 0, 0, 0, 0, "방어력+5", "수련에 도움을 주는 갑옷.", 1000, false, false));
+            instance.Add(new ItemData(102, "무쇠갑옷", ItemType.Armor, 7, 0, 0, 0, 0, 0, "방어력+7", "무쇠로 만들어져 튼튼한 갑옷.", 1800, false, false));
+            instance.Add(new ItemData(103, "전설의 갑옷", ItemType.Armor, 15, 0, 0, 0, 0, 0, "방어력+15", "전설적인 모험가의 갑옷.", 3500, false, false));
 
             //Weapon
-            instance.Add(new ItemData(100, "낡은 검", ItemType.Weapon, 0, 0, 0, 0, 1, 0, "최소 눈+1", "쉽게 볼 수 있는 낡은 검.", 600, false, false));
-            instance.Add(new ItemData(101, "짧은 단검", ItemType.Weapon, 0, 0, 0, 0, 2, 0, "최소 눈+2", "빠르고 가볍지만 위력이 낮은 단검.", 900, false, false));
-            instance.Add(new ItemData(102, "청동 도끼", ItemType.Weapon, 0, 0, 0, 0, 0, 1, "주사위+1", "어디선가 사용됐던거 같은 도끼.", 1500, false, false));
-            instance.Add(new ItemData(103, "전설의 창", ItemType.Weapon, 0, 0, 0, 0, 1, 1, "주사위, 최소 눈+1", "전설적인 모험가의 창.", 2700, false, false));
+            instance.Add(new ItemData(200, "낡은 검", ItemType.Weapon, 0, 0, 0, 0, 1, 0, "최소 눈+1", "쉽게 볼 수 있는 낡은 검.", 600, false, false));
+            instance.Add(new ItemData(201, "짧은 단검", ItemType.Weapon, 0, 0, 0, 0, 2, 0, "최소 눈+2", "빠르고 가볍지만 위력이 낮은 단검.", 900, false, false));
+            instance.Add(new ItemData(202, "청동 도끼", ItemType.Weapon, 0, 0, 0, 0, 0, 1, "주사위+1", "어디선가 사용됐던거 같은 도끼.", 1500, false, false));
+            instance.Add(new ItemData(203, "전설의 창", ItemType.Weapon, 0, 0, 0, 0, 1, 1, "주사위, 최소 눈+1", "전설적인 모험가의 창.", 2700, false, false));
 
             //Accessory
-            instance.Add(new ItemData(200, "신속의 신발", ItemType.Accessory, 0, 3, 0, 0, 0, 0, "속도+3", "속도를 높여주는 신발.", 800, false, false));
-            instance.Add(new ItemData(201, "체력의 반지", ItemType.Accessory, 2, 0, 30, 0, 0, 0, "MaxHP+30", "최대 체력을 높여주는 반지.", 800, false, false));
+            instance.Add(new ItemData(300, "신속의 신발", ItemType.Accessory, 0, 3, 0, 0, 0, 0, "속도+3", "속도를 높여주는 신발.", 800, false, false));
+            instance.Add(new ItemData(301, "체력의 반지", ItemType.Accessory, 2, 0, 30, 0, 0, 0, "MaxHP+30", "최대 체력을 높여주는 반지.", 800, false, false));
         }
 
         // 아이템 획득 로직
@@ -195,14 +198,14 @@ namespace TeamProjectSecond
         }
     }
 
-    public class DropEntry
-    {
-        public string ItemName { get; set; }
-        public DungeonDifficulty Difficulty { get; set; } //easy, normal, hard 던전 필요
-        public int MinStage { get; set; }
-        public int MaxStage { get; set; }
-        public float DropChance { get; set; } // 0.0 ~ 1.0 사이
-    }
+    //public class DropEntry
+    //{
+    //    public string ItemName { get; set; }
+    //    public DungeonDifficulty Difficulty { get; set; } //easy, normal, hard 던전 필요
+    //    public int MinStage { get; set; }
+    //    public int MaxStage { get; set; }
+    //    public float DropChance { get; set; } // 0.0 ~ 1.0 사이
+    //}
 
 
     //public static class DropTable
