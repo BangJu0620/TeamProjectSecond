@@ -10,7 +10,6 @@ namespace TeamProjectSecond
     {
         public static void EnterShop()
         {
-            int listIndex = 1;
             while (true)
             {
                 EventManager.Clear();
@@ -22,8 +21,10 @@ namespace TeamProjectSecond
                 var shopItems = Item.Instance
                     .Where(item => item.IsShopItem)
                     .ToList();
-                
-                for (int i = (listIndex * 9) - 9; i < Math.Min(listIndex * 9, shopItems.Count - listIndex*9 % 9 ); i++)
+
+                int displayIndex = 1;
+
+                for (int i = 0; i < shopItems.Count; i++)
                 {
                     var item = shopItems[i];
                     string priceDisplay = item.IsOwned && item.ItemType != ItemType.Consumable
@@ -37,9 +38,6 @@ namespace TeamProjectSecond
                     EventManager.To(30, $"{i + 1}. {item.ItemName}{quantityInfo} | {item.ItemEffectDesc} | 가격: {priceDisplay}\n\n");
                 }
 
-                // 아이템이 다음 리스트에 남아있는지 판단합니다.
-                bool goNextPage = ((shopItems.Count - listIndex * 9) % 9 != 0);
-
                 Console.SetCursorPosition(0, 24);
                 EventManager.To(40, $"1. 아이템 구매   2. 아이템 판매  Enter. 돌아가기\n\n");
                 EventManager.Select();
@@ -47,20 +45,13 @@ namespace TeamProjectSecond
                 switch (EventManager.CheckInput())
                 {
                     case 1:
-                        BuyItem(shopItems , ref listIndex);
+                        BuyItem(shopItems);
                         break;
                     case 2:
                         SellItem();
                         break;
                     case null:
                         return;
-                    case -1:
-                        listIndex = Math.Max(listIndex - 1, 1);
-                        break;
-                    case -2:
-                        if (goNextPage)
-                            listIndex++;
-                        break;
                     default:
                         EventManager.Wrong();
                         break;
@@ -68,17 +59,19 @@ namespace TeamProjectSecond
             }
         }
 
-        private static void BuyItem(List<ItemData> shopItems , ref int listIndex)
+        private static void BuyItem(List<ItemData> shopItems)
         {
             while (true)
             {
                 EventManager.Clear();
-                EventManager.To(60, "상 점");
+                EventManager.Background();
+                Console.SetCursorPosition(0, 2);
+                EventManager.To(58, "상 점");
                 Console.WriteLine();
                 EventManager.To(43, "필요한 아이템을 얻을 수 있는 상점입니다.");
                 EventManager.To(13, $"보유 골드 : {Character.Instance.Gold} G\n\n");
 
-                for (int i = (listIndex * 9) - 9; i < Math.Min(listIndex * 9, shopItems.Count - listIndex * 9 % 9); i++)
+                for (int i = 0; i < shopItems.Count; i++)
                 {
                     var item = shopItems[i];
 
@@ -89,19 +82,13 @@ namespace TeamProjectSecond
                     EventManager.To(30, $"{i + 1}. {item.ItemName}{quantityInfo} | {item.ItemEffectDesc} | 가격: {priceDisplay}\n\n");
                 }
 
-                // 아이템이 다음 리스트에 남아있는지 판단합니다.
-                bool goNextPage = ((shopItems.Count - listIndex * 9) % 9 != 0);
-
                 Console.SetCursorPosition(0, 24);
                 EventManager.To(40, $"구매할 아이템 번호를 입력하세요.       Enter. 돌아가기\n\n");
                 EventManager.Select();
 
                 int? input = EventManager.CheckInput();
                 if (input == null) return;
-                else if (input == -1) listIndex = Math.Max(listIndex - 1, 1);   //페이지 <- 이동 
-                else if (input == -2 && goNextPage) listIndex++;                //페이지 -> 이동
-
-                    else if (input >= 1 && input <= shopItems.Count)
+                else if (input >= 1 && input <= shopItems.Count)
                 {
                     var item = shopItems[(int)input - 1];
 
@@ -110,6 +97,7 @@ namespace TeamProjectSecond
                         while (true)
                         {
                             EventManager.Clear();
+                            EventManager.Background();
                             Console.SetCursorPosition(0, 12);
                             EventManager.To(50, $"구매하려는 물품 : {item.ItemName}\n\n");
                             EventManager.To(50, "몇 개를 구매하시겠습니까?");

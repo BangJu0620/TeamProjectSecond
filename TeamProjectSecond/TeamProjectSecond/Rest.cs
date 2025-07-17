@@ -52,6 +52,8 @@ namespace TeamProjectSecond
             while (true)
             {
                 EventManager.Clear();
+                EventManager.Background();
+                Console.SetCursorPosition(0, 2);
                 EventManager.To(55," 휴 식 하 기");
                 Console.WriteLine();
                 EventManager.To(41,"골드를 지불하여 체력을 회복할 수 있습니다.\n\n\n\n");
