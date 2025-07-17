@@ -21,8 +21,7 @@ namespace TeamProjectSecond
             var character = Character.Instance;
             var rest = Rest.Instance;
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            Console.CursorVisible = false;
-            
+
             while (true)
             {
                 Clear();
@@ -95,9 +94,9 @@ namespace TeamProjectSecond
                 To(45,"캐릭터의 정보를 확인할 수 있습니다.");
                 Console.WriteLine("\n\n\n");
                 To(41,$"Lv. {character.Level} {character.ClassType}\n\n");
-                To(41,$"경험치 {character.Exp} / {character.RequiredExp}\n\n");
+                To(41,$"경험치 {character.Exp}\n\n");  // / {character.RequiredExp}
                 To(41,$"{character.Name}\n\n");
-                To(41,$"공격력 : {character.AttackPoint}\n\n");
+                //To(41,$"공격력 : {character.AttackPoint}\n\n");
                 To(41,$"방어력 : {character.DefensePoint}\n\n");
                 To(41,$"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");
                 Console.SetCursorPosition(0, 24);
@@ -160,6 +159,168 @@ namespace TeamProjectSecond
                     default:
                         Wrong();
                         break;
+                }
+            }
+        }
+
+        public static void DisplayIntro(ClassTypeChange classTypeChange)
+        {
+            var character = Character.Instance;
+            var rest = Rest.Instance;
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.CursorVisible = false;
+
+            Background();
+            SetName();
+            SetClass(classTypeChange);
+        }
+
+        public static void SetName()
+        {
+            while (true)
+            {
+                string name = WriteName();
+                int userSelect = CheckName(name);
+                if (userSelect == 1) break;
+            }
+        }
+
+        public static string WriteName()
+        {
+            Clear();
+            Console.SetCursorPosition(0, 2);
+            To(55, " 주사위 마을\n\n\n\n");
+            To(52, "이름을 입력해주세요.");
+            Console.SetCursorPosition(0, 20);
+            To(50, "▶▶ ");
+            string name = Console.ReadLine();
+            return name;
+        }
+
+        public static int CheckName(string name)
+        {
+            while (true)
+            {
+                Clear();
+                Console.SetCursorPosition(0, 2);
+                To(51, $"입력한 이름: {name}\n\n\n");
+                To(49, "이대로 진행하시겠습니까?\n\n\n");
+                To(46, "1. 진행하기\n\n\n");
+                To(46, "2. 다시 입력");
+                Console.SetCursorPosition(0, 20);
+                To(50, "▶▶ ");
+                string input = Console.ReadLine();
+                bool isInt = int.TryParse(input, out int userSelect);
+                if (isInt)
+                {
+                    if (userSelect == 1)
+                    {
+                        Character.Instance.Name = name;
+                        return userSelect;
+                    }
+                    else if (userSelect == 2)
+                    {
+                        return userSelect;
+                    }
+                    else
+                    {
+                        Wrong();
+                    }
+                }
+                else
+                {
+                    Wrong();
+                }
+            }
+        }
+
+        public static void SetClass(ClassTypeChange classTypeChange)
+        {
+            while (true)
+            {
+                SelectClass(classTypeChange);
+                int userSelect = CheckClass();
+                if (userSelect == 1) break;
+            }
+        }
+
+        public static void SelectClass(ClassTypeChange classTypeChange)
+        {
+            while (true)
+            {
+                Clear();
+                Console.SetCursorPosition(0, 2);
+                To(55, " 주사위 마을\n\n\n");
+                To(52, "직업을 선택해주세요.\n\n\n");
+                To(46, "1. Warrior\n\n\n");
+                To(46, "2. Mage\n\n\n");
+                To(46, "3. Rogue\n\n\n");
+                Console.SetCursorPosition(0, 20);
+                To(50, "▶▶ ");
+                string input = Console.ReadLine();
+                string selectedClass;
+                bool isInt = int.TryParse(input, out int userSelect);
+                if (isInt)
+                {
+                    if (userSelect == 1)
+                    {
+                        classTypeChange.PromoteToWarrior();
+                        break;
+                    }
+                    else if (userSelect == 2)
+                    {
+                        classTypeChange.PromoteToMage();
+                        break;
+                    }
+                    else if (userSelect == 3)
+                    {
+                        classTypeChange.PromoteToRogue();
+                        break;
+                    }
+                    else
+                    {
+                        Wrong();
+                    }
+                }
+                else
+                {
+                    Wrong();
+                }
+            }
+        }
+
+        public static int CheckClass()
+        {
+            while (true)
+            {
+                Clear();
+                Console.SetCursorPosition(0, 2);
+                To(51, $"선택한 직업: {Character.Instance.ClassType}\n\n\n");
+                To(49, "이대로 진행하시겠습니까?\n\n\n");
+                To(46, "1. 진행하기\n\n\n");
+                To(46, "2. 다시 입력");
+                Console.SetCursorPosition(0, 20);
+                To(50, "▶▶ ");
+                string input = Console.ReadLine();
+                bool isInt = int.TryParse(input, out int userSelect);
+                if (isInt)
+                {
+                    if (userSelect == 1)
+                    {
+                        return userSelect;
+                    }
+                    else if (userSelect == 2)
+                    {
+                        return userSelect;
+                    }
+                    else
+                    {
+                        Wrong();
+                    }
+                }
+                else
+                {
+                    Wrong();
                 }
             }
         }

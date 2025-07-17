@@ -6,7 +6,9 @@ namespace TeamProjectSecond
     {
         static void Main(string[] args)
         {
+            ClassTypeChange classTypeChange = new ClassTypeChange();
             QuestDatabase.Register();
+            EventManager.DisplayIntro(classTypeChange);
             EventManager.DisplayMainUI();
         }
     }
