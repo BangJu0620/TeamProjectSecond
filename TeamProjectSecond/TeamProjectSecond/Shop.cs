@@ -34,7 +34,7 @@ namespace TeamProjectSecond
                         ? $" (보유: {item.Quantity})"
                         : "";
 
-                    EventManager.To(30,$"- {i + 1}. {item.ItemName}{quantityInfo} | {stats}| 가격: {priceDisplay}\n\n");
+                    EventManager.To(30, $"- {i + 1}. {item.ItemName}{quantityInfo} | {item.ItemEffectDesc} | 가격: {priceDisplay}\n");
                 }
 
                 // 아이템이 다음 리스트에 남아있는지 판단합니다.
@@ -87,12 +87,7 @@ namespace TeamProjectSecond
                     string priceDisplay = item.IsOwned && item.ItemType != ItemType.Consumable
                         ? "구매완료"
                         : $"{item.ItemPrice} G";
-
-                    string stats = "";
-                    if (item.ItemAttackPoint > 0) stats += $"공격력 +{item.ItemAttackPoint} ";
-                    if (item.ItemDefensePoint > 0) stats += $"방어력 +{item.ItemDefensePoint} ";
-
-                    EventManager.To(30,$"{i + 1}. {item.ItemName}{quantityInfo} | {stats}| 가격: {priceDisplay}\n\n");
+                    EventManager.To(30, $"{i + 1}. {item.ItemName}{quantityInfo} | {item.ItemEffectDesc} | 가격: {priceDisplay}\n");
                 }
 
                 // 아이템이 다음 리스트에 남아있는지 판단합니다.
