@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TeamProjectSecond
 {
-    public enum DiceType { SD, DD } // 주사위 타입 SD: StrikeDice, DD: DamageDice
+    public enum DiceType { ID, SD, DD } // 주사위 타입 ID: InitiativeDice, SD: StrikeDice, DD: DamageDice
 
     public class Dice
     {
@@ -51,7 +51,7 @@ namespace TeamProjectSecond
 
         public override string ToString()   // 이게 굳이 필요할까요?
         {
-            return $"{Type}{Index}";        // 저는 아직 모르겠습니당. 직접
+            return $"{Type}{Index}";        // 저는 아직 모르겠습니당.
         }
     }
 }
