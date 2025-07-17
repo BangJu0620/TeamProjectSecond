@@ -98,7 +98,7 @@ namespace TeamProjectSecond
                 To(41,$"주사위 수 : {character.DiceCount}\n\n");
                 To(41,$"리롤 횟수 : {character.RerollCount}\n\n");
                 To(41,$"방어력 : {character.DefensePoint}\n\n");
-                To(41,$"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");   //(+{character.MaxConsumableHealthPoint})
+                To(41,$"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");
                 To(41,$"마  력 : {character.ManaPoint} / {character.MaxManaPoint}\n\n");
                 Console.SetCursorPosition(0, 24);
                 To(43,"1. 스킬 확인         Enter. 돌아가기");
