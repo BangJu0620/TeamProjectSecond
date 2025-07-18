@@ -16,29 +16,36 @@ namespace TeamProjectSecond
                 EventManager.Clear();
                 EventManager.To(60, "상 점\n\n");
                 EventManager.To(46,"아이템을 거래할 수 있는 상점입니다.");
-                EventManager.To(13, $"보유 골드 : {Character.Instance.Gold} G\n\n");
-                
+                EventManager.ToS(13, $"보유 골드 : {Character.Instance.Gold} G\n\n");
                 var shopItems = Item.Instance
                     .Where(item => item.IsShopItem)
                     .ToList();
-
+                int blank = 18;
                 for (int i = (listIndex * 9) - 9; i < Math.Min(listIndex * 9, shopItems.Count - listIndex * 9 % 9); i++)
                 {
+                    Console.ForegroundColor = ConsoleColor.White;
                     var item = shopItems[i];
-                    string priceDisplay = item.IsOwned && item.ItemType != ItemType.Consumable
-                        ? "구매완료"
-                        : $"{item.ItemPrice} G";
+
+                    string priceDisplay = $"{item.ItemPrice,5} G";
 
                     string quantityInfo = item.IsOwned
                         ? $" (보유: {item.Quantity})"
                         : "";
 
-                    EventManager.To(30, $"{i + 1}. {item.ItemName}{quantityInfo} | {item.ItemEffectDesc} | 가격: {priceDisplay}\n\n");
+                    EventManager.To(blank, $"- {item.ItemName}");
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write($" {quantityInfo}");
+                    Console.SetCursorPosition(blank + 35, Console.CursorTop);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write($"| {item.ItemEffectDesc}");
+                    Console.SetCursorPosition(94, Console.CursorTop);
+                    Console.Write($"| 가격: {priceDisplay}\n\n");
                 }
                 bool goNextPage = ((shopItems.Count - listIndex * 9) % 9 != 0);  // 리스트 다음장에 아이템이 남아있는지 확인
 
                 Console.SetCursorPosition(0, 24);
-                EventManager.To(40, $"1. 아이템 구매   2. 아이템 판매  Enter. 돌아가기\n\n");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                EventManager.ToS(38, $"1. 아이템 구매  2. 아이템 판매  Enter. 돌아가기\n\n");
                 EventManager.Select();
 
                 switch (EventManager.CheckInput())
@@ -72,26 +79,32 @@ namespace TeamProjectSecond
                 EventManager.Clear();
                 EventManager.To(60, "상 점\n\n");
                 EventManager.To(46, "아이템을 거래할 수 있는 상점입니다.");
-                EventManager.To(13, $"보유 골드 : {Character.Instance.Gold} G\n\n");
-
+                EventManager.ToS(13, $"보유 골드 : {Character.Instance.Gold} G\n\n");
+                Console.ForegroundColor = ConsoleColor.White;
                 for (int i = (listIndex * 9) - 9; i < Math.Min(listIndex * 9, shopItems.Count - listIndex * 9 % 9); i++)
                 {
                     var item = shopItems[i];
 
                     string quantityInfo = item.IsOwned ? $" (보유: {item.Quantity})" : "";
                     string priceDisplay = item.IsOwned && item.ItemType != ItemType.Consumable
-                        ? "구매완료"
+                        ? "보유중"
                         : $"{item.ItemPrice} G";
                     EventManager.To(30, $"{i + 1}. {item.ItemName}{quantityInfo} | {item.ItemEffectDesc} | 가격: {priceDisplay}\n\n");
                 }
 
                 Console.SetCursorPosition(0, 24);
-                EventManager.To(40, $"구매할 아이템 번호를 입력하세요.       Enter. 돌아가기\n\n");
+                EventManager.ToS(38, $"구매할 아이템 번호를 입력하세요.  Enter. 돌아가기\n\n");
                 EventManager.Select();
 
+                bool goNextPage = ((shopItems.Count - listIndex * 9) % 9 != 0);  // 리스트 다음장에 아이템이 남아있는지 확인
                 int? input = EventManager.CheckInput();
-                if (input == null) return;
-                else if (input >= 1 && input <= shopItems.Count)
+                if (input == null)
+                    return;
+                else if (input == -1)
+                    listIndex = Math.Max(listIndex - 1, 1);
+                else if (input == -2 && goNextPage)
+                        listIndex++;
+                    else if (input >= 1 && input <= shopItems.Count)
                 {
                     var item = shopItems[(int)input - 1];
 
@@ -100,14 +113,14 @@ namespace TeamProjectSecond
                         while (true)
                         {
                             EventManager.Clear();
+                            Console.ForegroundColor = ConsoleColor.White;
                             Console.SetCursorPosition(0, 12);
                             EventManager.To(50, $"구매하려는 물품 : {item.ItemName}\n\n");
                             EventManager.To(50, "몇 개를 구매하시겠습니까?");
-                            Console.SetCursorPosition(0, 24);
-                            EventManager.To(40, $"구매할 아이템 수량을 입력하세요.       Enter. 돌아가기\n\n");
-                            EventManager.Select();
 
-                            bool goNextPage = ((shopItems.Count - listIndex * 9) % 9 != 0);  // 리스트 다음장에 아이템이 남아있는지 확인
+                            Console.SetCursorPosition(0, 24);
+                            EventManager.ToS(40, $"구매할 아이템 수량을 입력하세요.  Enter. 돌아가기\n\n");
+                            EventManager.Select();
 
                             int? amount = EventManager.CheckInput();
                             if (amount == null) return;
@@ -170,7 +183,7 @@ namespace TeamProjectSecond
                 EventManager.Clear();
                 EventManager.To(60, "상 점\n\n");
                 EventManager.To(46, "아이템을 거래할 수 있는 상점입니다.");
-                EventManager.To(18, $"보유 골드 : {Character.Instance.Gold} G\n\n");
+                EventManager.ToS(18, $"보유 골드 : {Character.Instance.Gold} G\n\n");
                 
                 var ownedItems = Item.Instance.Where(i => i.IsOwned).ToList();
                 if (ownedItems.Count == 0)
@@ -187,7 +200,8 @@ namespace TeamProjectSecond
                 }
 
                 Console.SetCursorPosition(0, 24);
-                EventManager.To(40, $"1. 아이템 구매   2. 아이템 판매  Enter. 돌아가기\n\n");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                EventManager.ToS(37, $"판매할 아이템의 번호를 입력해주세요  Enter. 돌아가기\n\n");
                 EventManager.Select();
 
                 bool goNextPage = ((ownedItems.Count - listIndex * 9) % 9 != 0);  // 리스트 다음장에 아이템이 남아있는지 확인
