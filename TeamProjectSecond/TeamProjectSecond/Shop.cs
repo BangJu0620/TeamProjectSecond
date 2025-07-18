@@ -38,6 +38,7 @@ namespace TeamProjectSecond
                     else if (item.ItemType == ItemType.Accessory) type = "장신구";
                     else type = "소모품";
 
+                    Console.ForegroundColor = ConsoleColor.White;
                     EventManager.To(5, $"- {item.ItemName}");
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -109,7 +110,7 @@ namespace TeamProjectSecond
                     string quantityInfo = item.IsOwned
                         ? $"(보유: {item.Quantity})"
                         : "";
-
+                    Console.ForegroundColor = ConsoleColor.White;
                     EventManager.To(5, $"{i + 1}. {item.ItemName}");
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -133,8 +134,7 @@ namespace TeamProjectSecond
                 bool goNextPage = (shopItems.Count - listIndex * 9 > 0 && (shopItems.Count - (listIndex * 9)) % 9 != 0);  // 리스트 다음장에 아이템이 남아있는지 확인
 
                 int? input = EventManager.CheckInput();
-                if (input == null)
-                    return;
+                if (input == null) return;
                 else if (input == -1)
                     listIndex = Math.Max(listIndex - 1, 1);
                 else if (input == -2 && goNextPage)
@@ -237,6 +237,7 @@ namespace TeamProjectSecond
                     else if (item.ItemType == ItemType.Accessory) type = "장신구";
                     else type = "소모품";
 
+                    Console.ForegroundColor = ConsoleColor.White;
                     EventManager.To(5, $"{i + 1}. {item.ItemName}");
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -263,8 +264,12 @@ namespace TeamProjectSecond
                 
                 int? input = EventManager.CheckInput();
                 if (input == null) return;                                      //엔터 누르면 돌아가기
-                else if (input == -1) listIndex = Math.Max(listIndex - 1, 1);   //페이지 <- 이동 
-                else if (input == -2 && goNextPage) listIndex++;                //페이지 -> 이동
+                else if (input == -1)
+                    listIndex = Math.Max(listIndex - 1, 1);   //페이지 <- 이동 
+                else if (input == -2 && goNextPage)
+                    listIndex++;                //페이지 -> 이동
+                else if (input == -2 && !goNextPage)
+                    continue;
 
                 else if (input >= 1 && input <= ownedItems.Count)
                 {
@@ -283,7 +288,7 @@ namespace TeamProjectSecond
                     }
 
                     Character.Instance.Gold += sellPrice;
-                    EventManager.Announce(48,$"{item.ItemName}을(를) 판매했습니다. {sellPrice} G 획득!");
+                    EventManager.Announce(48, $"{item.ItemName}을(를) 판매했습니다. {sellPrice} G 획득!");
                 }
                 else EventManager.Wrong();
             }

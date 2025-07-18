@@ -61,8 +61,7 @@ namespace TeamProjectSecond
                         break;
                     case 6:
                         // 퀘스트
-                        Console.Clear();
-                        Console.WriteLine("퀘스트");
+                        QuestBoard.ShowQuests();
                         break;
                     case 7:
                         // 저장/불러오기
