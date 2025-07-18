@@ -60,9 +60,6 @@ namespace TeamProjectSecond
         public int BonusMaxMP { get; set; } = 0;
         public int BonusDefense { get; set; } = 0;
         public int BonusSpeed { get; set; } = 0;
-        public int BonusMinDice { get; set; } = 0;
-        public int BonusDiceCount { get; set; } = 0;
-        public int BonusRerollCount { get; set; } = 0;
 
         public ClassData ClassData => new ClassData(ClassType);
 
@@ -72,11 +69,11 @@ namespace TeamProjectSecond
         public int DiceCount => ClassData.DiceCountByLevel
                                   .Where(kv => kv.Key <= Level)
                                   .Select(kv => kv.Value)
-                                  .Last() + BonusDiceCount;
+                                  .Last();
         public int RerollCount => ClassData.RerollCountByLevel
                                   .Where(kv => kv.Key <= Level)
                                   .Select(kv => kv.Value)
-                                  .Last() + Item.GetTotalBonusReroll() + BonusRerollCount; //여긴 장비+영약
+                                  .Last();
 
         public List<SkillData> ActiveSkills => ClassData.ActiveSkills
             .Where(skill => skill.RequiredLevel <= Level)
@@ -109,9 +106,6 @@ namespace TeamProjectSecond
                 BonusMaxMP = BonusMaxMP,
                 BonusDefense = BonusDefense,
                 BonusSpeed = BonusSpeed,
-                BonusMinDice = BonusMinDice,
-                BonusDiceCount = BonusDiceCount,
-                BonusRerollCount = BonusRerollCount
             };
         }
 
@@ -135,9 +129,6 @@ namespace TeamProjectSecond
             BonusMaxMP = data.BonusMaxMP;
             BonusDefense = data.BonusDefense;
             BonusSpeed = data.BonusSpeed;
-            BonusMinDice = data.BonusMinDice;
-            BonusDiceCount = data.BonusDiceCount;
-            BonusRerollCount = data.BonusRerollCount;
         }
     }
 
@@ -197,8 +188,5 @@ namespace TeamProjectSecond
         public int BonusMaxMP { get; set; }
         public int BonusDefense { get; set; }
         public int BonusSpeed { get; set; }
-        public int BonusMinDice { get; set; }
-        public int BonusDiceCount { get; set; }
-        public int BonusRerollCount { get; set; }
     }
 }
