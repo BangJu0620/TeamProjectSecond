@@ -53,8 +53,7 @@ namespace TeamProjectSecond
                         break;
                     case 4:
                         // 던전
-                        Console.Clear();
-                        Console.WriteLine("던전");
+                        DungeonEntry.ShowDungeonDifficultySelection();
                         break;
                     case 5:
                         // 휴식하기
