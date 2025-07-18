@@ -38,6 +38,12 @@ namespace TeamProjectSecond
         public int CurrentStageIndex { get; private set; } = 0;
 
         private List<DungeonStage> stages;
+        public void Enter() // *************** 던전 입장 메서드 ********** Dungeon dungeon = new Dungeon(Difficulty.Easy혹은Normal혹은Hard); 그리고 dungeon.Enter(); 누르면 던전 들갑니당.
+        {
+            CurrentStageIndex = 0;
+            Console.WriteLine($"[{CurrentDifficulty}] 난이도 던전으로 레츠고고");
+            StartCurrentStage();
+        }
 
         public Dungeon(Difficulty difficulty)
         {
