@@ -16,6 +16,7 @@ namespace TextRPGQuest
             // 초기 퀘스트 데이터 로드 (또는 초기화)
             QuestDatabase.Load(); // json 불러오기 (처음 실행 시 파일 없으면 자동 생성됨)
 
+
             // 게임 루프 시작
             bool running = true;
             while (running)
@@ -25,6 +26,10 @@ namespace TextRPGQuest
                 Console.WriteLine("1. 퀘스트 목록 보기");
                 Console.WriteLine("2. 퀘스트 수락하기");
                 Console.WriteLine("3. 게임 종료");
+
+        QuestDatabase.Register();
+        QuestDatabase.Load("quest.json");
+
 
                 Console.Write("\n메뉴를 선택하세요: ");
                 string input = Console.ReadLine();

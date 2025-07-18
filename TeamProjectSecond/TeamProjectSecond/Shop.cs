@@ -10,127 +10,141 @@ namespace TeamProjectSecond
     {
         public static void EnterShop()
         {
+            int listIndex = 1;
             while (true)
             {
-                Console.Clear();
-                //UI 만들어지면 불러오기
-                Console.WriteLine("상점\n");
-                Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
-                Console.WriteLine($"[보유 골드] {Character.Instance.Gold} G\n");
-
-                Console.WriteLine("[아이템 목록]");
-                //
-                var shopItems = new List<ItemData>();
-
-                int displayIndex = 1;
-                for (int i = 0; i < Item.Instance.Count; i++)
+                EventManager.Clear();
+                EventManager.To(60, "상 점\n\n");
+                EventManager.To(46,"아이템을 거래할 수 있는 상점입니다.");
+                EventManager.ToS(13, $"보유 골드 : {Character.Instance.Gold} G\n\n");
+                var shopItems = Item.Instance
+                    .Where(item => item.IsShopItem)
+                    .ToList();
+                int blank = 18;
+                for (int i = (listIndex * 9) - 9; i < Math.Min(listIndex * 9, shopItems.Count - listIndex * 9 % 9); i++)
                 {
-                    var item = Item.Instance[i];
-                    if (item.IsShopItem)
-                    {
-                        shopItems.Add(item);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    var item = shopItems[i];
 
-                        string stats = item.ItemType == ItemType.Weapon ? $"공격력 +{item.ItemAttackPoint}" :
-                                       item.ItemType == ItemType.Armor ? $"방어력 +{item.ItemDefensePoint}" : "";
+                    string priceDisplay = $"{item.ItemPrice,5} G";
 
-                        string priceDisplay = item.IsOwned && item.ItemType != ItemType.Consumable
-                            ? "구매완료"
-                            : $"{item.ItemPrice} G";
+                    string quantityInfo = item.IsOwned
+                        ? $" (보유: {item.Quantity})"
+                        : "";
 
-                        string quantityInfo = item.ItemType == ItemType.Consumable && item.IsOwned
-                            ? $" (보유: {item.Quantity})"
-                            : "";
-
-                        Console.WriteLine($"- {displayIndex}. {item.ItemName}{quantityInfo} | {stats} | 가격: {priceDisplay}");
-                        displayIndex++;
-                    }
+                    EventManager.To(blank, $"- {item.ItemName}");
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write($" {quantityInfo}");
+                    Console.SetCursorPosition(blank + 35, Console.CursorTop);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write($"| {item.ItemEffectDesc}");
+                    Console.SetCursorPosition(94, Console.CursorTop);
+                    Console.Write($"| 가격: {priceDisplay}\n\n");
                 }
-                //
-                Console.WriteLine("\n1. 아이템 구매");
-                Console.WriteLine("2. 아이템 판매");
-                Console.WriteLine("0. 나가기");
-                Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
-                //
-                string input = Console.ReadLine();
+                bool goNextPage = ((shopItems.Count - listIndex * 9) % 9 != 0);  // 리스트 다음장에 아이템이 남아있는지 확인
 
-                if (input == "1")
+                Console.SetCursorPosition(0, 24);
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                EventManager.ToS(38, $"1. 아이템 구매  2. 아이템 판매  Enter. 돌아가기\n\n");
+                EventManager.Select();
+
+                switch (EventManager.CheckInput())
                 {
-                    BuyItem(shopItems);
-                }
-                else if (input == "2")
-                {
-                    SellItem();
-                }
-                else if (input == "0")
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("잘못된 입력입니다.");//
-                    Console.ReadKey();
+                    case 1:
+                        BuyItem(shopItems, ref listIndex);
+                        break;
+                    case 2:
+                        SellItem();
+                        break;
+                    case null:
+                        return;
+                    case -1:
+                        listIndex = Math.Max(listIndex - 1, 1);
+                        break;
+                    case -2:
+                        if (goNextPage)
+                            listIndex++;
+                        break;
+                    default:
+                        EventManager.Wrong();
+                        break;
                 }
             }
         }
 
-        private static void BuyItem(List<ItemData> shopItems)
+        private static void BuyItem(List<ItemData> shopItems , ref int listIndex)
         {
             while (true)
             {
-                Console.Clear();
-                //UI
-                Console.WriteLine("구매할 아이템 번호를 입력하세요. (0. 취소)\n");//
-                //
-                for (int i = 0; i < shopItems.Count; i++)
+                EventManager.Clear();
+                EventManager.To(60, "상 점\n\n");
+                EventManager.To(46, "아이템을 거래할 수 있는 상점입니다.");
+                EventManager.ToS(13, $"보유 골드 : {Character.Instance.Gold} G\n\n");
+                Console.ForegroundColor = ConsoleColor.White;
+                for (int i = (listIndex * 9) - 9; i < Math.Min(listIndex * 9, shopItems.Count - listIndex * 9 % 9); i++)
                 {
                     var item = shopItems[i];
-                    string quantityInfo = item.ItemType == ItemType.Consumable && item.IsOwned
-                                          ? $" (보유: {item.Quantity})" : "";
+
+                    string quantityInfo = item.IsOwned ? $" (보유: {item.Quantity})" : "";
                     string priceDisplay = item.IsOwned && item.ItemType != ItemType.Consumable
-                                          ? "구매완료" : $"{item.ItemPrice} G";
-                    Console.WriteLine($"{i + 1}. {item.ItemName}{quantityInfo} - {priceDisplay}");
+                        ? "보유중"
+                        : $"{item.ItemPrice} G";
+                    EventManager.To(30, $"{i + 1}. {item.ItemName}{quantityInfo} | {item.ItemEffectDesc} | 가격: {priceDisplay}\n\n");
                 }
-                //UI
-                Console.WriteLine("\n구매할 아이템 번호를 입력하세요. (0. 취소)");//
-                //
-                string input = Console.ReadLine();
 
+                Console.SetCursorPosition(0, 24);
+                EventManager.ToS(38, $"구매할 아이템 번호를 입력하세요.  Enter. 돌아가기\n\n");
+                EventManager.Select();
 
-                if (input == "0") break;
-
-                if (int.TryParse(input, out int index) && index >= 1 && index <= shopItems.Count)
+                bool goNextPage = ((shopItems.Count - listIndex * 9) % 9 != 0);  // 리스트 다음장에 아이템이 남아있는지 확인
+                int? input = EventManager.CheckInput();
+                if (input == null)
+                    return;
+                else if (input == -1)
+                    listIndex = Math.Max(listIndex - 1, 1);
+                else if (input == -2 && goNextPage)
+                        listIndex++;
+                    else if (input >= 1 && input <= shopItems.Count)
                 {
-                    var item = shopItems[index - 1];
+                    var item = shopItems[(int)input - 1];
 
                     if (item.ItemType == ItemType.Consumable)
                     {
-                        Console.Write("몇 개를 구매하시겠습니까? >> ");//
-                        if (int.TryParse(Console.ReadLine(), out int amount) && amount > 0)
+                        while (true)
                         {
-                            int totalCost = item.ItemPrice * amount;
+                            EventManager.Clear();
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.SetCursorPosition(0, 12);
+                            EventManager.To(50, $"구매하려는 물품 : {item.ItemName}\n\n");
+                            EventManager.To(50, "몇 개를 구매하시겠습니까?");
 
-                            if (Character.Instance.Gold < totalCost)
-                            {
-                                Console.WriteLine("Gold가 부족합니다.");//
-                            }
-                            else
-                            {
-                                bool added = Item.AddItem(item.ItemName, amount, showMessage: false);
+                            Console.SetCursorPosition(0, 24);
+                            EventManager.ToS(40, $"구매할 아이템 수량을 입력하세요.  Enter. 돌아가기\n\n");
+                            EventManager.Select();
 
-                                if (added)
+                            int? amount = EventManager.CheckInput();
+                            if (amount == null) return;
+                            else if (amount > 0)
+                            {
+                                int totalCost = item.ItemPrice * (int)amount;
+
+                                if (Character.Instance.Gold < totalCost)
                                 {
-                                    Character.Instance.Gold -= totalCost;
-                                    Console.WriteLine($"{item.ItemName}을(를) {amount}개 구매했습니다.");//
+                                    EventManager.Announce(55, "Gold가 부족합니다.");
                                 }
                                 else
                                 {
-                                    Console.WriteLine("아이템 추가에 실패했습니다.");//
+                                    bool added = Item.AddItem(item.ItemName, (int)amount, showMessage: false);
+
+                                    if (added)
+                                    {
+                                        Character.Instance.Gold -= totalCost;
+                                        EventManager.Announce(45, $"{item.ItemName}을(를) {amount}개 구매했습니다.");
+                                        return;
+                                    }
                                 }
                             }
-                        }
-                        else
-                        {
-                            Console.WriteLine("잘못된 입력입니다.");//
+                            else EventManager.Wrong();
                         }
                     }
                     else // 장비
@@ -139,11 +153,11 @@ namespace TeamProjectSecond
 
                         if (item.IsOwned)
                         {
-                            Console.WriteLine("이미 구매한 아이템입니다.");//
+                            EventManager.Announce(50, "이미 보유하고 있는 아이템입니다.");
                         }
                         else if (Character.Instance.Gold < totalCost)
                         {
-                            Console.WriteLine("Gold가 부족합니다.");//
+                            EventManager.Announce(55, "Gold가 부족합니다.");
                         }
                         else
                         {
@@ -152,58 +166,57 @@ namespace TeamProjectSecond
 
                             if (added)
                             {
-                                Console.WriteLine($"{item.ItemName}을(를) 구매했습니다.");//
+                                EventManager.Announce(50, $"{item.ItemName}을(를) 구매했습니다.");
                             }
-                            else
-                            {
-                                Console.WriteLine("아이템 추가에 실패했습니다.");
-                            }
-
-                            Console.WriteLine("\n[Enter]를 누르면 계속 구매할 수 있습니다. (종료하려면 0 입력)");//
-                            if (Console.ReadLine() == "0") break;
                         }
                     }
                 }
-                else
-                {
-                    Console.WriteLine("잘못된 입력입니다.");//
-                }
-
-                Console.ReadKey();
+                else { EventManager.Wrong(); }
             }
         }
 
         private static void SellItem()
         {
+            int listIndex = 1;
             while (true)
             {
-                Console.Clear();
-                //UI
-                Console.WriteLine("판매할 아이템을 선택하세요 (0. 취소)\n");
-                //
+                EventManager.Clear();
+                EventManager.To(60, "상 점\n\n");
+                EventManager.To(46, "아이템을 거래할 수 있는 상점입니다.");
+                EventManager.ToS(18, $"보유 골드 : {Character.Instance.Gold} G\n\n");
+                
                 var ownedItems = Item.Instance.Where(i => i.IsOwned).ToList();
                 if (ownedItems.Count == 0)
                 {
-                    Console.WriteLine("판매 가능한 아이템이 없습니다.");
-                    Console.ReadKey();
+                    EventManager.Announce(47,"판매 가능한 아이템이 없습니다.");
                     return;
                 }
 
-                for (int i = 0; i < ownedItems.Count; i++)
+                for (int i = (listIndex * 9) - 9; i < Math.Min(listIndex * 9, ownedItems.Count - listIndex * 9 % 9); i++)
                 {
                     var item = ownedItems[i];
                     string quantityInfo = item.ItemType == ItemType.Consumable ? $" (보유: {item.Quantity})" : "";
-                    Console.WriteLine($"{i + 1}. {item.ItemName}{quantityInfo} - 판매가: {item.GetSellPrice()} G");
+                    EventManager.To(15,$"{i + 1}. {item.ItemName}{quantityInfo} - 판매가: {item.GetSellPrice()} G\n\n");
                 }
 
-                Console.Write("\n판매할 아이템 번호 입력: ");//
-                string input = Console.ReadLine();
+                Console.SetCursorPosition(0, 24);
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                EventManager.ToS(37, $"판매할 아이템의 번호를 입력해주세요  Enter. 돌아가기\n\n");
+                EventManager.Select();
 
-                if (input == "0") break;
+                bool goNextPage = ((ownedItems.Count - listIndex * 9) % 9 != 0);  // 리스트 다음장에 아이템이 남아있는지 확인
 
-                if (int.TryParse(input, out int index) && index >= 1 && index <= ownedItems.Count)
+                int? input = EventManager.CheckInput();
+
+                if (input == null) return;
+                else if (input == -1) listIndex = Math.Max(listIndex - 1, 1);   //페이지 <- 이동 
+                else if (input == -2 && goNextPage) listIndex++;                //페이지 -> 이동
+
+                else if (input >= 1 && input <= ownedItems.Count)
+
+                    if (input >= 1 && input <= ownedItems.Count)
                 {
-                    var item = ownedItems[index - 1];
+                    var item = ownedItems[(int)input - 1];
                     int sellPrice = item.GetSellPrice();
 
                     if (item.ItemType == ItemType.Consumable)
@@ -224,18 +237,12 @@ namespace TeamProjectSecond
                     }
 
                     Character.Instance.Gold += sellPrice;
-                    Console.WriteLine($"{item.ItemName}을(를) 판매했습니다. {sellPrice} G 획득!");
-
-                    Console.WriteLine("\n[Enter]를 누르면 계속 판매할 수 있습니다. (종료하려면 0 입력)");
-                    if (Console.ReadLine() == "0") break;
+                    EventManager.Announce(48,$"{item.ItemName}을(를) 판매했습니다. {sellPrice} G 획득!");
                 }
                 else
                 {
-                    Console.WriteLine("잘못된 입력입니다.");
+                    EventManager.Wrong();
                 }
-
-                Console.WriteLine("\n계속하려면 아무 키나 누르세요...");//
-                Console.ReadKey();
             }
         }
     }

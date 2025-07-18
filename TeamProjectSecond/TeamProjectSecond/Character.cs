@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamProjectSecond;
 
 namespace TeamProjectSecond
 {
@@ -30,137 +31,162 @@ namespace TeamProjectSecond
         {
             Level = 1;
             Name = "이름없음";
-            Job = "초보자";
-            AttackPoint = 1;
-            DefensePoint = 1;
-            HealthPoint = 50;
-            MaxHealthPoint = 100;
+            ClassType = ClassType.Warrior;
             Exp = 0;
-            RequiredExp = 0;
-            CritRate = 0.15f;
-            EvasionRate = 0.1f;
-            ManaPoint = 50;
-            MaxManaPoint = 50;
             Gold = 1500;
+            ManaPoint = MaxManaPoint;
+            HealthPoint = MaxHealthPoint;
+            Speed = ClassData.BaseSpeed+ BonusSpeed;
+            Item.AddItem("HP 포션", 3, showMessage: false);//시작시 포션3개 지급
         }
 
-        public int Level { get; set; }
         public string Name { get; set; }
-        public string Job { get; set; }
-        public int AttackPoint { get; set; }
-        public int DefensePoint { get; set; }
-        public int HealthPoint { get; set; }
-        public int MaxHealthPoint { get; set; }
-        public int Gold { get; set; }
+        public int Level { get; set; }
+        public ClassType ClassType { get; set; }  // 변수들 몇개 좀 ClassData쪽으로 옮겨서 관리하겄슴다 
         public int Exp { get; set; }
-        public int RequiredExp { get; set; }
-        public float CritRate { get; set; }
-        public float EvasionRate { get; set; }
+        public int Gold { get; set; }
+        public int HealthPoint { get; set; }
         public int ManaPoint { get; set; }
-        public int MaxManaPoint { get; set; }
+        public int Speed { get; set; }
+        public float BaseDamageMultiplier { get; set; } = 1f; // 영구적인 데미지 관여 값 (영약으로 오르는 것도 여기다 넣으면 될 듯용)
+        public float BaseDamageBonus { get; set; } = 0f;
+        public float TempDamageMultiplier { get; set; } = 1f;  // 일시적인 데미지 관여 값 (스킬같은 걸로 전투 중에만 적용)
+        public float TempDamageBonus { get; set; } = 0f;
+        public float TotalDamageMultiplier => BaseDamageMultiplier * TempDamageMultiplier;  // 최종 적용값 (계산용 프로퍼티)
+        public float TotalDamageBonus => BaseDamageBonus + TempDamageBonus;
+
+        // 이 밑으로 영약 추가했습니다, 영약 관련 주석들 확인 후 필요없어지면 삭제하셔도 무방합니다 /// 확인했습니다요
+        public int BonusMaxHP { get; set; } = 0;
+        public int BonusMaxMP { get; set; } = 0;
+        public int BonusDefense { get; set; } = 0;
+        public int BonusSpeed { get; set; } = 0;
+
+        public ClassData ClassData => new ClassData(ClassType);
+
+        public int MaxHealthPoint => ClassData.MaxHPByLevel(Level) + BonusMaxHP; //+ Bonus 붙은 부분이 영약 계산식입니다
+        public int MaxManaPoint => ClassData.MaxMPByLevel(Level) + BonusMaxMP;
+        public int DefensePoint => ClassData.DefenseByLevel(Level) + BonusDefense;
+        public int DiceCount => ClassData.DiceCountByLevel
+                                  .Where(kv => kv.Key <= Level)
+                                  .Select(kv => kv.Value)
+                                  .Last();
+        public int RerollCount => ClassData.RerollCountByLevel
+                                  .Where(kv => kv.Key <= Level)
+                                  .Select(kv => kv.Value)
+                                  .Last();
+
+        public List<SkillData> ActiveSkills => ClassData.ActiveSkills
+            .Where(skill => skill.RequiredLevel <= Level)
+            .ToList();
+
+        public List<SkillData> PassiveSkills => ClassData.PassiveSkills
+            .Where(skill => skill.RequiredLevel <= Level)
+            .ToList();
+
 
         public CharacterData ToData()
         {
             return new CharacterData
             {
-                Level = Level,
                 Name = Name,
-                Job = Job,
-                AttackPoint = AttackPoint,
-                DefensePoint = DefensePoint,
-                HealthPoint = HealthPoint,
-                MaxHealthPoint = MaxHealthPoint,
-                Gold = Gold,
+                Level = Level,
+                ClassType = ClassType,
                 Exp = Exp,
-                RequiredExp = RequiredExp,
-                CritRate = CritRate,
-                EvasionRate = EvasionRate,
+                Gold = Gold,
+                HealthPoint = HealthPoint,
                 ManaPoint = ManaPoint,
-                MaxManaPoint = MaxManaPoint
+                Speed = Speed,
+                  //데미지계산식
+                BaseDamageMultiplier = BaseDamageMultiplier,
+                BaseDamageBonus = BaseDamageBonus,
+                TempDamageMultiplier = TempDamageMultiplier,
+                TempDamageBonus = TempDamageBonus,
+                //영약
+                BonusMaxHP = BonusMaxHP,
+                BonusMaxMP = BonusMaxMP,
+                BonusDefense = BonusDefense,
+                BonusSpeed = BonusSpeed,
             };
         }
 
         public void LoadFromData(CharacterData data)
         {
-            Level = data.Level;
             Name = data.Name;
-            Job = data.Job;
-            AttackPoint = data.AttackPoint;
-            DefensePoint = data.DefensePoint;
-            HealthPoint = data.HealthPoint;
-            MaxHealthPoint = data.MaxHealthPoint;
-            Gold = data.Gold;
+            Level = data.Level;
+            ClassType = data.ClassType;
             Exp = data.Exp;
-            RequiredExp = data.RequiredExp;
-            CritRate = data.CritRate;
-            EvasionRate = data.EvasionRate;
+            Gold = data.Gold;
+            HealthPoint = data.HealthPoint;
             ManaPoint = data.ManaPoint;
-            MaxManaPoint = data.MaxManaPoint;
+            Speed = data.Speed;
+            //데미지계산식로드
+            BaseDamageMultiplier = data.BaseDamageMultiplier;
+            BaseDamageBonus = data.BaseDamageBonus;
+            TempDamageMultiplier = data.TempDamageMultiplier;
+            TempDamageBonus = data.TempDamageBonus;
+            //영약
+            BonusMaxHP = data.BonusMaxHP;
+            BonusMaxMP = data.BonusMaxMP;
+            BonusDefense = data.BonusDefense;
+            BonusSpeed = data.BonusSpeed;
         }
     }
 
-    public class JobChange 
+    public class ClassTypeChange
     {
         // 전직 기능, 인트로에 해당 직업에 해당하는 메서드 설정하면 될겁니다. 아마
         // 직업별 스탯 바꾸시려면 아래에 있는 수치 바꾸시면 됩니다.
         public void PromoteToWarrior()
         {
             var character = Character.Instance;
-            character.Job = "워리어";
-            character.AttackPoint = 10;
-            character.DefensePoint = 5;
-            character.HealthPoint = 100;
-            character.MaxHealthPoint = 100;
-            character.CritRate = 0.15f;
-            character.EvasionRate = 0.1f;
-            character.ManaPoint = 50;
-            character.MaxManaPoint = 50;
+            character.ClassType = ClassType.Warrior;
+            character.Level = 1;
+            character.Exp = 0;
+            character.HealthPoint = character.MaxHealthPoint;
+            character.ManaPoint = character.MaxManaPoint;
         }
 
         public void PromoteToRogue()
         {
             var character = Character.Instance;
-            character.Job = "로그";
-            character.AttackPoint = 12;
-            character.DefensePoint = 3;
-            character.HealthPoint = 70;
-            character.MaxHealthPoint = 70;
-            character.CritRate = 0.2f;
-            character.EvasionRate = 0.2f;
-            character.ManaPoint = 50;
-            character.MaxManaPoint = 50;
+            character.ClassType = ClassType.Rogue;
+            character.Level = 1;
+            character.Exp = 0;
+            character.HealthPoint = character.MaxHealthPoint;
+            character.ManaPoint = character.MaxManaPoint;
         }
 
         public void PromoteToMage()
         {
             var character = Character.Instance;
-            character.Job = "메이지";
-            character.AttackPoint = 14;
-            character.DefensePoint = 2;
-            character.HealthPoint = 50;
-            character.MaxHealthPoint = 50;
-            character.CritRate = 0.15f;
-            character.EvasionRate = 0.05f;
-            character.ManaPoint = 100;
-            character.MaxManaPoint = 100;
+            character.ClassType = ClassType.Mage;
+            character.Level = 1;
+            character.Exp = 0;
+            character.HealthPoint = character.MaxHealthPoint;
+            character.ManaPoint = character.MaxManaPoint;
         }
     }
 
     public class CharacterData
     {
+        public string? Name { get; set; }
         public int Level { get; set; }
-        public string Name { get; set; }
-        public string Job { get; set; }
-        public int AttackPoint { get; set; }
-        public int DefensePoint { get; set; }
-        public int HealthPoint { get; set; }
-        public int MaxHealthPoint { get; set; }
-        public int Gold { get; set; }
+        public ClassType ClassType { get; set; }
         public int Exp { get; set; }
-        public int RequiredExp { get; set; }
-        public float CritRate { get; set; }
-        public float EvasionRate { get; set; }
+        public int Gold { get; set; }
+        public int HealthPoint { get; set; }
         public int ManaPoint { get; set; }
-        public int MaxManaPoint { get; set; }
+        public int Speed { get; set; }
+        public float BaseDamageMultiplier { get; set; } = 1f; // 영구적인 데미지 관여 값 (영약으로 오르는 것도 여기다 넣으면 될 듯용)
+        public float BaseDamageBonus { get; set; } = 0f;
+        public float TempDamageMultiplier { get; set; } = 1f;  // 일시적인 데미지 관여 값 (스킬같은 걸로 전투 중에만 적용)
+        public float TempDamageBonus { get; set; } = 0f;
+        public float TotalDamageMultiplier => BaseDamageMultiplier * TempDamageMultiplier;
+        public float TotalDamageBonus => BaseDamageBonus + TempDamageBonus;
+        //영약
+        public int BonusMaxHP { get; set; }
+        public int BonusMaxMP { get; set; }
+        public int BonusDefense { get; set; }
+        public int BonusSpeed { get; set; }
     }
 }

@@ -19,14 +19,18 @@ namespace TextRPGQuest.SaveSystem
     {
         public static void Save(Player player)
         {
-            QuestDatabase.Save();
+
             player.Save();
             Console.WriteLine("게임이 저장되었습니다.");
+            QuestDatabase.Save("quest.json");
+            var json = JsonSerializer.Serialize(player, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText("PlayerData.json", json);
+
         }
 
         public static void Load(Player player)
         {
-            QuestDatabase.Load();
+            QuestDatabase.Load("quest.json");
             player.Load();
             Console.WriteLine("게임이 불러와졌습니다.");
         }

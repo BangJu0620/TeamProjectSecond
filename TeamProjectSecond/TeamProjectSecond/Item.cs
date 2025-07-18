@@ -10,7 +10,8 @@ namespace TeamProjectSecond
     {
         Weapon,     // 무기
         Armor,      // 방어구
-        Consumable  // 소모품 (예: 포션)
+        Consumable,  // 소모품 (예: 포션)
+        Accessory
     }
     // 다른 클래스에서 사용하시려면
     // Console.WriteLine(Item.Instance[0].itemName); > 출력: 천 갑옷
@@ -36,21 +37,34 @@ namespace TeamProjectSecond
         {
             instance = new List<ItemData>();
             //드랍 전용 아이템 = 마지막에 false 추가
-            //consumables 종류
-            instance.Add(new ItemData("HP 포션", ItemType.Consumable, 0, 0, "HP를 30 회복시켜주는 포션입니다.", 500, false, false));
-            instance.Add(new ItemData("MP 포션", ItemType.Consumable, 0, 0, "MP를 30 회복시켜주는 포션입니다.", 500, false, false));
+            //ID, "템이름", 아이템타입, 방, 속도, 최대체력, 최대마나, 데미지 배율, 데미지 보너스, "설명", "설정설명", 가격, 보유여부, 착용여부, 스킬, 상점 판매여부
+            //(소모품) ID, "템이름", "설명", "설정설명", 가격, 보유여부, 착용여부, 상점 판매여부
+            //consumables
+            instance.Add(new ItemData(1, "HP 포션", "HP 30 회복", "HP를 30 회복시켜주는 포션.", 500, false, false));
+            instance.Add(new ItemData(2, "MP 포션", "MP 30 회복", "MP를 30 회복시켜주는 포션.", 500, false, false));
 
-            //Armor 종류
-            instance.Add(new ItemData("천 갑옷", ItemType.Armor, 0, 3, "얇지만 움직이기 쉬운 천 갑옷입니다.", 700, false, false));
-            instance.Add(new ItemData("수련자 갑옷", ItemType.Armor, 0, 5, "수련에 도움을 주는 갑옷입니다.", 1000, false, false));
-            instance.Add(new ItemData("무쇠갑옷", ItemType.Armor, 0, 9, "무쇠로 만들어져 튼튼한 갑옷입니다.", 1800, false, false));
-            instance.Add(new ItemData("스파르타의 갑옷", ItemType.Armor, 0, 15, "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 3500, false, false));
+            instance.Add(new ItemData(50, "수호의 영약", "방어력 +1", "방어력을 1 증가시켜주는 물약.", 1000, false, false, false));
+            instance.Add(new ItemData(51, "신속의 영약", "속도 +1", "속도를 1 증가시켜주는 물약.", 1000, false, false, false));
+            instance.Add(new ItemData(52, "강건의 영약", "최대 체력 +5", "최대 체력을 5 증가시켜주는 물약.", 1000, false, false, false));
+            instance.Add(new ItemData(53, "정신의 영약", "최대 마나 +5", "최대 마나를 5 증가시켜주는 물약.", 1000, false, false, false));
+            instance.Add(new ItemData(54, "힘의 영약", "데미지 +5%", "데미지를 5% 증가시켜주는 물약.", 1000, false, false, false));
+            instance.Add(new ItemData(55, "강타의 영약", "추가데미지 +1", "추가데미지를 1 증가시켜주는 물약.", 1000, false, false, false));
 
-            //Weapon 종류
-            instance.Add(new ItemData("낡은 검", ItemType.Weapon, 2, 0, "쉽게 볼 수 있는 낡은 검입니다.", 600, false, false));
-            instance.Add(new ItemData("짧은 단검", ItemType.Weapon, 3, 0, "빠르고 가볍지만 위력이 낮은 단검입니다.", 900, false, false));
-            instance.Add(new ItemData("청동 도끼", ItemType.Weapon, 5, 0, "어디선가 사용됐던거 같은 도끼입니다.", 1500, false, false));
-            instance.Add(new ItemData("스파르타의 창", ItemType.Weapon, 7, 0, "스파르타의 전사들이 사용했다는 전설의 창입니다.", 2700, false, false));
+            //Armor
+            instance.Add(new ItemData(100, "카지노 조끼", ItemType.Armor, 3, 0, 0, 0, 1, 0, "방어력+3", "칩 넣는 주머니가 많다.", 700, false, false));
+            instance.Add(new ItemData(101, "찢어진 경찰복", ItemType.Armor, 5, 0, 0, 0, 1, 0, "방어력+5", "도박 경찰의 경찰복.", 1000, false, false));
+            instance.Add(new ItemData(102, "딜러의 셔츠", ItemType.Armor, 7, 0, 0, 0, 1, 0, "방어력+7", "건실한 사람들이 자주 입는다.", 1800, false, false));
+            instance.Add(new ItemData(103, "VIP의 갑옷", ItemType.Armor, 15, 0, 0, 0, 1, 0, "방어력+15", "어딘가의 VIP가 입는 갑옷.", 3500, false, false));
+
+            //Weapon
+            instance.Add(new ItemData(200, "주사위 뿅망치", ItemType.Weapon, 0, 0, 0, 0, 1.02f, 0, "데미지+2%", "주사위 모양의 뿅망치.", 600, false, false));
+            instance.Add(new ItemData(201, "구속의 삼단봉", ItemType.Weapon, 0, 0, 0, 0, 1.05f, 0, "데미지+5%", "도박 경찰이 잃은 경찰봉.", 900, false, false));
+            instance.Add(new ItemData(202, "마술 단검", ItemType.Weapon, 0, 0, 0, 0, 1.03f, 1, "데미지+3%, 추가데미지+1", "단검처럼 보이는 주사위.", 1500, false, false));
+            instance.Add(new ItemData(203, "도박사의 지팡이", ItemType.Weapon, 0, 0, 0, 0, 1, 10, "추가데미지+10", "주사위를 생성하는 지팡이.", 2700, false, false));
+
+            //Accessory
+            instance.Add(new ItemData(300, "도망자의 신발", ItemType.Accessory, 0, 3, 0, 0, 1, 0, "속도+3", "속도를 높여주는 신발.", 800, false, false));
+            instance.Add(new ItemData(301, "체력의 반지", ItemType.Accessory, 2, 0, 30, 0, 1, 0, "MaxHP+30", "밤새 게임할 수 있게 된다.", 800, false, false));
         }
 
         // 아이템 획득 로직
@@ -63,21 +77,11 @@ namespace TeamProjectSecond
             if (item != null)
             {
                 item.IsOwned = true;
+                item.Quantity += count;
 
-                if (item.ItemType == ItemType.Consumable)
+                if (showMessage)
                 {
-                    item.Quantity += count;
-                    if (showMessage)
-                    {
-                        Console.WriteLine($"{itemName}을(를) {count}개 획득했습니다!");
-                    }
-                }
-                else
-                {
-                    if (showMessage)
-                    {
-                        Console.WriteLine($"{itemName}을(를) 획득했습니다!");
-                    }
+                    Console.WriteLine($"{itemName}을(를) {count}개 획득했습니다!");
                 }
 
                 return true;
@@ -100,34 +104,83 @@ namespace TeamProjectSecond
 
     public class ItemData
     {
+        // 기본 정보
+        public int ID { get; set; }
         public string ItemName { get; set; }
         public ItemType ItemType { get; set; }
-        public int ItemAttackPoint { get; set; }
+        // 스탯
         public int ItemDefensePoint { get; set; }
-        public string ItemDescription { get; set; }
+        public int ItemSpeed { get; set; } = 0;
+        public int ItemMaxHP { get; set; } = 0;
+        public int ItemMaxMP { get; set; } = 0;
+        public float DamageMultiplier { get; set; } = 1.0f; // 배율 (예: 1.2f)
+        public int DamageBonus { get; set; } = 0; // 고정 추가 데미지
+        // 설명 및 효과
+        public string ItemEffectDesc { get; set; } = "";
+        public string ItemLoreDesc { get; set; } = "";
+        // 상점 관련
         public int ItemPrice { get; set; }
         public bool IsOwned { get; set; }
         public bool IsEquipped { get; set; }
+        public int Quantity { get; set; } = 0;
+        public bool IsShopItem { get; set; } = true;
+        // 회복량 및 부여 스킬
         public int ItemHealHPAmount { get; set; }
         public int ItemHealMPAmount { get; set; }
-        public int Quantity { get; set; } = 0; //소모품 갯수
-        public bool IsShopItem { get; set; } = true; // 상점 구매 가능 여부 (기본값: 가능)
+        public string? SkillName { get; set; }
+
 
         public ItemData() { }
 
-        public ItemData(string name, ItemType type, int atk, int def, string description, int price, bool owned, bool equipped, bool isShopItem = true)
+        public ItemData(int id, string name, ItemType type, int def, int speed = 0, int maxHP = 0, int maxMP = 0, float damageMultiplier = 1.0f, int damageBonus = 0, 
+                        string effect = "", string lore = "", int price = 0, bool owned = false, bool equipped = false, string? skillName = null, bool isShopItem = true)
         {
+            ID = id;
             ItemName = name;
             ItemType = type;
-            ItemAttackPoint = atk;
             ItemDefensePoint = def;
-            ItemDescription = description;
+            ItemSpeed = speed;
+            ItemMaxHP = maxHP;
+            ItemMaxMP = maxMP;
+            DamageMultiplier = damageMultiplier;
+            DamageBonus = damageBonus;
+            ItemEffectDesc = effect;
+            ItemLoreDesc = lore;
             ItemPrice = price;
             IsOwned = owned;
             IsEquipped = equipped;
+            SkillName = skillName;
             IsShopItem = isShopItem;
-            ParseHealAmountFromDescription(description);
+
+            ParseHealAmountFromDescription(effect);
         }
+
+        // 소비 아이템(포션/영약) 전용 생성자
+        public ItemData(int id, string name, string effect, string lore, int price, bool owned = false, bool equipped = false, bool isShopItem = true)
+        {
+            ID = id;
+            ItemName = name;
+            ItemType = ItemType.Consumable;
+
+            ItemDefensePoint = 0;
+            ItemSpeed = 0;
+            ItemMaxHP = 0;
+            ItemMaxMP = 0;
+            DamageBonus = 0;
+            DamageMultiplier = 1.0f;
+
+            ItemEffectDesc = effect;
+            ItemLoreDesc = lore;
+            ItemPrice = price;
+            IsOwned = owned;
+            IsEquipped = equipped;
+            SkillName = null;
+            IsShopItem = isShopItem;
+
+            ParseHealAmountFromDescription(effect);
+        }
+
+
 
         //HP, MP 회복 구분
         private void ParseHealAmountFromDescription(string description)
@@ -163,13 +216,57 @@ namespace TeamProjectSecond
 
         public override string ToString()
         {
-            string stats = ItemType == ItemType.Weapon
-                ? $"공격력 +{ItemAttackPoint}"
-                : ItemType == ItemType.Armor
-                    ? $"방어력 +{ItemDefensePoint}"
-                    : "";
-
-            return $"{ItemName} | {stats} | {ItemDescription}";
+            string stats = "";
+            if (ItemDefensePoint > 0) stats += $"방어력 +{ItemDefensePoint} ";
+            if (ItemSpeed > 0) stats += $"속도 +{ItemSpeed} ";
+            if (ItemMaxHP > 0) stats += $"MaxHP +{ItemMaxHP} ";
+            if (ItemMaxMP > 0) stats += $"MaxMP +{ItemMaxMP} ";
+            return $"{stats}\n{ItemEffectDesc}\n{ItemLoreDesc}";
         }
     }
+
+    //던전.cs 완료 시 활성화
+    //public class DropEntry
+    //{
+    //    public string ItemName { get; set; }
+    //    public DungeonDifficulty Difficulty { get; set; } //easy, normal, hard 던전 필요
+    //    public int MinStage { get; set; }
+    //    public int MaxStage { get; set; }
+    //    public float DropChance { get; set; } // 0.0 ~ 1.0 사이
+    //}
+
+
+    //public static class DropTable
+    //{
+    //    private static Random rand = new();
+
+    //    public static List<DropEntry> Entries = new() //아래에 드랍시킬 아이템 추가, 1.0f = 100%
+    //    {
+    //        new DropEntry { ItemName = "HP 포션", Difficulty = DungeonDifficulty.Easy, MinStage = 1, MaxStage = 3, DropChance = 0.6f },
+    //        new DropEntry { ItemName = "MP 포션", Difficulty = DungeonDifficulty.Easy, MinStage = 1, MaxStage = 3, DropChance = 0.6f },
+
+    //        new DropEntry { ItemName = "체력 증가 물약", Difficulty = DungeonDifficulty.Medium, MinStage = 2, MaxStage = 4, DropChance = 0.3f },
+    //        new DropEntry { ItemName = "리롤 증가 물약", Difficulty = DungeonDifficulty.Hard, MinStage = 3, MaxStage = 5, DropChance = 0.2f },
+    //    };
+
+    //    public static List<ItemData> RollDrop(DungeonDifficulty difficulty, int stage) //난이도,스테이지번호에 따라 아이템 뽑기
+    //    {
+    //        List<ItemData> drops = new();
+
+    //        foreach (var entry in Entries) //드랍 가능 조건 탐색
+    //        {
+    //            if (entry.Difficulty != difficulty) continue; //난이도 일치
+    //            if (stage < entry.MinStage || stage > entry.MaxStage) continue; //스테이지 범위 일치
+
+    //            if (rand.NextDouble() < entry.DropChance) //확률 계산(뽑기진행)
+    //            {
+    //                var item = Item.Instance.FirstOrDefault(i => i.ItemName == entry.ItemName); //DB찾기
+    //                if (item != null) drops.Add(item); //drop추가
+    //            }
+    //        }
+
+    //        return drops;
+    //    }
+    //}
+
 }

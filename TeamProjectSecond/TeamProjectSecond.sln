@@ -5,6 +5,12 @@ VisualStudioVersion = 17.14.36203.30
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamProjectSecond", "TeamProjectSecond\TeamProjectSecond.csproj", "{4232E91F-D900-415E-AA0F-1C96905D7B29}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestBoard", "..\QuestBoard\QuestBoard\QuestBoard.csproj", "{9E3DC50D-1B4C-43C6-E8A1-CD841039923F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextRPG_GAME_Quest", "..\TextRPG_Quest_Solution\TextRPG_GAME_Quest\TextRPG_GAME_Quest.csproj", "{D74E1F8E-1B05-C1E7-8282-8E9DCD0DC48B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextRPGQuest.Data", "..\TextRPG_Quest_Solution\TextRPGQuest.Data\TextRPGQuest.Data.csproj", "{EFDC458B-AD91-9BC3-0037-447CF38EF552}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{4232E91F-D900-415E-AA0F-1C96905D7B29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4232E91F-D900-415E-AA0F-1C96905D7B29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4232E91F-D900-415E-AA0F-1C96905D7B29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E3DC50D-1B4C-43C6-E8A1-CD841039923F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E3DC50D-1B4C-43C6-E8A1-CD841039923F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E3DC50D-1B4C-43C6-E8A1-CD841039923F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E3DC50D-1B4C-43C6-E8A1-CD841039923F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D74E1F8E-1B05-C1E7-8282-8E9DCD0DC48B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D74E1F8E-1B05-C1E7-8282-8E9DCD0DC48B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D74E1F8E-1B05-C1E7-8282-8E9DCD0DC48B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D74E1F8E-1B05-C1E7-8282-8E9DCD0DC48B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFDC458B-AD91-9BC3-0037-447CF38EF552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFDC458B-AD91-9BC3-0037-447CF38EF552}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFDC458B-AD91-9BC3-0037-447CF38EF552}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFDC458B-AD91-9BC3-0037-447CF38EF552}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
