@@ -13,7 +13,7 @@ namespace TeamProjectSecond
     // 캐릭터를 수정하시려면 private Character(){} 안에 있는 요소들을 수정하시면 됩니다.
     public class Character
     {
-        private static Character? instance;
+        private static Character instance;
 
         public static Character Instance
         {
@@ -95,8 +95,7 @@ namespace TeamProjectSecond
                 Gold = Gold,
                 HealthPoint = HealthPoint,
                 ManaPoint = ManaPoint,
-                //Speed = Speed,
-                  //데미지계산식
+                //데미지계산식
                 BaseDamageMultiplier = BaseDamageMultiplier,
                 BaseDamageBonus = BaseDamageBonus,
                 TempDamageMultiplier = TempDamageMultiplier,
@@ -118,7 +117,6 @@ namespace TeamProjectSecond
             Gold = data.Gold;
             HealthPoint = data.HealthPoint;
             ManaPoint = data.ManaPoint;
-            //Speed = data.Speed;
             //데미지계산식로드
             BaseDamageMultiplier = data.BaseDamageMultiplier;
             BaseDamageBonus = data.BaseDamageBonus;
@@ -176,7 +174,6 @@ namespace TeamProjectSecond
         public int Gold { get; set; }
         public int HealthPoint { get; set; }
         public int ManaPoint { get; set; }
-        //public int Speed { get; set; }
         public float BaseDamageMultiplier { get; set; } = 1f; // 영구적인 데미지 관여 값 (영약으로 오르는 것도 여기다 넣으면 될 듯용)
         public float BaseDamageBonus { get; set; } = 0f;
         public float TempDamageMultiplier { get; set; } = 1f;  // 일시적인 데미지 관여 값 (스킬같은 걸로 전투 중에만 적용)
