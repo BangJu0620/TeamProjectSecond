@@ -47,8 +47,8 @@ namespace TeamProjectSecond
             instance.Add(new ItemData(51, "신속의 영약", "속도 +1", "속도를 1 증가시켜주는 물약.", 1000, false, false, false));
             instance.Add(new ItemData(52, "강건의 영약", "최대 체력 +5", "최대 체력을 5 증가시켜주는 물약.", 1000, false, false, false));
             instance.Add(new ItemData(53, "정신의 영약", "최대 마나 +5", "최대 마나를 5 증가시켜주는 물약.", 1000, false, false, false));
-            instance.Add(new ItemData(54, "운명의 영약", "데미지 +5%", "데미지를 5% 증가시켜주는 물약.", 1000, false, false, false));
-            instance.Add(new ItemData(55, "기회의 영약", "추가데미지 +1", "추가데미지를 1 증가시켜주는 물약.", 1000, false, false, false));
+            instance.Add(new ItemData(54, "힘의 영약", "데미지 +5%", "데미지를 5% 증가시켜주는 물약.", 1000, false, false, false));
+            instance.Add(new ItemData(55, "강타의 영약", "추가데미지 +1", "추가데미지를 1 증가시켜주는 물약.", 1000, false, false, false));
 
             //Armor
             instance.Add(new ItemData(100, "카지노 조끼", ItemType.Armor, 3, 0, 0, 0, 1, 0, "방어력+3", "칩 넣는 주머니가 많다.", 700, false, false));
