@@ -16,6 +16,7 @@ namespace TeamProjectSecond
 
             if (SaveLoadManager.CheckExistSaveData())
             {
+                QuestDatabase.InitDefaultQuests();
                 SetName();                  // 이름 받기
                 SetClass(classTypeChange);  // 클래스 설정
             }
@@ -23,7 +24,7 @@ namespace TeamProjectSecond
             {
                 SaveLoadManager.LoadCharacterData("character.json");
                 SaveLoadManager.LoadItemData("item.json");
-                QuestDatabase.Load("quest.json");
+                SaveLoadManager.LoadQuestData("quest.json");
                 EventManager.Announce(50, "다시 오신 걸 환영합니다.");
             }
         }

@@ -27,7 +27,7 @@ namespace TextRPGQuest
                 Console.WriteLine("2. 퀘스트 수락하기");
                 Console.WriteLine("3. 게임 종료");
 
-        QuestDatabase.Register();
+        //QuestDatabase.Register();
         QuestDatabase.Load("quest.json");
 
 

@@ -31,14 +31,14 @@ namespace TeamProjectSecond
                         return;
                     case 1: // 캐릭터, 아이템 정보를 세이브
                         EventManager.Clear();
-                        SaveLoadManager.SaveCharacterData("character.json");
-                        SaveLoadManager.SaveItemData("item.json");
-                        QuestDatabase.Save("quest.json");
+                        SaveCharacterData("character.json");
+                        SaveItemData("item.json");
+                        SaveQuestData("quest.json");
                         EventManager.Announce(51, "세이브가 완료되었습니다.");
                         break;
                     case 2: // 캐릭터, 아이템 정보를 로드
                         EventManager.Clear();
-                        if (SaveLoadManager.CheckExistSaveData())   // 셋 중 하나라도 없으면 없다고 출력
+                        if (CheckExistSaveData())   // 셋 중 하나라도 없으면 없다고 출력
                         {
                             EventManager.Announce(51, "세이브 파일이 없습니다.");
                             break;
@@ -98,6 +98,13 @@ namespace TeamProjectSecond
             File.WriteAllText(filePath, json);
         }
 
+        public static void SaveQuestData(string filePath)
+        {
+            var questData = QuestDatabase.Quests;
+            string json = JsonSerializer.Serialize(questData, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(filePath, json);
+        }
+
         public static void LoadCharacterData(string filePath) // 캐릭터 데이터 불러오기
         {
             if (!File.Exists(filePath))
@@ -126,6 +133,22 @@ namespace TeamProjectSecond
             {
                 Item.Instance.Clear();
                 Item.Instance.AddRange(loadedItemListData.Items);
+            }
+        }
+
+        public static void LoadQuestData(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                return;
+            }
+            string json = File.ReadAllText(filePath);
+            var loadedQuestData = JsonSerializer.Deserialize<List<Quest>>(json);
+
+            if(loadedQuestData != null)
+            {
+                QuestDatabase.Quests.Clear();
+                QuestDatabase.Quests.AddRange(loadedQuestData);
             }
         }
 

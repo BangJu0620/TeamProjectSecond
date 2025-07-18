@@ -21,7 +21,7 @@ namespace TextRPGQuest.QuestSystem
     {
 
         public static List<Quest> Quests = new List<Quest>();
-        private static string FilePath = "TextRPGQuest.json";
+        private static string FilePath = "quest.json";
 
         /// <summary>
         /// 퀘스트를 불러옵니다. 파일이 없으면 기본 퀘스트 생성.
@@ -36,7 +36,7 @@ namespace TextRPGQuest.QuestSystem
         }
 
         public static List<Quest> AllQuests = new();
-        
+
 
         public static void Register()
         {
@@ -46,7 +46,7 @@ namespace TextRPGQuest.QuestSystem
 
         public static void Save(string filePath)
         {
-            var json = JsonSerializer.Serialize(AllQuests, new JsonSerializerOptions { WriteIndented = true });
+            var json = JsonSerializer.Serialize(Quests, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(filePath, json);
         }
 
@@ -55,14 +55,14 @@ namespace TextRPGQuest.QuestSystem
             if (File.Exists(filePath))
             {
                 var json = File.ReadAllText(filePath);
-                AllQuests = JsonSerializer.Deserialize<List<Quest>>(json);
+                Quests = JsonSerializer.Deserialize<List<Quest>>(json);
 
             }
-            else
-            {
-                InitDefaultQuests();
-                Save();
-            }
+            //else
+            //{
+            //    InitDefaultQuests();
+            //    Save("quest.json");
+            //}
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace TextRPGQuest.QuestSystem
         }
 
 
-        private static void InitDefaultQuests()
+        public static void InitDefaultQuests()
         {
             Quests.Add(new Quest(IDManager.GetNextID(), "약초 3개 수집", "약초를 3개 모으세요.", QuestCategory.Collect, 3, 100, 20));
             Quests.Add(new Quest(IDManager.GetNextID(), "슬라임 5마리 처치", "슬라임을 5마리 처치하세요.", QuestCategory.Hunt, 5, 150, 30));
