@@ -218,10 +218,10 @@ namespace TeamProjectSecond
         {
             var c = Character.Instance;
 
-            if (item.ItemEffectDesc.Contains("최대 체력"))
+            if (item.ItemEffectDesc.Contains("MaxHP"))
                 c.BonusMaxHP += 5;
 
-            else if (item.ItemEffectDesc.Contains("최대 마나"))
+            else if (item.ItemEffectDesc.Contains("MaxMP"))
                 c.BonusMaxMP += 5;
 
             else if (item.ItemEffectDesc.Contains("방어력"))
@@ -235,6 +235,20 @@ namespace TeamProjectSecond
 
             else if (item.ItemEffectDesc.Contains("추가데미지"))
                 c.BaseDamageBonus += 1;
+        }
+
+        public static int GetTotalRerollFromItems()
+        {
+            return Item.Instance
+                .Where(item => item.IsEquipped && IsEquipment(item))
+                .Sum(item => item.RerollBonus);
+        }
+
+        private static bool IsEquipment(ItemData item)
+        {
+            return item.ItemType == ItemType.Weapon
+                || item.ItemType == ItemType.Armor
+                || item.ItemType == ItemType.Accessory;
         }
     }
 }
