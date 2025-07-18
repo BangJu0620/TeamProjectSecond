@@ -26,6 +26,7 @@ namespace TeamProjectSecond
                 Clear();
                 To(56," 주사위 마을\n\n");
                 To(46,"이곳에서 행동을 선택할 수 있습니다.\n\n\n");
+
                 Console.ForegroundColor = ConsoleColor.White;
                 To(43,"1. 상태창\n\n");
                 To(43,"2. 소지품 확인\n\n");
@@ -33,7 +34,7 @@ namespace TeamProjectSecond
                 To(43,"4. 던전\n\n");
                 To(43,"5. 휴식하기\n\n");
                 To(43,"6. 퀘스트\n\n");
-                To(43,"7. 저장 / 불러오기\n\n");
+                To(43,"7. 세이브\n\n");
                 Select();
 
                 switch (CheckInput())
@@ -66,7 +67,6 @@ namespace TeamProjectSecond
                         break;
                     case 7:
                         // 저장/불러오기
-                        Clear();
                         SaveLoadManager.DisplaySaveUI();
                         break;
                     case null:
@@ -87,14 +87,16 @@ namespace TeamProjectSecond
                 Clear();
                 To(57," 상 태 창\n\n");
                 To(46,"캐릭터의 정보를 확인할 수 있습니다.\n\n\n");
+
                 Console.ForegroundColor = ConsoleColor.White;
                 To(43,$"Lv. {character.Level}  {character.ClassType}  {character.Name}\n\n");
                 To(43,$"경험치 {character.Exp}\n\n");  // {character.RequiredExp}
                 To(43,$"주사위 : {character.DiceCount}개\n\n");
-             // To(41,$"속  도 : {character.RerollCount}\n\n");
+             // To(43,$"속  도 : {character.RerollCount}\n\n");
                 To(43,$"방어력 : {character.DefensePoint}\n\n");
                 To(43,$"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");
                 To(43,$"마  력 : {character.ManaPoint} / {character.MaxManaPoint}\n\n");
+
                 Console.SetCursorPosition(0, 24);
                 ToS(44,"1. 스킬 확인         Enter. 돌아가기");
                 Select();
@@ -128,7 +130,6 @@ namespace TeamProjectSecond
                 else                                    return -3;
             }
         }
-
 
         public static void To(int i)  // 입력된 숫자만큼 띄어쓰기를 해주는 함수
         {

@@ -13,10 +13,10 @@ namespace TextRPGQuest.QuestSystem
     /// </summary>
     public enum QuestStatus
     {
-        NotStarted,
-        InProgress,
-        Completed,
-        Rewarded
+        NotStarted, // 시작하지 않음
+        InProgress, // 진행 중
+        Completed, // 완료됨
+        Rewarded // 보상 받음
     }
 }
 

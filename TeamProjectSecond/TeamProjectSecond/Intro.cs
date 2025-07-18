@@ -15,7 +15,8 @@ namespace TeamProjectSecond
             EventManager.Clear();           // 맨 처음에 실행되게 해서 주사위배경 그려주기
 
             if (SaveLoadManager.CheckExistSaveData())
-            {
+            { 
+                QuestDatabase.RegisterDefaultQuests();
                 SetName();                  // 이름 받기
                 SetClass(classTypeChange);  // 클래스 설정
             }
@@ -23,7 +24,7 @@ namespace TeamProjectSecond
             {
                 SaveLoadManager.LoadCharacterData("character.json");
                 SaveLoadManager.LoadItemData("item.json");
-                QuestDatabase.Load("quest.json");
+                SaveLoadManager.LoadQuestData("quest.json");
                 EventManager.Announce(50, "다시 오신 걸 환영합니다.");
             }
         }

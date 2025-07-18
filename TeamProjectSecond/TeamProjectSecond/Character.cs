@@ -13,7 +13,7 @@ namespace TeamProjectSecond
     // 캐릭터를 수정하시려면 private Character(){} 안에 있는 요소들을 수정하시면 됩니다.
     public class Character
     {
-        private static Character? instance;
+        private static Character instance;
 
         public static Character Instance
         {
@@ -54,6 +54,7 @@ namespace TeamProjectSecond
         public float TempDamageBonus { get; set; } = 0f;
         public float TotalDamageMultiplier => BaseDamageMultiplier * TempDamageMultiplier;  // 최종 적용값 (계산용 프로퍼티)
         public float TotalDamageBonus => BaseDamageBonus + TempDamageBonus;
+        public int TotalRerollCount => RerollCount + Inventory.GetTotalRerollFromItems(); // 리롤 이거 한 줄 추가했습니다.여기 잘 안건드려서 뭐가 뭔지 모르겠...
 
         // 이 밑으로 영약 추가했습니다, 영약 관련 주석들 확인 후 필요없어지면 삭제하셔도 무방합니다 /// 확인했습니다요
         public int BonusMaxHP { get; set; } = 0;
@@ -95,8 +96,7 @@ namespace TeamProjectSecond
                 Gold = Gold,
                 HealthPoint = HealthPoint,
                 ManaPoint = ManaPoint,
-                Speed = Speed,
-                  //데미지계산식
+                //데미지계산식
                 BaseDamageMultiplier = BaseDamageMultiplier,
                 BaseDamageBonus = BaseDamageBonus,
                 TempDamageMultiplier = TempDamageMultiplier,
@@ -118,7 +118,6 @@ namespace TeamProjectSecond
             Gold = data.Gold;
             HealthPoint = data.HealthPoint;
             ManaPoint = data.ManaPoint;
-            Speed = data.Speed;
             //데미지계산식로드
             BaseDamageMultiplier = data.BaseDamageMultiplier;
             BaseDamageBonus = data.BaseDamageBonus;
@@ -176,13 +175,13 @@ namespace TeamProjectSecond
         public int Gold { get; set; }
         public int HealthPoint { get; set; }
         public int ManaPoint { get; set; }
-        public int Speed { get; set; }
         public float BaseDamageMultiplier { get; set; } = 1f; // 영구적인 데미지 관여 값 (영약으로 오르는 것도 여기다 넣으면 될 듯용)
         public float BaseDamageBonus { get; set; } = 0f;
         public float TempDamageMultiplier { get; set; } = 1f;  // 일시적인 데미지 관여 값 (스킬같은 걸로 전투 중에만 적용)
         public float TempDamageBonus { get; set; } = 0f;
         public float TotalDamageMultiplier => BaseDamageMultiplier * TempDamageMultiplier;
         public float TotalDamageBonus => BaseDamageBonus + TempDamageBonus;
+
         //영약
         public int BonusMaxHP { get; set; }
         public int BonusMaxMP { get; set; }
