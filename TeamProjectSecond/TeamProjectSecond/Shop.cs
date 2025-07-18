@@ -262,13 +262,11 @@ namespace TeamProjectSecond
                 bool goNextPage = (ownedItems.Count - listIndex * 9 > 0 && (ownedItems.Count - (listIndex * 9)) % 9 != 0);  // 리스트 다음장에 아이템이 남아있는지 확인
                 
                 int? input = EventManager.CheckInput();
-                if (input == null) return;
+                if (input == null) return;                                      //엔터 누르면 돌아가기
                 else if (input == -1) listIndex = Math.Max(listIndex - 1, 1);   //페이지 <- 이동 
                 else if (input == -2 && goNextPage) listIndex++;                //페이지 -> 이동
 
                 else if (input >= 1 && input <= ownedItems.Count)
-
-                    if (input >= 1 && input <= ownedItems.Count)
                 {
                     var item = ownedItems[(int)input - 1];
                     int sellPrice = item.GetSellPrice();
@@ -276,27 +274,18 @@ namespace TeamProjectSecond
                     if (item.ItemType == ItemType.Consumable)
                     {
                         item.Quantity--;
-                        if (item.Quantity <= 0)
-                        {
-                            item.IsOwned = false;
-                        }
+                        if (item.Quantity <= 0) item.IsOwned = false;
                     }
                     else
                     {
-                        if (item.IsEquipped)
-                        {
-                            item.IsEquipped = false;
-                        }
+                        if (item.IsEquipped) item.IsEquipped = false;
                         item.IsOwned = false;
                     }
 
                     Character.Instance.Gold += sellPrice;
                     EventManager.Announce(48,$"{item.ItemName}을(를) 판매했습니다. {sellPrice} G 획득!");
                 }
-                else
-                {
-                    EventManager.Wrong();
-                }
+                else EventManager.Wrong();
             }
         }
     }
