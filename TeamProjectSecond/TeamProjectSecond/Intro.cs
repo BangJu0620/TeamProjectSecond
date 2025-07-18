@@ -16,7 +16,7 @@ namespace TeamProjectSecond
 
             if (SaveLoadManager.CheckExistSaveData())   // 세이브 데이터가 없다면 인트로 실행
             { 
-                QuestDatabase.RegisterDefaultQuests();
+                QuestDatabase.RegisterDefaultQuests();  // 기본 퀘스트 생성
                 SetName();                  // 이름 받기
                 SetClass(classTypeChange);  // 클래스 설정
             }

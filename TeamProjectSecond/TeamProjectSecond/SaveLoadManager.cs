@@ -32,14 +32,12 @@ namespace TeamProjectSecond
                     case null:
                         return;
                     case 1: // 캐릭터, 아이템, 퀘스트 정보를 세이브
-                        EventManager.Clear();
                         SaveCharacterData("character.json");
                         SaveItemData("item.json");
                         SaveQuestData("quest.json");
                         EventManager.Announce(51, "세이브가 완료되었습니다.");
                         break;
                     case 2: // 캐릭터, 아이템, 퀘스트 정보를 삭제
-                        EventManager.Clear();
                         if (CheckExistSaveData())   // 셋 중 하나라도 없으면 없다고 출력, 이후 세이브 화면으로 돌아감
                         {
                             EventManager.Announce(51, "세이브 파일이 없습니다.");
@@ -71,7 +69,6 @@ namespace TeamProjectSecond
                 {
                     case null: return;  // Enter 입력시 돌아감
                     case 1: // 1 입력시 세이브 삭제
-                        EventManager.Clear();
                         File.Delete("character.json");
                         File.Delete("item.json");
                         File.Delete("quest.json");

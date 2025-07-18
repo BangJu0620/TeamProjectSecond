@@ -36,7 +36,7 @@ namespace TeamProjectSecond
             Gold = 1500;
             ManaPoint = MaxManaPoint;
             HealthPoint = MaxHealthPoint;
-            Speed = ClassData.BaseSpeed+ BonusSpeed;
+            Speed = ClassData.BaseSpeed + BonusSpeed;
             Item.AddItem("HP 포션", 3, showMessage: false);//시작시 포션3개 지급
         }
 
