@@ -46,6 +46,9 @@ namespace TeamProjectSecond
             instance.Add(new ItemData(102, "마술 단검", ItemType.Weapon, 0, 0, 0, 0, 1.03f, 1, 0, "데미지+3%, 추가데미지+1", "단검처럼 보이는 주사위.", 1500, false, false));
             instance.Add(new ItemData(103, "도박사의 지팡이", ItemType.Weapon, 0, 0, 0, 0, 1, 10, 0, "추가데미지+10", "주사위를 생성하는 지팡이.", 2700, false, false));
             instance.Add(new ItemData(104, "야구방망이", ItemType.Weapon, 0, 0, 0, 0, 1.05f, 5, 0, "데미지+5%, 추가데미지+5", "경비원이 사용하는 빠따.", 3000, false, false));
+            instance.Add(new ItemData(105, "불운의 단검", ItemType.Weapon, 0, 0, -20, 0, 1.07f, 0, 0, "MaxHP-20, 데미지+7%", "운 좋은 자만이 다룰 수 있다.", 3000, false, false));
+            instance.Add(new ItemData(106, "배팅 해머", ItemType.Weapon, 0, 0, 0, 0, 1.1f, 0, -1, "데미지+10%, 리롤-1", "인생은 한 방.", 3000, false, false));
+            instance.Add(new ItemData(107, "추심자의 완드", ItemType.Weapon, 0, 0, 0, 0, 1, 10, 1, "추가데미지+10, 리롤+1", "놓치지 않는다.", 5000, false, false));
 
             //Armor
             instance.Add(new ItemData(200, "카지노 조끼", ItemType.Armor, 3, 0, 0, 0, 1, 0, 0, "방어력+3", "칩 넣는 주머니가 많다.", 700, false, false));
@@ -53,6 +56,9 @@ namespace TeamProjectSecond
             instance.Add(new ItemData(202, "딜러의 셔츠", ItemType.Armor, 7, 0, 0, 0, 1, 0, 0, "방어력+7", "건실한 사람들이 자주 입는다.", 1800, false, false));
             instance.Add(new ItemData(203, "VIP의 갑옷", ItemType.Armor, 15, 0, 0, 0, 1, 0, 0, "방어력+15", "어딘가의 VIP가 입는 갑옷.", 3500, false, false));
             instance.Add(new ItemData(204, "보석상의 정장", ItemType.Armor, 13, 2, 0, 0, 1, 0, 0, "방어력+13, 속도+2", "보석을 지킨다.", 3000, false, false));
+            instance.Add(new ItemData(205, "회계사의 조끼", ItemType.Armor, 8, 0, 0, 20, 1, 0, 0, "방어력+8, MaxMP+20", "손실을 줄여야한다.", 2000, false, false));
+            instance.Add(new ItemData(206, "세무관의 셔츠", ItemType.Armor, 10, 0, 0, 0, 1, -3, 0, "방어력+10, 추가데미지-3", "데미지 세금을 걷겠다.", 1500, false, false));
+            instance.Add(new ItemData(207, "탈세자의 후드", ItemType.Armor, 3, 3, 0, 0, 1, 0, 0, "방어력+3, 속도+3", "탈세자가 사용한 후드.", 1500, false, false));
 
             //Accessory
             instance.Add(new ItemData(300, "도망자의 신발", ItemType.Accessory, 0, 3, 0, 0, 1, 0, 0, "속도+3", "속도를 높여주는 신발.", 800, false, false));
@@ -62,6 +68,8 @@ namespace TeamProjectSecond
             instance.Add(new ItemData(304, "행운의 칩", ItemType.Accessory, 0, 0, 0, 0, 1, 0, 1, "리롤+1", "일이 잘 풀릴 것 같다.", 800, false, false, null, false));
             instance.Add(new ItemData(305, "딜러의 카드덱", ItemType.Accessory, 0, 0, 0, 0, 1.04f, 0, 0, "데미지+4%", "딜러의 카드덱.", 800, false, false, null, false));
             instance.Add(new ItemData(306, "결혼 반지", ItemType.Accessory, 0, 0, 50, 0, 1, -6, 0, "MaxHP+50, 추가데미지-6", "누군가 내기로 건 반지.", 800, false, false, null, false));
+            instance.Add(new ItemData(307, "무전기 이어폰", ItemType.Accessory, 0, 0, 0, 0, 1f, 5, 0, "추가데미지+5", "도둑이 훔쳐간 이어폰.", 800, false, false, null, false));
+
 
             //consumables
             instance.Add(new ItemData(400, "HP 포션", "HP 30 회복", "HP를 30 회복시켜주는 포션.", 500, false, false));
