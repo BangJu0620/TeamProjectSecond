@@ -132,7 +132,7 @@ namespace TeamProjectSecond
             List<Monster> enemies = GenerateMonstersForCurrentStage();
 
             // 전투 시작
-            // Battle.StartBattle(enemies);
+            Battle.StartBattle(enemies);
         }
     }
 }
