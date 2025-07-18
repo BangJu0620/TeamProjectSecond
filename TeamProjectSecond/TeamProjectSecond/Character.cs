@@ -54,6 +54,7 @@ namespace TeamProjectSecond
         public float TempDamageBonus { get; set; } = 0f;
         public float TotalDamageMultiplier => BaseDamageMultiplier * TempDamageMultiplier;  // 최종 적용값 (계산용 프로퍼티)
         public float TotalDamageBonus => BaseDamageBonus + TempDamageBonus;
+        public int TotalRerollCount => RerollCount + Inventory.GetTotalRerollFromItems(); // 리롤 이거 한 줄 추가했습니다.여기 잘 안건드려서 뭐가 뭔지 모르겠...
 
         // 이 밑으로 영약 추가했습니다, 영약 관련 주석들 확인 후 필요없어지면 삭제하셔도 무방합니다 /// 확인했습니다요
         public int BonusMaxHP { get; set; } = 0;
@@ -183,6 +184,7 @@ namespace TeamProjectSecond
         public float TempDamageBonus { get; set; } = 0f;
         public float TotalDamageMultiplier => BaseDamageMultiplier * TempDamageMultiplier;
         public float TotalDamageBonus => BaseDamageBonus + TempDamageBonus;
+
         //영약
         public int BonusMaxHP { get; set; }
         public int BonusMaxMP { get; set; }
