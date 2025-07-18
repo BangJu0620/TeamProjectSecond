@@ -1,4 +1,7 @@
-﻿namespace TextRPGQuest.QuestSystem
+﻿using TextRPGQuest.QuestSystem;
+
+
+namespace TextRPGQuest.QuestSystem
 {
     /// <summary>
     /// [퀘스트 자동 생성 템플릿]

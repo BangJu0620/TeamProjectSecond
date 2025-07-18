@@ -1,5 +1,6 @@
 ﻿using TextRPGQuest.QuestSystem;
 
+
 namespace TextRPGQuest.QuestSystem
 {
     /// <summary>

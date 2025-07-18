@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPGQuest.QuestSystem;
 
 
 //퀘스트 보상 지급 스크립트
