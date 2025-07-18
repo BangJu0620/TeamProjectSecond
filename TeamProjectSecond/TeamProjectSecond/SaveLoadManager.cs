@@ -20,6 +20,8 @@ namespace TeamProjectSecond
                 EventManager.Clear();
                 EventManager.To(58, "세 이 브\n\n");
                 EventManager.To(41, "이곳에서 플레이 데이터를 관리할 수 있습니다.\n\n\n\n\n\n");
+
+                Console.ForegroundColor = ConsoleColor.White;
                 EventManager.To(42, "1. 세이브\n\n\n\n\n");
                 EventManager.To(42, "2. 세이브 삭제\n\n\n\n\n");
                 EventManager.To(42, "Enter. 돌아가기");
@@ -59,7 +61,9 @@ namespace TeamProjectSecond
                 EventManager.Clear();
                 EventManager.To(55, "세이브 삭제\n\n\n\n");
                 EventManager.To(49, "정말로 삭제하시겠습니까?\n\n\n");
+
                 Console.SetCursorPosition(0, 24);
+                Console.ForegroundColor = ConsoleColor.White;
                 EventManager.To(43, "1. 세이브 삭제       Enter. 돌아가기");
                 EventManager.Select();
 
