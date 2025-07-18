@@ -140,7 +140,7 @@ namespace TeamProjectSecond
                     bool isConsumable = item.ItemType == ItemType.Consumable;
                     string equipped = item.IsEquipped ? "[E] " : "";
 
-                    Console.ForegroundColor = ConsoleColor.White;       //앞 작대기 - 표현
+                    Console.ForegroundColor = ConsoleColor.White;       // 아이템 번호 표현
                     EventManager.To(10, $"{i + 1}. ");
 
                     Console.ForegroundColor = ConsoleColor.Yellow;      // 장비중이라면 [E]를 표시합니다.
@@ -241,20 +241,20 @@ namespace TeamProjectSecond
                 {
                     var potion = potions[i];
 
-                    Console.ForegroundColor = ConsoleColor.White;       //앞 작대기 - 표현
-                    EventManager.To(10, $"{i + 1}. ");
+                    Console.ForegroundColor = ConsoleColor.White;       // 아이템 번호 표시
+                    EventManager.To(20, $"{i + 1}. ");
 
                     Console.ForegroundColor = ConsoleColor.White;       // 아이템 이름 표시
                     Console.Write($"{potion.ItemName}");
 
-                    Console.ForegroundColor = ConsoleColor.Yellow;      // 보유중인 수 표시
+                    Console.ForegroundColor = ConsoleColor.White;      // 보유중인 수 표시
                     Console.Write($" (보유: {potion.Quantity})");
 
-                    Console.SetCursorPosition(54, Console.CursorTop);   // 아이템 효과
+                    Console.SetCursorPosition(50, Console.CursorTop);   // 아이템 효과
                     Console.Write($"| {potion.ItemEffectDesc}");
 
                     Console.ForegroundColor = ConsoleColor.Gray;        // 아이템 설명
-                    Console.SetCursorPosition(80, Console.CursorTop);
+                    Console.SetCursorPosition(76, Console.CursorTop);
                     Console.Write($"||  {potion.ItemLoreDesc}\n\n");
 
                 }
