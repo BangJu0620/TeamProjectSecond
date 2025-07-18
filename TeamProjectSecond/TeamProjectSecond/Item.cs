@@ -33,45 +33,38 @@ namespace TeamProjectSecond
             }
         }
 
-        public static int GetTotalBonusReroll() //장착템 중 리롤값을 모두 더함
-        {
-            return Instance
-                .Where(i => i.IsOwned && i.IsEquipped)
-                .Sum(i => i.BonusReroll);
-        }
-
         static Item()
         {
             instance = new List<ItemData>();
             //드랍 전용 아이템 = 마지막에 false 추가
-            //ID, "템이름", 아이템타입, 방, 속도, 최대체력, 최대마나, 주사위 최소 눈, 주사위 갯수, 리롤, "설명", 가격, 보유여부, 착용여부, 스킬, 상점 판매여부
+            //ID, "템이름", 아이템타입, 방, 속도, 최대체력, 최대마나, 데미지 배율, 데미지 보너스, "설명", "설정설명", 가격, 보유여부, 착용여부, 스킬, 상점 판매여부
+            //(소모품) ID, "템이름", "설명", "설정설명", 가격, 보유여부, 착용여부, 상점 판매여부
             //consumables
-            instance.Add(new ItemData(1, "HP 포션", ItemType.Consumable, 0, 0, 0, 0, 0, 0, 0, "HP 30 회복", "HP를 30 회복시켜주는 포션.", 500, false, false));
-            instance.Add(new ItemData(2, "MP 포션", ItemType.Consumable, 0, 0, 0, 0, 0, 0, 0, "MP 30 회복", "MP를 30 회복시켜주는 포션.", 500, false, false));
+            instance.Add(new ItemData(1, "HP 포션", "HP 30 회복", "HP를 30 회복시켜주는 포션.", 500, false, false));
+            instance.Add(new ItemData(2, "MP 포션", "MP 30 회복", "MP를 30 회복시켜주는 포션.", 500, false, false));
 
-            instance.Add(new ItemData(50, "수호의 영약", ItemType.Consumable, 0, 0, 0, 0, 0, 0, 0, "방어력 +1", "방어력을 1 증가시켜주는 물약.", 1000, false, false, null, false));
-            instance.Add(new ItemData(51, "신속의 영약", ItemType.Consumable, 0, 0, 0, 0, 0, 0, 0, "속도 +1", "속도를 1 증가시켜주는 물약.", 1000, false, false, null, false));
-            instance.Add(new ItemData(52, "강건의 영약", ItemType.Consumable, 0, 0, 0, 0, 0, 0, 0, "최대 체력 +5", "최대 체력을 5 증가시켜주는 물약.", 1000, false, false, null, false));
-            instance.Add(new ItemData(53, "정신의 영약", ItemType.Consumable, 0, 0, 0, 0, 0, 0, 0, "최대 마나 +5", "최대 마나를 5 증가시켜주는 물약.", 1000, false, false, null, false));
-            instance.Add(new ItemData(54, "운명의 영약", ItemType.Consumable, 0, 0, 0, 0, 0, 0, 0, "최소 눈 +1", "최소 눈을 1 증가시켜주는 물약.", 1000, false, false, null, false));
-            instance.Add(new ItemData(55, "기회의 영약", ItemType.Consumable, 0, 0, 0, 0, 0, 0, 0, "주사위 +1", "주사위 개수를 1개 늘려주는 물약.", 1000, false, false, null, false));
-            instance.Add(new ItemData(56, "행운의 영약", ItemType.Consumable, 0, 0, 0, 0, 0, 0, 0, "리롤 +1", "리롤 횟수를 1 증가시켜주는 물약.", 1000, false, false, null, false));
+            instance.Add(new ItemData(50, "수호의 영약", "방어력 +1", "방어력을 1 증가시켜주는 물약.", 1000, false, false, false));
+            instance.Add(new ItemData(51, "신속의 영약", "속도 +1", "속도를 1 증가시켜주는 물약.", 1000, false, false, false));
+            instance.Add(new ItemData(52, "강건의 영약", "최대 체력 +5", "최대 체력을 5 증가시켜주는 물약.", 1000, false, false, false));
+            instance.Add(new ItemData(53, "정신의 영약", "최대 마나 +5", "최대 마나를 5 증가시켜주는 물약.", 1000, false, false, false));
+            instance.Add(new ItemData(54, "운명의 영약", "데미지 +5%", "데미지를 5% 증가시켜주는 물약.", 1000, false, false, false));
+            instance.Add(new ItemData(55, "기회의 영약", "추가데미지 +1", "추가데미지를 1 증가시켜주는 물약.", 1000, false, false, false));
 
             //Armor
-            instance.Add(new ItemData(100, "카지노 조끼", ItemType.Armor, 3, 0, 0, 0, 0, 0, 0, "방어력+3", "칩 넣는 주머니가 많다.", 700, false, false));
-            instance.Add(new ItemData(101, "찢어진 경찰복", ItemType.Armor, 5, 0, 0, 0, 0, 0, 0, "방어력+5", "도박 경찰의 경찰복.", 1000, false, false));
-            instance.Add(new ItemData(102, "딜러의 셔츠", ItemType.Armor, 7, 0, 0, 0, 0, 0, 0, "방어력+7", "건실한 사람들이 자주 입는다.", 1800, false, false));
-            instance.Add(new ItemData(103, "VIP의 갑옷", ItemType.Armor, 15, 0, 0, 0, 0, 0, 0, "방어력+15", "어딘가의 VIP가 입는 갑옷.", 3500, false, false));
+            instance.Add(new ItemData(100, "카지노 조끼", ItemType.Armor, 3, 0, 0, 0, 1, 0, "방어력+3", "칩 넣는 주머니가 많다.", 700, false, false));
+            instance.Add(new ItemData(101, "찢어진 경찰복", ItemType.Armor, 5, 0, 0, 0, 1, 0, "방어력+5", "도박 경찰의 경찰복.", 1000, false, false));
+            instance.Add(new ItemData(102, "딜러의 셔츠", ItemType.Armor, 7, 0, 0, 0, 1, 0, "방어력+7", "건실한 사람들이 자주 입는다.", 1800, false, false));
+            instance.Add(new ItemData(103, "VIP의 갑옷", ItemType.Armor, 15, 0, 0, 0, 1, 0, "방어력+15", "어딘가의 VIP가 입는 갑옷.", 3500, false, false));
 
             //Weapon
-            instance.Add(new ItemData(200, "주사위 뿅망치", ItemType.Weapon, 0, 0, 0, 0, 1, 0, 0, "최소 눈+1", "주사위 모양의 뿅망치.", 600, false, false));
-            instance.Add(new ItemData(201, "구속의 삼단봉", ItemType.Weapon, 0, 0, 0, 0, 2, 0, 0, "최소 눈+2", "도박 경찰이 잃은 경찰봉.", 900, false, false));
-            instance.Add(new ItemData(202, "마술 단검", ItemType.Weapon, 0, 0, 0, 0, 0, 1, 1, "주사위+1, 리롤+1", "단검처럼 보이는 주사위.", 1500, false, false));
-            instance.Add(new ItemData(203, "도박사의 지팡이", ItemType.Weapon, 0, 0, 0, 0, 1, 1, 0, "주사위+1, 최소 눈+1", "주사위를 생성하는 지팡이.", 2700, false, false));
+            instance.Add(new ItemData(200, "주사위 뿅망치", ItemType.Weapon, 0, 0, 0, 0, 1.02f, 0, "데미지+2%", "주사위 모양의 뿅망치.", 600, false, false));
+            instance.Add(new ItemData(201, "구속의 삼단봉", ItemType.Weapon, 0, 0, 0, 0, 1.05f, 0, "데미지+5%", "도박 경찰이 잃은 경찰봉.", 900, false, false));
+            instance.Add(new ItemData(202, "마술 단검", ItemType.Weapon, 0, 0, 0, 0, 1.03f, 1, "데미지+3%, 추가데미지+1", "단검처럼 보이는 주사위.", 1500, false, false));
+            instance.Add(new ItemData(203, "도박사의 지팡이", ItemType.Weapon, 0, 0, 0, 0, 1, 10, "추가데미지+10", "주사위를 생성하는 지팡이.", 2700, false, false));
 
             //Accessory
-            instance.Add(new ItemData(300, "도망자의 신발", ItemType.Accessory, 0, 3, 0, 0, 0, 0, 0, "속도+3", "속도를 높여주는 신발.", 800, false, false));
-            instance.Add(new ItemData(301, "체력의 반지", ItemType.Accessory, 2, 0, 30, 0, 0, 0, 0, "MaxHP+30", "밤새 게임할 수 있게된다.", 800, false, false));
+            instance.Add(new ItemData(300, "도망자의 신발", ItemType.Accessory, 0, 3, 0, 0, 1, 0, "속도+3", "속도를 높여주는 신발.", 800, false, false));
+            instance.Add(new ItemData(301, "체력의 반지", ItemType.Accessory, 2, 0, 30, 0, 1, 0, "MaxHP+30", "밤새 게임할 수 있게 된다.", 800, false, false));
         }
 
         // 아이템 획득 로직
@@ -120,9 +113,8 @@ namespace TeamProjectSecond
         public int ItemSpeed { get; set; } = 0;
         public int ItemMaxHP { get; set; } = 0;
         public int ItemMaxMP { get; set; } = 0;
-        public int MinDiceValueBonus { get; set; } = 0;
-        public int BonusDamageDice { get; set; } = 0;
-        public int BonusReroll { get; set; } = 0;
+        public float DamageMultiplier { get; set; } = 1.0f; // 배율 (예: 1.2f)
+        public int DamageBonus { get; set; } = 0; // 고정 추가 데미지
         // 설명 및 효과
         public string ItemEffectDesc { get; set; } = "";
         public string ItemLoreDesc { get; set; } = "";
@@ -140,7 +132,7 @@ namespace TeamProjectSecond
 
         public ItemData() { }
 
-        public ItemData(int id, string name, ItemType type, int def, int speed = 0, int maxHP = 0, int maxMP = 0, int minDiceBonus = 0, int bonusDD = 0, int bonusReroll = 0,
+        public ItemData(int id, string name, ItemType type, int def, int speed = 0, int maxHP = 0, int maxMP = 0, float damageMultiplier = 1.0f, int damageBonus = 0, 
                         string effect = "", string lore = "", int price = 0, bool owned = false, bool equipped = false, string? skillName = null, bool isShopItem = true)
         {
             ID = id;
@@ -150,9 +142,8 @@ namespace TeamProjectSecond
             ItemSpeed = speed;
             ItemMaxHP = maxHP;
             ItemMaxMP = maxMP;
-            MinDiceValueBonus = minDiceBonus;
-            BonusDamageDice = bonusDD;
-            BonusReroll = bonusReroll;
+            DamageMultiplier = damageMultiplier;
+            DamageBonus = damageBonus;
             ItemEffectDesc = effect;
             ItemLoreDesc = lore;
             ItemPrice = price;
@@ -163,6 +154,32 @@ namespace TeamProjectSecond
 
             ParseHealAmountFromDescription(effect);
         }
+
+        // 소비 아이템(포션/영약) 전용 생성자
+        public ItemData(int id, string name, string effect, string lore, int price, bool owned = false, bool equipped = false, bool isShopItem = true)
+        {
+            ID = id;
+            ItemName = name;
+            ItemType = ItemType.Consumable;
+
+            ItemDefensePoint = 0;
+            ItemSpeed = 0;
+            ItemMaxHP = 0;
+            ItemMaxMP = 0;
+            DamageBonus = 0;
+            DamageMultiplier = 1.0f;
+
+            ItemEffectDesc = effect;
+            ItemLoreDesc = lore;
+            ItemPrice = price;
+            IsOwned = owned;
+            IsEquipped = equipped;
+            SkillName = null;
+            IsShopItem = isShopItem;
+
+            ParseHealAmountFromDescription(effect);
+        }
+
 
 
         //HP, MP 회복 구분

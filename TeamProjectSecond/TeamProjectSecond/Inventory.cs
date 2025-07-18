@@ -244,14 +244,11 @@ namespace TeamProjectSecond
             else if (item.ItemEffectDesc.Contains("속도"))
                 c.BonusSpeed += 1;
 
-            else if (item.ItemEffectDesc.Contains("최소 눈"))
-                c.BonusMinDice += 1;
+            else if (item.ItemEffectDesc.Contains("데미지"))
+                c.BaseDamageMultiplier += 0.05f;
 
-            else if (item.ItemEffectDesc.Contains("주사위"))
-                c.BonusDiceCount += 1;
-
-            else if (item.ItemEffectDesc.Contains("리롤"))
-                c.BonusRerollCount += 1;
+            else if (item.ItemEffectDesc.Contains("추가데미지"))
+                c.BaseDamageBonus += 1;
         }
     }
 }
