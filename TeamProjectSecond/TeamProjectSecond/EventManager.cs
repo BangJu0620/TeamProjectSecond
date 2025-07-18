@@ -32,7 +32,7 @@ namespace TeamProjectSecond
                 To(41,"4. 던전\n\n");
                 To(41,"5. 휴식하기\n\n");
                 To(41,"6. 퀘스트\n\n");
-                To(41,"7. 저장 / 불러오기\n\n");
+                To(41,"7. 세이브\n\n");
                 Select();
 
                 switch (CheckInput())
