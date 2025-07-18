@@ -60,8 +60,9 @@ namespace TeamProjectSecond
                         break;
                     case 6:
                         // 퀘스트
-                        Console.Clear();
-                        Console.WriteLine("퀘스트");
+                        //Console.Clear();
+                        //Console.WriteLine("퀘스트");
+                        Character.Instance.BonusSpeed += 3;
                         break;
                     case 7:
                         // 저장/불러오기
@@ -94,6 +95,7 @@ namespace TeamProjectSecond
                 To(41,$"방어력 : {character.DefensePoint}\n\n");
                 To(41,$"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");
                 To(41,$"마  력 : {character.ManaPoint} / {character.MaxManaPoint}\n\n");
+                To(41, $"속  도 : {character.Speed} / {character.Speed + character.BonusSpeed}\n\n");
                 Console.SetCursorPosition(0, 24);
                 To(43,"1. 스킬 확인         Enter. 돌아가기");
                 Select();
