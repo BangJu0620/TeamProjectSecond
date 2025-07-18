@@ -13,20 +13,14 @@ namespace TeamProjectSecond
             while (true)
             {
                 EventManager.Clear();
-                EventManager.Background();
-                Console.SetCursorPosition(0, 2);
-                EventManager.To(56,"인 벤 토 리");
-                Console.WriteLine();
-                EventManager.To(44,"보유 중인 아이템을 관리할 수 있습니다.\n\n");
+                EventManager.To(57,"인 벤 토 리\n\n");
+                EventManager.To(45,"보유 중인 아이템을 관리할 수 있습니다.\n\n");
 
                 var sortedItems = Item.Instance
                 .Where(i => i.IsOwned)
                 .OrderByDescending(i => i.IsEquipped)
                 .ThenBy(i => i.ID)
                 .ToList();
-
-
-                EventManager.To(55,"[아이템 목록]\n\n");
                 
                 bool hasItem = false; //아이템 존재 확인
 
@@ -39,7 +33,7 @@ namespace TeamProjectSecond
                     {
                         hasItem = true;
                         string equipped = item.IsEquipped ? "[E]" : "";
-                        EventManager.To(25); Console.Write($"- {i + 1} {equipped}{item.ItemName} | {item.ItemEffectDesc} | {item.ItemLoreDesc} x{item.Quantity}");
+                        EventManager.To(33); Console.Write($"- {i + 1} {equipped}{item.ItemName} | {item.ItemEffectDesc} | {item.ItemLoreDesc} (보유: {item.Quantity})");
                     }
                 }
 
@@ -75,12 +69,9 @@ namespace TeamProjectSecond
             while (true)
             {
                 EventManager.Clear();
-                EventManager.Background();
-                Console.SetCursorPosition(0, 2);
-                EventManager.To(56,"인 벤 토 리");
+                EventManager.To(57,"인 벤 토 리\n\n");
                 Console.WriteLine();
-                EventManager.To(44,"장비를 장착하거나 해제할 수 있습니다.\n\n");
-                EventManager.To(55,"[아이템 목록]\n\n");
+                EventManager.To(45,"장비를 장착하거나 해제할 수 있습니다.\n\n");
 
                 var ownedItems = Item.Instance
                 .Where(i => i.IsOwned && i.ItemType != ItemType.Consumable)
@@ -98,10 +89,10 @@ namespace TeamProjectSecond
                 {
                     var item = ownedItems[i];
                     string equipped = item.IsEquipped ? "[E]" : "";
-                    EventManager.To(25, $"- {i + 1} {equipped}{item.ItemName} | {item.ItemEffectDesc} | {item.ItemLoreDesc} x{item.Quantity}");
+                    EventManager.To(33, $"- {i + 1} {equipped}{item.ItemName} | {item.ItemEffectDesc} | {item.ItemLoreDesc} x{item.Quantity}");
                 }
                 Console.SetCursorPosition(0, 24);
-                EventManager.To(35,$"장착/해제할 아이템 번호를 선택해주세요.   Enter. 돌아가기\n\n");
+                EventManager.To(35,$"장착 / 해제할 아이템 번호를 선택해주세요.   Enter. 돌아가기\n\n");
                 EventManager.Select();
 
                 int? input = EventManager.CheckInput();
@@ -127,7 +118,6 @@ namespace TeamProjectSecond
                             if (equippedCount >= 5)
                             {
                                 EventManager.Clear();
-                                EventManager.Background();
                                 EventManager.To(25); Console.WriteLine("\n액세서리는 최대 5개까지 착용할 수 있습니다.");
                                 Console.ReadKey();
                                 continue;
@@ -167,12 +157,8 @@ namespace TeamProjectSecond
                     .ToList();
 
                 EventManager.Clear();
-                EventManager.Background();
-                Console.SetCursorPosition(0, 2);
-                EventManager.To(56,"인 벤 토 리");
-                Console.WriteLine();
-                EventManager.To(44,"보유중인 포션을 사용할 수 있습니다.\n\n");
-                EventManager.To(55,"[포션 목록]\n\n");
+                EventManager.To(57,"인 벤 토 리\n\n");
+                EventManager.To(45,"보유 중인 포션을 사용할 수 있습니다.\n\n");
 
                 if (potions.Count == 0)
                 {
@@ -183,7 +169,7 @@ namespace TeamProjectSecond
                 for (int i = 0; i < potions.Count; i++)
                 {
                     var potion = potions[i];
-                    EventManager.To(25, $"{i + 1}. {potion.ItemName} | {potion.ItemEffectDesc} | {potion.ItemLoreDesc} (보유: {potion.Quantity})");
+                    EventManager.To(33, $"{i + 1}. {potion.ItemName} | {potion.ItemEffectDesc} | {potion.ItemLoreDesc} (보유: {potion.Quantity})");
                 }
 
                 Console.SetCursorPosition(0, 24);
@@ -234,7 +220,7 @@ namespace TeamProjectSecond
                 EventManager.Announce(45, $"MP를 {c.ManaPoint - beforeMP} 회복했습니다. (현재 MP: {c.ManaPoint}/{c.MaxManaPoint})");
             }
 
-            if (item.ItemEffectDesc.Contains("증가 물약"))
+            if (item.ItemEffectDesc.Contains("영약"))
             {
                 ApplyElixirEffect(item);
                 EventManager.Clear();
