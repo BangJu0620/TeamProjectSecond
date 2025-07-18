@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using TextRPG_Quest_Solution.QuestSystem;
+using TextRPGQuest.QuestSystem;
 
 
 namespace TeamProjectSecond
