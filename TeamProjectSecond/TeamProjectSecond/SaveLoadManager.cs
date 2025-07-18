@@ -155,7 +155,7 @@ namespace TeamProjectSecond
             }
         }
 
-        public static bool CheckExistSaveData()
+        public static bool CheckExistSaveData() // true 면 하나라도 없는 상태, false 면 다 있는 상태
         {
             if (!File.Exists("character.json") || !File.Exists("item.json") || !File.Exists("quest.json")) return true;
             else return false;
