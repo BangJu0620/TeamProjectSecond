@@ -15,6 +15,7 @@ namespace TeamProjectSecond
                 EventManager.Clear();
                 EventManager.To(57,"인 벤 토 리\n\n");
                 EventManager.To(45,"보유 중인 아이템을 관리할 수 있습니다.\n\n");
+
                 Console.ForegroundColor = ConsoleColor.White;
                 var sortedItems = Item.Instance
                 .Where(i => i.IsOwned)
@@ -71,7 +72,8 @@ namespace TeamProjectSecond
                 EventManager.Clear();
                 EventManager.To(57,"인 벤 토 리\n\n");
                 EventManager.To(45,"장비를 장착하거나 해제할 수 있습니다.\n\n");
-                Console.ForegroundColor = ConsoleColor.White;
+
+
 
                 var ownedItems = Item.Instance
                 .Where(i => i.IsOwned && i.ItemType != ItemType.Consumable)
@@ -82,14 +84,25 @@ namespace TeamProjectSecond
                 if (ownedItems.Count == 0) //보유 중인 아이템이 없으면
                 {
                     Console.SetCursorPosition(0, 8);
+                    Console.ForegroundColor = ConsoleColor.White;
                     EventManager.To(46,"- 장착 가능한 아이템이 없습니다.");
                 }
 
                 for (int i = 0; i < ownedItems.Count; i++) //보유템 나열
                 {
+
                     var item = ownedItems[i];
-                    string equipped = item.IsEquipped ? "[E]" : "";
-                    EventManager.To(33, $"- {i + 1} {equipped}{item.ItemName} | {item.ItemEffectDesc} | {item.ItemLoreDesc} (보유: {item.Quantity})\n\n");
+                    string equipped = item.IsEquipped ? "[E] " : "";
+                    if (item.IsEquipped)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        EventManager.To(33, $"- {i + 1} {equipped}{item.ItemName} | {item.ItemEffectDesc} | {item.ItemLoreDesc} (보유: {item.Quantity})\n\n");
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                        EventManager.To(33, $"- {i + 1} {equipped}{item.ItemName} | {item.ItemEffectDesc} | {item.ItemLoreDesc} (보유: {item.Quantity})\n\n");
+                    }
                 }
                 Console.SetCursorPosition(0, 24);
                 EventManager.ToS(35,$"장착 / 해제할 아이템 번호를 선택해주세요.   Enter. 돌아가기\n\n");
@@ -150,6 +163,7 @@ namespace TeamProjectSecond
                 EventManager.Clear();
                 EventManager.To(57,"인 벤 토 리\n\n");
                 EventManager.To(45,"보유 중인 포션을 사용할 수 있습니다.\n\n");
+
                 Console.ForegroundColor = ConsoleColor.White;
 
                 if (potions.Count == 0)

@@ -20,26 +20,32 @@ namespace TeamProjectSecond
                 var shopItems = Item.Instance
                     .Where(item => item.IsShopItem)
                     .ToList();
-                int blank = 18;
+
                 for (int i = (listIndex * 9) - 9; i < Math.Min(listIndex * 9, shopItems.Count - listIndex * 9 % 9); i++)
                 {
                     Console.ForegroundColor = ConsoleColor.White;
                     var item = shopItems[i];
 
-                    string priceDisplay = $"{item.ItemPrice,5} G";
-
+                    string priceDisplay = $"{item.ItemPrice,7} G";
                     string quantityInfo = item.IsOwned
-                        ? $" (보유: {item.Quantity})"
+                        ? $"(보유: {item.Quantity})"
                         : "";
 
+                    int blank = 10;
+
                     EventManager.To(blank, $"- {item.ItemName}");
+
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.Write($" {quantityInfo}");
-                    Console.SetCursorPosition(blank + 35, Console.CursorTop);
+
                     Console.ForegroundColor = ConsoleColor.White;
+                    Console.SetCursorPosition(blank + 28, Console.CursorTop);
                     Console.Write($"| {item.ItemEffectDesc}");
+
                     Console.SetCursorPosition(94, Console.CursorTop);
                     Console.Write($"| 가격: {priceDisplay}\n\n");
+                //    Console.ForegroundColor = ConsoleColor.Cyan;
+                //    EventManager.To(blank + 2,$" ㄴ{quantityInfo}\n");
                 }
                 bool goNextPage = ((shopItems.Count - listIndex * 9) % 9 != 0);  // 리스트 다음장에 아이템이 남아있는지 확인
 
@@ -85,11 +91,23 @@ namespace TeamProjectSecond
                 {
                     var item = shopItems[i];
 
-                    string quantityInfo = item.IsOwned ? $" (보유: {item.Quantity})" : "";
-                    string priceDisplay = item.IsOwned && item.ItemType != ItemType.Consumable
-                        ? "보유중"
-                        : $"{item.ItemPrice} G";
-                    EventManager.To(30, $"{i + 1}. {item.ItemName}{quantityInfo} | {item.ItemEffectDesc} | 가격: {priceDisplay}\n\n");
+                    string priceDisplay = $"{item.ItemPrice,7} G";
+                    string quantityInfo = item.IsOwned
+                        ? $"(보유: {item.Quantity})"
+                        : "";
+                    int blank = 10;
+
+                    EventManager.To(blank, $"- {item.ItemName}");
+
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write($" {quantityInfo}");
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.SetCursorPosition(blank + 28, Console.CursorTop);
+                    Console.Write($"| {item.ItemEffectDesc}");
+
+                    Console.SetCursorPosition(94, Console.CursorTop);
+                    Console.Write($"| 가격: {priceDisplay}\n\n");
                 }
 
                 Console.SetCursorPosition(0, 24);
@@ -194,8 +212,26 @@ namespace TeamProjectSecond
 
                 for (int i = (listIndex * 9) - 9; i < Math.Min(listIndex * 9, ownedItems.Count - listIndex * 9 % 9); i++)
                 {
+
                     var item = ownedItems[i];
-                    string quantityInfo = item.ItemType == ItemType.Consumable ? $" (보유: {item.Quantity})" : "";
+                    string priceDisplay = $"{item.ItemPrice,7} G";
+                    string quantityInfo = item.IsOwned
+                        ? $"(보유: {item.Quantity})"
+                        : "";
+                    int blank = 10;
+
+                    EventManager.To(blank, $"- {item.ItemName}");
+
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write($" {quantityInfo}");
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.SetCursorPosition(blank + 28, Console.CursorTop);
+                    Console.Write($"| {item.ItemEffectDesc}");
+
+                    Console.SetCursorPosition(94, Console.CursorTop);
+                    Console.Write($"| 판매가: item.GetSellPrice()\n\n");
+
                     EventManager.To(15,$"{i + 1}. {item.ItemName}{quantityInfo} - 판매가: {item.GetSellPrice()} G\n\n");
                 }
 
