@@ -28,7 +28,6 @@ namespace TeamProjectSecond
 
                 for (int i = (listIndex * 9) - 9; i < Math.Min(listIndex * 9, sortedItems.Count - listIndex * 9 % 9); i++)
                 {
-
                     var item = sortedItems[i];
 
                     string type;    //해당 아이템의 타입에 따라 출력되는 문구가 변경됩니다.
