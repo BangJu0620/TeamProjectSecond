@@ -15,7 +15,7 @@ namespace TeamProjectSecond
                 EventManager.Clear();
                 EventManager.To(57,"인 벤 토 리\n\n");
                 EventManager.To(45,"보유 중인 아이템을 관리할 수 있습니다.\n\n");
-
+                Console.ForegroundColor = ConsoleColor.White;
                 var sortedItems = Item.Instance
                 .Where(i => i.IsOwned)
                 .OrderByDescending(i => i.IsEquipped)
@@ -33,7 +33,7 @@ namespace TeamProjectSecond
                     {
                         hasItem = true;
                         string equipped = item.IsEquipped ? "[E]" : "";
-                        EventManager.To(33); Console.Write($"- {i + 1} {equipped}{item.ItemName} | {item.ItemEffectDesc} | {item.ItemLoreDesc} (보유: {item.Quantity})");
+                        EventManager.To(33); Console.Write($"- {equipped}{item.ItemName} | {item.ItemEffectDesc} | {item.ItemLoreDesc} (보유: {item.Quantity})\n\n");
                     }
                 }
 
@@ -44,7 +44,7 @@ namespace TeamProjectSecond
                 }
                 
                 Console.SetCursorPosition(0, 24);
-                EventManager.To(40,$"1. 장착 관리   2. 포션 사용  Enter. 돌아가기\n\n");
+                EventManager.ToS(40,$"1. 장착 관리   2. 포션 사용  Enter. 돌아가기\n\n");
                 EventManager.Select();
 
                 switch (EventManager.CheckInput())
@@ -70,8 +70,8 @@ namespace TeamProjectSecond
             {
                 EventManager.Clear();
                 EventManager.To(57,"인 벤 토 리\n\n");
-                Console.WriteLine();
                 EventManager.To(45,"장비를 장착하거나 해제할 수 있습니다.\n\n");
+                Console.ForegroundColor = ConsoleColor.White;
 
                 var ownedItems = Item.Instance
                 .Where(i => i.IsOwned && i.ItemType != ItemType.Consumable)
@@ -89,15 +89,14 @@ namespace TeamProjectSecond
                 {
                     var item = ownedItems[i];
                     string equipped = item.IsEquipped ? "[E]" : "";
-                    EventManager.To(33, $"- {i + 1} {equipped}{item.ItemName} | {item.ItemEffectDesc} | {item.ItemLoreDesc} x{item.Quantity}");
+                    EventManager.To(33, $"- {i + 1} {equipped}{item.ItemName} | {item.ItemEffectDesc} | {item.ItemLoreDesc} (보유: {item.Quantity})\n\n");
                 }
                 Console.SetCursorPosition(0, 24);
-                EventManager.To(35,$"장착 / 해제할 아이템 번호를 선택해주세요.   Enter. 돌아가기\n\n");
+                EventManager.ToS(35,$"장착 / 해제할 아이템 번호를 선택해주세요.   Enter. 돌아가기\n\n");
                 EventManager.Select();
 
                 int? input = EventManager.CheckInput();
-                if (input == null)
-                    return;
+                if (input == null) return;
 
                 else if (input >= 1 && input <= ownedItems.Count)
                 {
@@ -117,9 +116,7 @@ namespace TeamProjectSecond
                             int equippedCount = ownedItems.Count(i => i.ItemType == ItemType.Accessory && i.IsEquipped);
                             if (equippedCount >= 5)
                             {
-                                EventManager.Clear();
-                                EventManager.To(25); Console.WriteLine("\n액세서리는 최대 5개까지 착용할 수 있습니다.");
-                                Console.ReadKey();
+                                EventManager.Announce(45,"액세서리는 최대 5개까지 착용할 수 있습니다.");
                                 continue;
                             }
                         }
@@ -129,21 +126,15 @@ namespace TeamProjectSecond
                             foreach (var item in ownedItems)
                             {
                                 if (item.ItemType == selectedItem.ItemType && item.IsEquipped)
-                                {
                                     item.IsEquipped = false;
-                                }
                             }
                         }
-
                         selectedItem.IsEquipped = true;
-
-                        EventManager.Announce(45, $"\n{selectedItem.ItemName}을(를) 장착했습니다.");
+                        EventManager.Announce(45, $"{selectedItem.ItemName}을(를) 장착했습니다.");
                     }
                 }
                 else
-                {
                     EventManager.Wrong();
-                }
             }
         }
 
@@ -159,6 +150,7 @@ namespace TeamProjectSecond
                 EventManager.Clear();
                 EventManager.To(57,"인 벤 토 리\n\n");
                 EventManager.To(45,"보유 중인 포션을 사용할 수 있습니다.\n\n");
+                Console.ForegroundColor = ConsoleColor.White;
 
                 if (potions.Count == 0)
                 {
@@ -169,11 +161,11 @@ namespace TeamProjectSecond
                 for (int i = 0; i < potions.Count; i++)
                 {
                     var potion = potions[i];
-                    EventManager.To(33, $"{i + 1}. {potion.ItemName} | {potion.ItemEffectDesc} | {potion.ItemLoreDesc} (보유: {potion.Quantity})");
+                    EventManager.To(33, $"{i + 1}. {potion.ItemName} | {potion.ItemEffectDesc} | {potion.ItemLoreDesc} (보유: {potion.Quantity})\n\n");
                 }
 
                 Console.SetCursorPosition(0, 24);
-                EventManager.To(35,$"사용할 아이템 번호를 선택해주세요.   Enter. 돌아가기\n\n");
+                EventManager.ToS(36,$"사용할 아이템 번호를 선택해주세요.   Enter. 돌아가기\n\n");
                 EventManager.Select();
 
                 int? input = EventManager.CheckInput();
@@ -205,25 +197,19 @@ namespace TeamProjectSecond
                 int beforeHP = c.HealthPoint;
                 c.HealthPoint = Math.Min(beforeHP + item.ItemHealHPAmount, c.MaxHealthPoint);
 
-                EventManager.Clear();
-                Console.SetCursorPosition(0, 14);
-                EventManager.Announce(45, $"HP를 {c.HealthPoint - beforeHP} 회복했습니다. (현재 HP: {c.HealthPoint}/{c.MaxHealthPoint})\n");
+                EventManager.Announce(45, $"HP를 {c.HealthPoint - beforeHP} 회복했습니다. (현재 HP: {c.HealthPoint}/{c.MaxHealthPoint}");
             }
 
             if (item.ItemHealMPAmount > 0)
             {
                 int beforeMP = c.ManaPoint;
                 c.ManaPoint = Math.Min(beforeMP + item.ItemHealMPAmount, c.MaxManaPoint);
-
-                EventManager.Clear();
-                Console.SetCursorPosition(0, 14);
                 EventManager.Announce(45, $"MP를 {c.ManaPoint - beforeMP} 회복했습니다. (현재 MP: {c.ManaPoint}/{c.MaxManaPoint})");
             }
 
             if (item.ItemEffectDesc.Contains("영약"))
             {
                 ApplyElixirEffect(item);
-                EventManager.Clear();
                 EventManager.Announce(45, $"{item.ItemName}을(를) 사용하여 능력치가 영구 상승했습니다!");
             }
         }
@@ -244,14 +230,11 @@ namespace TeamProjectSecond
             else if (item.ItemEffectDesc.Contains("속도"))
                 c.BonusSpeed += 1;
 
-            else if (item.ItemEffectDesc.Contains("최소 눈"))
-                c.BonusMinDice += 1;
+            else if (item.ItemEffectDesc.Contains("데미지"))
+                c.BaseDamageMultiplier += 0.05f;
 
-            else if (item.ItemEffectDesc.Contains("주사위"))
-                c.BonusDiceCount += 1;
-
-            else if (item.ItemEffectDesc.Contains("리롤"))
-                c.BonusRerollCount += 1;
+            else if (item.ItemEffectDesc.Contains("추가데미지"))
+                c.BaseDamageBonus += 1;
         }
     }
 }

@@ -86,4 +86,59 @@ public class Monster
             }
         }
     };
+    public static List<Monster> Gen(int a, int b, int maxRank)
+    {
+        Random rand = new Random();
+
+        // 가능한 랭크 조합 생성 (1~maxRank 사이의 수 1~3개로 구성, 합이 a 이상 b 이하)
+        List<List<int>> validRankCombinations = new List<List<int>>();
+
+        void Search(List<int> current, int sum)
+        {
+            if (current.Count > 3 || sum > b) return;
+            if (current.Count > 0 && sum >= a && sum <= b)
+            {
+                validRankCombinations.Add(new List<int>(current));
+            }
+
+            for (int r = 1; r <= maxRank; r++)
+            {
+                current.Add(r);
+                Search(current, sum + r);
+                current.RemoveAt(current.Count - 1);
+            }
+        }
+
+        Search(new List<int>(), 0);
+
+        if (validRankCombinations.Count == 0)
+            return new List<Monster>();  // 조건 만족하는 조합이 없음
+
+        // 랜덤 조합 선택
+        List<int> chosenRanks = validRankCombinations[rand.Next(validRankCombinations.Count)];
+
+        List<Monster> result = new List<Monster>();
+
+        foreach (int rank in chosenRanks)
+        {
+            if (!MonsterDictionary.ContainsKey(rank) || MonsterDictionary[rank].Count == 0)
+                continue;
+
+            // 해당 랭크에서 랜덤 몬스터 선택 후 복제해서 넣기
+            Monster template = MonsterDictionary[rank][rand.Next(MonsterDictionary[rank].Count)];
+            result.Add(new Monster(
+                template.Rank,
+                template.Index,
+                template.Name,
+                template.BaseAttack,
+                template.Defense,
+                template.Speed,
+                template.MaxHP,
+                template.Cry,
+                template.CryToT
+            ));
+        }
+
+        return result;
+    }
 }

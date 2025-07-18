@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using TextRPG_Quest_Solution.QuestSystem;
+using TextRPGQuest.QuestSystem;
 
 namespace TeamProjectSecond
 {

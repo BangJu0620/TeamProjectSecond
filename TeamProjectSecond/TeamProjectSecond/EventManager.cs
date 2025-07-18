@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamProjectSecond;
-using TextRPG_Quest_Solution.QuestSystem;
-using TextRPG_Quest_Solution.SaveSystem;
-using TextRPGQuest.Data.QuestSystem;
+using TextRPGQuest.QuestSystem;
+using TextRPGQuest.SaveSystem;
+
 
 
 namespace TeamProjectSecond
@@ -26,13 +26,14 @@ namespace TeamProjectSecond
                 Clear();
                 To(56," 주사위 마을\n\n");
                 To(46,"이곳에서 행동을 선택할 수 있습니다.\n\n\n");
-                To(41,"1. 상태창\n\n");
-                To(41,"2. 소지품 확인\n\n");
-                To(41,"3. 상점\n\n");
-                To(41,"4. 던전\n\n");
-                To(41,"5. 휴식하기\n\n");
-                To(41,"6. 퀘스트\n\n");
-                To(41,"7. 세이브\n\n");
+                Console.ForegroundColor = ConsoleColor.White;
+                To(43,"1. 상태창\n\n");
+                To(43,"2. 소지품 확인\n\n");
+                To(43,"3. 상점\n\n");
+                To(43,"4. 던전\n\n");
+                To(43,"5. 휴식하기\n\n");
+                To(43,"6. 퀘스트\n\n");
+                To(43,"7. 저장 / 불러오기\n\n");
                 Select();
 
                 switch (CheckInput())
@@ -60,9 +61,8 @@ namespace TeamProjectSecond
                         break;
                     case 6:
                         // 퀘스트
-                        //Console.Clear();
-                        //Console.WriteLine("퀘스트");
-                        Character.Instance.BonusSpeed += 3;
+                        Console.Clear();
+                        Console.WriteLine("퀘스트");
                         break;
                     case 7:
                         // 저장/불러오기
@@ -87,17 +87,16 @@ namespace TeamProjectSecond
                 Clear();
                 To(57," 상 태 창\n\n");
                 To(46,"캐릭터의 정보를 확인할 수 있습니다.\n\n\n");
-                To(41,$"Lv. {character.Level} {character.ClassType}\n\n");
-                To(41,$"경험치 {character.Exp}\n\n");  //  / {character.RequiredExp}
-                To(41,$"{character.Name}\n\n");
-                To(41,$"주사위 수 : {character.DiceCount}\n\n");
-                To(41,$"리롤 횟수 : {character.RerollCount}\n\n");
-                To(41,$"방어력 : {character.DefensePoint}\n\n");
-                To(41,$"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");
-                To(41,$"마  력 : {character.ManaPoint} / {character.MaxManaPoint}\n\n");
-                To(41, $"속  도 : {character.Speed} / {character.Speed + character.BonusSpeed}\n\n");
+                Console.ForegroundColor = ConsoleColor.White;
+                To(43,$"Lv. {character.Level}  {character.ClassType}  {character.Name}\n\n");
+                To(43,$"경험치 {character.Exp}\n\n");  // {character.RequiredExp}
+                To(43,$"주사위 : {character.DiceCount}개\n\n");
+             // To(41,$"속  도 : {character.RerollCount}\n\n");
+                To(43,$"방어력 : {character.DefensePoint}\n\n");
+                To(43,$"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");
+                To(43,$"마  력 : {character.ManaPoint} / {character.MaxManaPoint}\n\n");
                 Console.SetCursorPosition(0, 24);
-                To(43,"1. 스킬 확인         Enter. 돌아가기");
+                ToS(44,"1. 스킬 확인         Enter. 돌아가기");
                 Select();
              
                 switch (CheckInput())
@@ -141,11 +140,19 @@ namespace TeamProjectSecond
             Console.Write(new string(' ', i)); Console.Write(text);
         }
 
+        public static void ToS(int i, string text)  //띄어쓰기 + 문자열 + 컬러 다크옐로우
+        {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.Write(new string(' ', i)); Console.Write(text);
+        }
+
         public static void Select() // 선택지 입력창을 호출하는 함수
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.SetCursorPosition(0, 26);
-            To(43,"원하시는 행동의 번호를 입력해주세요.\n");
-            To(43,"▶▶ ");
+            To(44,"원하시는 행동의 번호를 입력해주세요.\n");
+            To(44,"▶▶ ");
+            Console.ResetColor();
         }
 
         public static void Wrong()  // "잘못된 입력입니다."를 출력하는 함수
@@ -170,6 +177,7 @@ namespace TeamProjectSecond
 
         public static void Clear() // 화면을 청소하는 함수
         {
+            Console.ForegroundColor = ConsoleColor.Gray;
             string[] repeated = { "⚀", "⚁", "⚂", "⚃", "⚄", "⚅" };
             for (int j = 0; j < 6; j++)
             {
