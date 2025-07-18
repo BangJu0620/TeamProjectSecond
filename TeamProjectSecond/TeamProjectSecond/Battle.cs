@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using TeamProjectSecond;
 
 namespace TeamProjectSecond
-{ 
-    public class Battle
+{
+    public static class Battle
     {
-
+       
     }
 }
