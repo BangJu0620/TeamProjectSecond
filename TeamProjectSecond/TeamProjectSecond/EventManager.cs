@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamProjectSecond;
-using TextRPG_Quest_Solution.QuestSystem;
-using TextRPG_Quest_Solution.SaveSystem;
-using TextRPGQuest.Data.QuestSystem;
+using TextRPGQuest.QuestSystem;
+using TextRPGQuest.SaveSystem;
+
 
 
 namespace TeamProjectSecond

@@ -22,7 +22,7 @@ namespace TextRPGQuest.SaveSystem
 
             player.Save();
             Console.WriteLine("게임이 저장되었습니다.");
-            QuestDatabase.Save("quest.json");
+            QuestDatabase.Save("TextRPGQuest.json");
             var json = JsonSerializer.Serialize(player, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText("PlayerData.json", json);
 
@@ -30,7 +30,7 @@ namespace TextRPGQuest.SaveSystem
 
         public static void Load(Player player)
         {
-            QuestDatabase.Load("quest.json");
+            QuestDatabase.Load("TextRPGQuest.json");
             player.Load();
             Console.WriteLine("게임이 불러와졌습니다.");
         }

@@ -1,4 +1,4 @@
-﻿using TextRPG_Quest_Solution.QuestSystem;
+﻿using TextRPGQuest.QuestSystem;
 
 namespace TeamProjectSecond
 {

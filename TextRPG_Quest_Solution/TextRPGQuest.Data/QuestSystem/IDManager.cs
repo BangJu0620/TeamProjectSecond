@@ -20,6 +20,7 @@ namespace TextRPGQuest.QuestSystem
         {
             return ++currentID;
         }
+
     }
 }
 
