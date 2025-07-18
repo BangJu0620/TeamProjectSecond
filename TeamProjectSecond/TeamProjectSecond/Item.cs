@@ -55,18 +55,23 @@ namespace TeamProjectSecond
             instance.Add(new ItemData(101, "찢어진 경찰복", ItemType.Armor, 5, 0, 0, 0, 1, 0, 0, "방어력+5", "도박 경찰의 경찰복.", 1000, false, false));
             instance.Add(new ItemData(102, "딜러의 셔츠", ItemType.Armor, 7, 0, 0, 0, 1, 0, 0, "방어력+7", "건실한 사람들이 자주 입는다.", 1800, false, false));
             instance.Add(new ItemData(103, "VIP의 갑옷", ItemType.Armor, 15, 0, 0, 0, 1, 0, 0, "방어력+15", "어딘가의 VIP가 입는 갑옷.", 3500, false, false));
+            instance.Add(new ItemData(104, "보석상의 정장", ItemType.Armor, 13, 2, 0, 0, 1, 0, 0, "방어력+13, 속도+2", "보석을 지킨다.", 3000, false, false));
 
             //Weapon
             instance.Add(new ItemData(200, "주사위 뿅망치", ItemType.Weapon, 0, 0, 0, 0, 1.02f, 0, 0, "데미지+2%", "주사위 모양의 뿅망치.", 600, false, false));
             instance.Add(new ItemData(201, "구속의 삼단봉", ItemType.Weapon, 0, 0, 0, 0, 1.05f, 0, 0, "데미지+5%", "도박 경찰이 내기에서 잃은 경찰봉.", 900, false, false));
             instance.Add(new ItemData(202, "마술 단검", ItemType.Weapon, 0, 0, 0, 0, 1.03f, 1, 0, "데미지+3%, 추가데미지+1", "단검처럼 보이는 주사위.", 1500, false, false));
             instance.Add(new ItemData(203, "도박사의 지팡이", ItemType.Weapon, 0, 0, 0, 0, 1, 10, 0, "추가데미지+10", "주사위를 생성하는 지팡이.", 2700, false, false));
+            instance.Add(new ItemData(204, "야구방망이", ItemType.Weapon, 0, 0, 0, 0, 1.05f, 5, 0, "데미지+5%, 추가데미지+5", "경비원이 사용하는 빠따.", 3000, false, false));
 
             //Accessory
             instance.Add(new ItemData(300, "도망자의 신발", ItemType.Accessory, 0, 3, 0, 0, 1, 0, 0, "속도+3", "속도를 높여주는 신발.", 800, false, false));
             instance.Add(new ItemData(301, "체력의 반지", ItemType.Accessory, 2, 0, 30, 0, 1, 0, 0, "방어력+2, MaxHP+30", "밤새 게임할 수 있게 된다.", 800, false, false));
             instance.Add(new ItemData(302, "파산자의 목걸이", ItemType.Accessory, -2, 0, 0, 0, 1, 5, 0, "방어력-2, 추가데미지+5", "따서 갚는다.", 800, false, false, null, false));
             instance.Add(new ItemData(303, "경찰 배지", ItemType.Accessory, 0, 0, 0, 50, 1, 3, 0, "MaxMP+50, 추가데미지+3", "이거까지 내기에 걸어?", 800, false, false, null, false));
+            instance.Add(new ItemData(304, "행운의 칩", ItemType.Accessory, 0, 0, 0, 0, 1, 0, 1, "리롤+1", "일이 잘 풀릴 것 같다.", 800, false, false, null, false));
+            instance.Add(new ItemData(305, "딜러의 카드덱", ItemType.Accessory, 0, 0, 0, 0, 1.04f, 0, 0, "데미지+4%", "딜러의 카드덱.", 800, false, false, null, false));
+            instance.Add(new ItemData(306, "결혼 반지", ItemType.Accessory, 0, 0, 50, 0, 1, -6, 0, "MaxHP+50, 추가데미지-6", "누군가 내기로 건 반지.", 800, false, false, null, false));
         }
 
         // 아이템 획득 로직
