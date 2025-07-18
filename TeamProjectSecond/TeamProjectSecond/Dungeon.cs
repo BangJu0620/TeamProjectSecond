@@ -168,7 +168,7 @@ namespace TeamProjectSecond
         {
             DungeonStage stage = GetCurrentStage();
 
-            Console.WriteLine(stage.IsBoss ? "보스 몬스터가 나타났다!" : "몬스터가 나타났다!");
+            EventManager.ToS(44, stage.IsBoss ? "보스 몬스터가 나타났다!" : "몬스터가 나타났다!");
 
             List<Monster> enemies = GenerateMonstersForCurrentStage();
 
