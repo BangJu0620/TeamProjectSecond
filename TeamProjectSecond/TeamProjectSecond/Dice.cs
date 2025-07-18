@@ -15,7 +15,7 @@ namespace TeamProjectSecond
         public Func<int, int> Transform { get; set; } = null;
 
         public DiceType Type { get; set; }
-        public int Index { get; set; }       // 1,2 는 SD, 3번부터 DD
+        public int Index { get; set; }       // 0은 ID, 1,2 는 SD, 3번부터 DD
 
         public Dice(int min, int max, DiceType type, int index)
         {
