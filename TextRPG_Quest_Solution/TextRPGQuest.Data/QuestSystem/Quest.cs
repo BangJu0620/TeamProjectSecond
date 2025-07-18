@@ -13,12 +13,12 @@ namespace TextRPGQuest.QuestSystem
         public string Description { get; set; }
         public QuestCategory Category { get; set; }
         public int GoalCount { get; set; }
-        public int CurrentCount { get; set; }
+        public int CurrentCount { get; set; } = 0;
         public int RewardGold { get; set; }
         public int RewardExp { get; set; }
-        public QuestStatus Status { get; set; }
+        public QuestStatus Status { get; set; } = QuestStatus.NotStarted;
 
-
+        public Quest() { }
 
         public Quest(int id, string title, string desc, QuestCategory category, int goal, int gold, int exp)
         {

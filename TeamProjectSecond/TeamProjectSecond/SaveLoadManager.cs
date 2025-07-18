@@ -100,8 +100,7 @@ namespace TeamProjectSecond
 
         public static void SaveQuestData(string filePath)
         {
-            var questData = QuestDatabase.Quests;
-            string json = JsonSerializer.Serialize(questData, new JsonSerializerOptions { WriteIndented = true });
+            string json = JsonSerializer.Serialize(QuestDatabase.AllQuests, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(filePath, json);
         }
 
@@ -147,8 +146,8 @@ namespace TeamProjectSecond
 
             if(loadedQuestData != null)
             {
-                QuestDatabase.Quests.Clear();
-                QuestDatabase.Quests.AddRange(loadedQuestData);
+                QuestDatabase.AllQuests.Clear();
+                QuestDatabase.AllQuests.AddRange(loadedQuestData);
             }
         }
 

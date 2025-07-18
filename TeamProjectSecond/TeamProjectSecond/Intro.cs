@@ -15,8 +15,8 @@ namespace TeamProjectSecond
             EventManager.Clear();           // 맨 처음에 실행되게 해서 주사위배경 그려주기
 
             if (SaveLoadManager.CheckExistSaveData())
-            {
-                QuestDatabase.InitDefaultQuests();
+            { 
+                QuestDatabase.RegisterDefaultQuests();
                 SetName();                  // 이름 받기
                 SetClass(classTypeChange);  // 클래스 설정
             }
