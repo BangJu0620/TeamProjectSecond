@@ -24,7 +24,7 @@ namespace TeamProjectSecond
 
                 for (int i = (listIndex * 9) - 9; i < Math.Min(listIndex * 9, shopItems.Count - listIndex * 9 % 9); i++)
                 {
-                    Console.ForegroundColor = ConsoleColor.White;
+
                     var item = shopItems[i];
 
                     string priceDisplay = $"{item.ItemPrice,8} G";
@@ -32,13 +32,22 @@ namespace TeamProjectSecond
                         ? $"(보유: {item.Quantity})"
                         : "";
 
+                    string type;    //해당 아이템의 타입에 따라 출력되는 문구가 변경됩니다.
+                    if (item.ItemType == ItemType.Weapon) type = "무  기";
+                    else if (item.ItemType == ItemType.Armor) type = "방어구";
+                    else if (item.ItemType == ItemType.Accessory) type = "장신구";
+                    else type = "소모품";
+
                     EventManager.To(5, $"- {item.ItemName}");
 
-                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write($" {quantityInfo}");
 
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.SetCursorPosition(38, Console.CursorTop);
+                    Console.Write($"| {type} ");
+
+                    Console.SetCursorPosition(47, Console.CursorTop);
                     Console.Write($"| {item.ItemEffectDesc}");
 
                     Console.SetCursorPosition(98, Console.CursorTop);
@@ -90,6 +99,12 @@ namespace TeamProjectSecond
                 {
                     var item = shopItems[i];
 
+                    string type;    //해당 아이템의 타입에 따라 출력되는 문구가 변경됩니다.
+                    if (item.ItemType == ItemType.Weapon) type = "무  기";
+                    else if (item.ItemType == ItemType.Armor) type = "방어구";
+                    else if (item.ItemType == ItemType.Accessory) type = "장신구";
+                    else type = "소모품";
+
                     string priceDisplay = $"{item.ItemPrice,8} G";
                     string quantityInfo = item.IsOwned
                         ? $"(보유: {item.Quantity})"
@@ -97,11 +112,14 @@ namespace TeamProjectSecond
 
                     EventManager.To(5, $"{i + 1}. {item.ItemName}");
 
-                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write($" {quantityInfo}");
 
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.SetCursorPosition(38, Console.CursorTop);
+                    Console.Write($"| {type} ");
+
+                    Console.SetCursorPosition(47, Console.CursorTop);
                     Console.Write($"| {item.ItemEffectDesc}");
 
                     Console.SetCursorPosition(98, Console.CursorTop);
@@ -213,14 +231,22 @@ namespace TeamProjectSecond
                     string quantityInfo = item.IsOwned
                         ? $"(보유: {item.Quantity})"
                         : "";
+                    string type;    //해당 아이템의 타입에 따라 출력되는 문구가 변경됩니다.
+                    if (item.ItemType == ItemType.Weapon) type = "무  기";
+                    else if (item.ItemType == ItemType.Armor) type = "방어구";
+                    else if (item.ItemType == ItemType.Accessory) type = "장신구";
+                    else type = "소모품";
 
                     EventManager.To(5, $"{i + 1}. {item.ItemName}");
 
-                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write($" {quantityInfo}");
 
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.SetCursorPosition(38, Console.CursorTop);
+                    Console.Write($"| {type} ");
+
+                    Console.SetCursorPosition(47, Console.CursorTop);
                     Console.Write($"| {item.ItemEffectDesc}");
 
                     Console.SetCursorPosition(98, Console.CursorTop);
