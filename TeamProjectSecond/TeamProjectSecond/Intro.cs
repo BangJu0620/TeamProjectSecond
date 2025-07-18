@@ -14,13 +14,13 @@ namespace TeamProjectSecond
         {
             EventManager.Clear();           // 맨 처음에 실행되게 해서 주사위배경 그려주기
 
-            if (SaveLoadManager.CheckExistSaveData())
+            if (SaveLoadManager.CheckExistSaveData())   // 세이브 데이터가 없다면 인트로 실행
             { 
                 QuestDatabase.RegisterDefaultQuests();
                 SetName();                  // 이름 받기
                 SetClass(classTypeChange);  // 클래스 설정
             }
-            else
+            else    // 세이브 데이터가 있다면 데이터를 불러옴
             {
                 SaveLoadManager.LoadCharacterData("character.json");
                 SaveLoadManager.LoadItemData("item.json");
@@ -29,17 +29,17 @@ namespace TeamProjectSecond
             }
         }
 
-        public static void SetName()
+        public static void SetName()    // 이름 입력하기
         {
             while (true)
             {
                 string name = WriteName();          // 이름 입력받기
-                int userSelect = CheckName(name);   // 이름 맞는지 확인
+                int userSelect = CheckName(name);   // 입력한 이름 맞는지 확인
                 if (userSelect == 1) break;
             }
         }
 
-        public static string WriteName()
+        public static string WriteName()    // 이름 입력받기
         {
             while (true)
             {
@@ -54,7 +54,7 @@ namespace TeamProjectSecond
             }
         }
 
-        public static int CheckName(string name)
+        public static int CheckName(string name)    // 입력한 이름 맞는지 확인
         {
             while (true)
             {
@@ -82,7 +82,7 @@ namespace TeamProjectSecond
             }
         }
 
-        public static void SetClass(ClassTypeChange classTypeChange)
+        public static void SetClass(ClassTypeChange classTypeChange)    // 클래스 선택하기
         {
             while (true)
             {
@@ -92,7 +92,7 @@ namespace TeamProjectSecond
             }
         }
 
-        public static void SelectClass(ClassTypeChange classTypeChange)
+        public static void SelectClass(ClassTypeChange classTypeChange) // 클래스 입력하기
         {
             while (true)
             {
@@ -122,7 +122,7 @@ namespace TeamProjectSecond
             }
         }
 
-        public static int CheckClass()
+        public static int CheckClass()  // 입력한 클래스 확인하기
         {
             while (true)
             {

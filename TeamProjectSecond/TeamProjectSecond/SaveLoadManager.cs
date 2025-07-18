@@ -31,21 +31,21 @@ namespace TeamProjectSecond
                 {
                     case null:
                         return;
-                    case 1: // 캐릭터, 아이템 정보를 세이브
+                    case 1: // 캐릭터, 아이템, 퀘스트 정보를 세이브
                         EventManager.Clear();
                         SaveCharacterData("character.json");
                         SaveItemData("item.json");
                         SaveQuestData("quest.json");
                         EventManager.Announce(51, "세이브가 완료되었습니다.");
                         break;
-                    case 2: // 캐릭터, 아이템 정보를 로드
+                    case 2: // 캐릭터, 아이템, 퀘스트 정보를 삭제
                         EventManager.Clear();
-                        if (CheckExistSaveData())   // 셋 중 하나라도 없으면 없다고 출력
+                        if (CheckExistSaveData())   // 셋 중 하나라도 없으면 없다고 출력, 이후 세이브 화면으로 돌아감
                         {
                             EventManager.Announce(51, "세이브 파일이 없습니다.");
                             break;
                         }
-                        CheckDeleteSaveData();
+                        CheckDeleteSaveData();  // 삭제할건지 재차 확인
                         break;
                     default:
                         EventManager.Wrong();
@@ -69,8 +69,8 @@ namespace TeamProjectSecond
 
                 switch (EventManager.CheckInput())
                 {
-                    case null: return;
-                    case 1:
+                    case null: return;  // Enter 입력시 돌아감
+                    case 1: // 1 입력시 세이브 삭제
                         EventManager.Clear();
                         File.Delete("character.json");
                         File.Delete("item.json");
@@ -102,7 +102,7 @@ namespace TeamProjectSecond
             File.WriteAllText(filePath, json);
         }
 
-        public static void SaveQuestData(string filePath)
+        public static void SaveQuestData(string filePath)   // 퀘스트 데이터 저장
         {
             string json = JsonSerializer.Serialize(QuestDatabase.AllQuests, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(filePath, json);
@@ -139,7 +139,7 @@ namespace TeamProjectSecond
             }
         }
 
-        public static void LoadQuestData(string filePath)
+        public static void LoadQuestData(string filePath)   // 퀘스트 데이터 불러오기
         {
             if (!File.Exists(filePath))
             {
@@ -155,7 +155,7 @@ namespace TeamProjectSecond
             }
         }
 
-        public static bool CheckExistSaveData()
+        public static bool CheckExistSaveData() // 세이브 파일 3개 있는지 확인용
         {
             if (!File.Exists("character.json") || !File.Exists("item.json") || !File.Exists("quest.json")) return true;
             else return false;
