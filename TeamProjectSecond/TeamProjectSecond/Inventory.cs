@@ -220,7 +220,7 @@ namespace TeamProjectSecond
                 EventManager.Announce(45, $"MP를 {c.ManaPoint - beforeMP} 회복했습니다. (현재 MP: {c.ManaPoint}/{c.MaxManaPoint})");
             }
 
-            if (item.ItemEffectDesc.Contains("증가 물약"))
+            if (item.ItemEffectDesc.Contains("영약"))
             {
                 ApplyElixirEffect(item);
                 EventManager.Clear();
