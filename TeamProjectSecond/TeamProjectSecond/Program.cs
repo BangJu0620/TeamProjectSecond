@@ -9,8 +9,7 @@ namespace TeamProjectSecond
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.CursorVisible = false;
             ClassTypeChange classTypeChange = new ClassTypeChange();
-            //QuestDatabase.Register();
-            Intro.DisplayIntro(classTypeChange);
+            Intro.DisplayTitle(classTypeChange);
             EventManager.DisplayMainUI();
         }
     }

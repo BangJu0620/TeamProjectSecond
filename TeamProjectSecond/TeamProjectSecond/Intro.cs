@@ -10,36 +10,56 @@ namespace TeamProjectSecond
 {
     public static class Intro
     {
-        public static void DisplayIntro(ClassTypeChange classTypeChange)
+        public static void DisplayTitle(ClassTypeChange classTypeChange)
         {
-            EventManager.Clear();           // 맨 처음에 실행되게 해서 주사위배경 그려주기
-
-            if (SaveLoadManager.CheckExistSaveData())
-            { 
-                QuestDatabase.RegisterDefaultQuests();
-                SetName();                  // 이름 받기
-                SetClass(classTypeChange);  // 클래스 설정
-            }
-            else
+            while (true)
             {
-                SaveLoadManager.LoadCharacterData("character.json");
-                SaveLoadManager.LoadItemData("item.json");
-                SaveLoadManager.LoadQuestData("quest.json");
-                EventManager.Announce(50, "다시 오신 걸 환영합니다.");
+                EventManager.Clear();
+                EventManager.To(58, "타  이  틀\n\n");
+
+                EventManager.To(42, "1. 새로 시작\n\n\n\n\n");
+                EventManager.To(42, "2. 이어하기\n\n\n\n\n");
+                EventManager.Select();
+
+                switch (EventManager.CheckInput())
+                {
+                    case 1:
+                        QuestDatabase.RegisterDefaultQuests();  // 퀘스트 생성
+                        SetName();                  // 이름 받기
+                        SetClass(classTypeChange);  // 클래스 설정
+                        return;
+                    case 2:
+                        if (SaveLoadManager.CheckExistSaveData())   // 세이브 파일 존재하는지 확인
+                        {
+                            EventManager.Announce(50, "세이브 파일이 없습니다.");
+                            break;
+                        }
+                        if (SaveLoadManager.CheckEmptySaveData())   // 세이브 파일 비어있는지 확인
+                        {
+                            EventManager.Announce(48, "세이브 파일이 비어있습니다.");
+                            break;
+                        }
+                        SaveLoadData.LoadAllData("save.json");
+                        EventManager.Announce(50, "다시 오신 걸 환영합니다.");
+                        return;
+                    default:
+                        EventManager.Wrong();
+                        break;
+                }
             }
         }
 
-        public static void SetName()
+        public static void SetName()    // 이름 입력하기
         {
             while (true)
             {
                 string name = WriteName();          // 이름 입력받기
-                int userSelect = CheckName(name);   // 이름 맞는지 확인
+                int userSelect = CheckName(name);   // 입력한 이름 맞는지 확인
                 if (userSelect == 1) break;
             }
         }
 
-        public static string WriteName()
+        public static string WriteName()    // 이름 입력받기
         {
             while (true)
             {
@@ -54,7 +74,7 @@ namespace TeamProjectSecond
             }
         }
 
-        public static int CheckName(string name)
+        public static int CheckName(string name)    // 입력한 이름 맞는지 확인
         {
             while (true)
             {
@@ -82,7 +102,7 @@ namespace TeamProjectSecond
             }
         }
 
-        public static void SetClass(ClassTypeChange classTypeChange)
+        public static void SetClass(ClassTypeChange classTypeChange)    // 클래스 선택하기
         {
             while (true)
             {
@@ -92,7 +112,7 @@ namespace TeamProjectSecond
             }
         }
 
-        public static void SelectClass(ClassTypeChange classTypeChange)
+        public static void SelectClass(ClassTypeChange classTypeChange) // 클래스 입력하기
         {
             while (true)
             {
@@ -122,7 +142,7 @@ namespace TeamProjectSecond
             }
         }
 
-        public static int CheckClass()
+        public static int CheckClass()  // 입력한 클래스 확인하기
         {
             while (true)
             {
