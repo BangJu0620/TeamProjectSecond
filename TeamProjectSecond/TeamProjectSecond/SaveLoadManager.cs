@@ -107,55 +107,64 @@ namespace TeamProjectSecond
 
         public static void LoadCharacterData(string filePath) // 캐릭터 데이터 불러오기
         {
-            if (!File.Exists(filePath))
-            {
-                return;
-            }
             string json = File.ReadAllText(filePath);
             CharacterData loadedCharacterData = JsonSerializer.Deserialize<CharacterData>(json);
-
-            if(loadedCharacterData != null)
-            {
-                Character.Instance.LoadFromData(loadedCharacterData);
-            }
+            Character.Instance.LoadFromData(loadedCharacterData);
         }
 
         public static void LoadItemData(string filePath) // 아이템 데이터 불러오기
         {
-            if (!File.Exists(filePath))
-            {
-                return;
-            }
             string json = File.ReadAllText(filePath);
             ItemListData loadedItemListData = JsonSerializer.Deserialize<ItemListData>(json);
-
-            if(loadedItemListData != null)
-            {
-                Item.Instance.Clear();
-                Item.Instance.AddRange(loadedItemListData.Items);
-            }
+            Item.Instance.Clear();
+            Item.Instance.AddRange(loadedItemListData.Items);
         }
 
         public static void LoadQuestData(string filePath)   // 퀘스트 데이터 불러오기
         {
-            if (!File.Exists(filePath))
-            {
-                return;
-            }
             string json = File.ReadAllText(filePath);
             var loadedQuestData = JsonSerializer.Deserialize<List<Quest>>(json);
-
-            if(loadedQuestData != null)
-            {
-                QuestDatabase.AllQuests.Clear();
-                QuestDatabase.AllQuests.AddRange(loadedQuestData);
-            }
+            QuestDatabase.AllQuests.Clear();
+            QuestDatabase.AllQuests.AddRange(loadedQuestData);
         }
 
         public static bool CheckExistSaveData() // true 면 하나라도 없는 상태, false 면 다 있는 상태
         {
             if (!File.Exists("character.json") || !File.Exists("item.json") || !File.Exists("quest.json")) return true;
             else return false;
+        }
+
+        public static bool CheckEmptySaveData() // 3개 중 1개라도 비어있으면 true, 다 있으면 false
+        {
+            if (CheckEmptySaveCharacterData() || CheckEmptySaveItemData() || CheckEmptySaveQuestData()) return true;
+            else return false;
+        }
+
+        public static bool CheckEmptySaveCharacterData()    // 캐릭터 세이브 데이터가 비어있으면 true
+        {
+            string json = File.ReadAllText("character.json");
+            var loadedCharacterData = JsonSerializer.Deserialize<CharacterData>(json);
+
+            if (loadedCharacterData == null) return true;
+            return false;
+        }
+
+        public static bool CheckEmptySaveItemData() // 아이템 세이브 데이터가 비어있으면 true
+        {
+            string json = File.ReadAllText("item.json");
+            var loadedItemData = JsonSerializer.Deserialize<ItemListData>(json);
+
+            if (loadedItemData == null) return true;
+            return false;
+        }
+
+        public static bool CheckEmptySaveQuestData()    // 퀘스트 세이브 데이터가 비어있으면 true
+        {
+            string json = File.ReadAllText("quest.json");
+            var loadedQuestData = JsonSerializer.Deserialize<List<Quest>>(json);
+
+            if (loadedQuestData == null) return true;
+            return false;
         }
     }
 }

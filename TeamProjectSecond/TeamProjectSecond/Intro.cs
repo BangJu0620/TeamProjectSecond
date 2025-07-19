@@ -24,14 +24,19 @@ namespace TeamProjectSecond
                 switch (EventManager.CheckInput())
                 {
                     case 1:
-                        QuestDatabase.RegisterDefaultQuests();
+                        QuestDatabase.RegisterDefaultQuests();  // 퀘스트 생성
                         SetName();                  // 이름 받기
                         SetClass(classTypeChange);  // 클래스 설정
                         return;
                     case 2:
-                        if (SaveLoadManager.CheckExistSaveData())
+                        if (SaveLoadManager.CheckExistSaveData())   // 세이브 파일 존재하는지 확인
                         {
                             EventManager.Announce(50, "세이브 파일이 없습니다.");
+                            break;
+                        }
+                        if (SaveLoadManager.CheckEmptySaveData())   // 세이브 파일 비어있는지 확인
+                        {
+                            EventManager.Announce(48, "세이브 파일이 비어있습니다.");
                             break;
                         }
                         SaveLoadManager.LoadCharacterData("character.json");
