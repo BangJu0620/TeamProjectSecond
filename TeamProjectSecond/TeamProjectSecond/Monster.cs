@@ -13,6 +13,7 @@ public class Monster
     public int CurrentHP { get; set; }
     public string Cry { get; private set; }
     public string CryToT { get; private set; }
+    public bool IsDead { get; set; } = false;
 
     public Monster(int rank, int index, string name, int baseAttack, int defense, int speed, int hp, string cry, string cryToT)
     {

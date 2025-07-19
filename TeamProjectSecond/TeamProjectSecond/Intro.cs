@@ -10,22 +10,39 @@ namespace TeamProjectSecond
 {
     public static class Intro
     {
-        public static void DisplayIntro(ClassTypeChange classTypeChange)
+        public static void DisplayTitle(ClassTypeChange classTypeChange)
         {
-            EventManager.Clear();           // 맨 처음에 실행되게 해서 주사위배경 그려주기
-
-            if (SaveLoadManager.CheckExistSaveData())   // 세이브 데이터가 없다면 인트로 실행
-            { 
-                QuestDatabase.RegisterDefaultQuests();  // 기본 퀘스트 생성
-                SetName();                  // 이름 받기
-                SetClass(classTypeChange);  // 클래스 설정
-            }
-            else    // 세이브 데이터가 있다면 데이터를 불러옴
+            while (true)
             {
-                SaveLoadManager.LoadCharacterData("character.json");
-                SaveLoadManager.LoadItemData("item.json");
-                SaveLoadManager.LoadQuestData("quest.json");
-                EventManager.Announce(50, "다시 오신 걸 환영합니다.");
+                EventManager.Clear();
+                EventManager.To(58, "타  이  틀\n\n");
+
+                EventManager.To(42, "1. 새로 시작\n\n\n\n\n");
+                EventManager.To(42, "2. 이어하기\n\n\n\n\n");
+                EventManager.Select();
+
+                switch (EventManager.CheckInput())
+                {
+                    case 1:
+                        QuestDatabase.RegisterDefaultQuests();
+                        SetName();                  // 이름 받기
+                        SetClass(classTypeChange);  // 클래스 설정
+                        return;
+                    case 2:
+                        if (SaveLoadManager.CheckExistSaveData())
+                        {
+                            EventManager.Announce(50, "세이브 파일이 없습니다.");
+                            break;
+                        }
+                        SaveLoadManager.LoadCharacterData("character.json");
+                        SaveLoadManager.LoadItemData("item.json");
+                        SaveLoadManager.LoadQuestData("quest.json");
+                        EventManager.Announce(50, "다시 오신 걸 환영합니다.");
+                        return;
+                    default:
+                        EventManager.Wrong();
+                        break;
+                }
             }
         }
 

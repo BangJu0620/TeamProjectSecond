@@ -32,6 +32,47 @@ namespace TeamProjectSecond
         }
     }
 
+    public static class DungeonEntry
+    {
+        public static void ShowDungeonDifficultySelection()
+        {
+            while (true)
+            {
+                EventManager.Clear();
+                EventManager.To(56, "던 전 입 장\n\n");
+                EventManager.To(44, "입장할 던전의 난이도를 선택하세요.\n\n");
+
+                Console.ForegroundColor = ConsoleColor.White;
+                EventManager.To(43, "1. 쉬움 (Easy)\n\n");
+                EventManager.To(43, "2. 보통 (Normal)\n\n");
+                EventManager.To(43, "3. 어려움 (Hard)\n\n");
+
+                Console.SetCursorPosition(0, 24);
+                EventManager.ToS(44, "Enter. 돌아가기\n");
+                EventManager.Select();
+
+                int? input = EventManager.CheckInput();
+
+                switch (input)
+                {
+                    case 1:
+                        new Dungeon(Difficulty.Easy).Enter();
+                        return;
+                    case 2:
+                        new Dungeon(Difficulty.Normal).Enter();
+                        return;
+                    case 3:
+                        new Dungeon(Difficulty.Hard).Enter();
+                        return;
+                    case null:
+                        return;
+                    default:
+                        EventManager.Wrong();
+                        break;
+                }
+            }
+        }
+    }
     public class Dungeon
     {
         public Difficulty CurrentDifficulty { get; private set; }
@@ -132,7 +173,7 @@ namespace TeamProjectSecond
             List<Monster> enemies = GenerateMonstersForCurrentStage();
 
             // 전투 시작
-            // Battle.StartBattle(enemies);
+            Battle.StartBattle(enemies);
         }
     }
 }

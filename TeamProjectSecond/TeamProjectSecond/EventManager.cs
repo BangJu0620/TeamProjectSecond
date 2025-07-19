@@ -53,8 +53,7 @@ namespace TeamProjectSecond
                         break;
                     case 4:
                         // 던전
-                        Console.Clear();
-                        Console.WriteLine("던전");
+                        DungeonEntry.ShowDungeonDifficultySelection();
                         break;
                     case 5:
                         // 휴식하기
@@ -92,7 +91,7 @@ namespace TeamProjectSecond
                 To(43,$"Lv. {character.Level}  {character.ClassType}  {character.Name}\n\n");
                 To(43,$"경험치 {character.Exp}\n\n");  // {character.RequiredExp}
                 To(43,$"주사위 : {character.DiceCount}개\n\n");
-             // To(43,$"속  도 : {character.RerollCount}\n\n");
+                To(43,$"속  도 : {character.Speed}\n\n");
                 To(43,$"방어력 : {character.DefensePoint}\n\n");
                 To(43,$"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");
                 To(43,$"마  력 : {character.ManaPoint} / {character.MaxManaPoint}\n\n");
