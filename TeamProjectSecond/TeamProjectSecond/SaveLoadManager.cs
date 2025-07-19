@@ -32,10 +32,17 @@ namespace TeamProjectSecond
                     case null:
                         return;
                     case 1: // 캐릭터, 아이템, 퀘스트 정보를 세이브
-                        SaveCharacterData("character.json");
-                        SaveItemData("item.json");
-                        SaveQuestData("quest.json");
-                        EventManager.Announce(51, "세이브가 완료되었습니다.");
+                        if (RCheckExistSaveData())
+                        {
+                            ConfirmOverwriteSaveData();
+                        }
+                        else
+                        {
+                            SaveCharacterData("character.json");
+                            SaveItemData("item.json");
+                            SaveQuestData("quest.json");
+                            EventManager.Announce(51, "세이브가 완료되었습니다.");
+                        }
                         break;
                     case 2: // 캐릭터, 아이템, 퀘스트 정보를 삭제
                         if (CheckExistSaveData())   // 셋 중 하나라도 없으면 없다고 출력, 이후 세이브 화면으로 돌아감
@@ -49,6 +56,32 @@ namespace TeamProjectSecond
                         EventManager.Wrong();
                         break;
                 }
+            }
+        }
+
+        public static void ConfirmOverwriteSaveData()
+        {
+            EventManager.Clear();
+            EventManager.To(31, "세이브파일이 존재해 세이브를 할 경우 기존 데이터는 삭제됩니다.\n\n\n\n");
+            EventManager.To(50, "정말로 세이브하시겠습니까?\n\n\n");
+
+            Console.SetCursorPosition(0, 24);
+            Console.ForegroundColor = ConsoleColor.White;
+            EventManager.To(43, "1. 세이브           Enter. 돌아가기");
+            EventManager.Select();
+
+            switch (EventManager.CheckInput())
+            {
+                case null: return;  // Enter 입력시 돌아감
+                case 1: // 1 입력시 세이브
+                    SaveCharacterData("character.json");
+                    SaveItemData("item.json");
+                    SaveQuestData("quest.json");
+                    EventManager.Announce(50, "세이브가 완료되었습니다.");
+                    return;
+                default:
+                    EventManager.Wrong();
+                    break;
             }
         }
 
@@ -131,6 +164,12 @@ namespace TeamProjectSecond
         public static bool CheckExistSaveData() // true 면 하나라도 없는 상태, false 면 다 있는 상태
         {
             if (!File.Exists("character.json") || !File.Exists("item.json") || !File.Exists("quest.json")) return true;
+            else return false;
+        }
+
+        public static bool RCheckExistSaveData()    // true 면 하나라도 있는 상태, false 면 다 없는 상태
+        {
+            if (File.Exists("character.json") || File.Exists("item.json") || File.Exists("quest.json")) return true;
             else return false;
         }
 
