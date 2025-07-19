@@ -37,7 +37,7 @@ namespace TeamProjectSecond
         {
             instance = new List<ItemData>();
             //드랍 전용 아이템 = 마지막에 false 추가
-            //ID, "템이름", 아이템타입, 방, 속도, 최대체력, 최대마나, 데미지 배율, 데미지 보너스, "설명", "설정설명", 가격, 보유여부, 착용여부, 스킬, 상점 판매여부
+            //ID, "템이름", 아이템타입, 방, 속도, 최대체력, 최대마나, 데미지 배율, 데미지 보너스, 리롤, "설명", "설정설명", 가격, 보유여부, 착용여부, 스킬, 상점 판매여부
             //(소모품) ID, "템이름", "설명", "설정설명", 가격, 보유여부, 착용여부, 상점 판매여부
 
             //Weapon
@@ -68,8 +68,13 @@ namespace TeamProjectSecond
             instance.Add(new ItemData(304, "행운의 칩", ItemType.Accessory, 0, 0, 0, 0, 1, 0, 1, "리롤+1", "일이 잘 풀릴 것 같다.", 800, false, false, null, false));
             instance.Add(new ItemData(305, "딜러의 카드덱", ItemType.Accessory, 0, 0, 0, 0, 1.04f, 0, 0, "데미지+4%", "딜러의 카드덱.", 800, false, false, null, false));
             instance.Add(new ItemData(306, "결혼 반지", ItemType.Accessory, 0, 0, 50, 0, 1, -6, 0, "MaxHP+50, 추가데미지-6", "누군가 내기로 건 반지.", 800, false, false, null, false));
-            instance.Add(new ItemData(307, "무전기 이어폰", ItemType.Accessory, 0, 0, 0, 0, 1f, 5, 0, "추가데미지+5", "도둑이 훔쳐간 이어폰.", 800, false, false, null, false));
-
+            instance.Add(new ItemData(307, "무전기 이어폰", ItemType.Accessory, 0, 0, 0, 0, 1, 5, 0, "추가데미지+5", "도둑이 훔쳐간 이어폰.", 800, false, false, null, false));
+            instance.Add(new ItemData(308, "마법사의 모자", ItemType.Accessory, 0, 0, 0, 30, 1, 5, 0, "MaxMP+30, 추가데미지+5", "마술 하나 보여줄까?", 800, false, false, null, false));
+            instance.Add(new ItemData(309, "카지노 칩", ItemType.Accessory, 0, 0, 0, 0, 1, 0, 1, "리롤+1", "현금 대신 사용하는 칩.", 800, false, false, null, false));
+            instance.Add(new ItemData(310, "괴도의 가면", ItemType.Accessory, 0, 3, 0, 20, 1, 0, 0, "속도+3, MaxMP+20", "단골 손님의 가면.", 800, false, false, null, false));
+            instance.Add(new ItemData(311, "선글라스", ItemType.Accessory, 0, 0, 0, 0, 1, 7, 0, "추가데미지+7", "카리스마를 올려준다.", 800, false, false, null, false));
+            instance.Add(new ItemData(312, "머니건", ItemType.Accessory, 0, 0, 0, 0, 1.02f, 4, 0, "데미지+2%, 추가데미지+4", "가폐를 날리는 장난감.", 800, false, false, null, false));
+            instance.Add(new ItemData(313, "플레잉 카드", ItemType.Accessory, 0, 0, 0, 0, 1, 1, 1, "추가데미지+1, 리롤+1", "플레잉 카드.", 800, false, false, null, false));
 
             //consumables
             instance.Add(new ItemData(400, "HP 포션", "HP 30 회복", "HP를 30 회복시켜주는 포션.", 500, false, false));
