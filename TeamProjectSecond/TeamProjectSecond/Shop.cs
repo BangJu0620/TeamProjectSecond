@@ -41,14 +41,14 @@ namespace TeamProjectSecond
                     Console.ForegroundColor = ConsoleColor.White;
                     EventManager.To(5, $"- {item.ItemName}");
 
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write($" {quantityInfo}");
 
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.SetCursorPosition(38, Console.CursorTop);
-                    Console.Write($"| {type} ");
+                    Console.Write($"|  {type}  ");
 
-                    Console.SetCursorPosition(47, Console.CursorTop);
+                    Console.SetCursorPosition(49, Console.CursorTop);
                     Console.Write($"| {item.ItemEffectDesc}");
 
                     Console.SetCursorPosition(98, Console.CursorTop);
@@ -113,14 +113,14 @@ namespace TeamProjectSecond
                     Console.ForegroundColor = ConsoleColor.White;
                     EventManager.To(5, $"{i + 1}. {item.ItemName}");
 
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write($" {quantityInfo}");
 
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.SetCursorPosition(38, Console.CursorTop);
-                    Console.Write($"| {type} ");
+                    Console.Write($"|  {type}  ");
 
-                    Console.SetCursorPosition(47, Console.CursorTop);
+                    Console.SetCursorPosition(49, Console.CursorTop);
                     Console.Write($"| {item.ItemEffectDesc}");
 
                     Console.SetCursorPosition(98, Console.CursorTop);
@@ -240,14 +240,14 @@ namespace TeamProjectSecond
                     Console.ForegroundColor = ConsoleColor.White;
                     EventManager.To(5, $"{i + 1}. {item.ItemName}");
 
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write($" {quantityInfo}");
 
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.SetCursorPosition(38, Console.CursorTop);
-                    Console.Write($"| {type} ");
+                    Console.Write($"|  {type}  ");
 
-                    Console.SetCursorPosition(47, Console.CursorTop);
+                    Console.SetCursorPosition(49, Console.CursorTop);
                     Console.Write($"| {item.ItemEffectDesc}");
 
                     Console.SetCursorPosition(98, Console.CursorTop);

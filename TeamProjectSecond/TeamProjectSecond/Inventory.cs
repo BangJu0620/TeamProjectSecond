@@ -66,18 +66,18 @@ namespace TeamProjectSecond
                         Console.ForegroundColor = ConsoleColor.White;       //앞 작대기 - 표현
                         EventManager.To(10, "- ");
 
-                        Console.ForegroundColor = ConsoleColor.Yellow;      // 장비중이라면 [E]를 표시합니다.
+                        Console.ForegroundColor = ConsoleColor.DarkCyan;      // 장비중이라면 [E]를 표시합니다.
                         Console.Write($"{equipped}");
 
                         Console.ForegroundColor = ConsoleColor.White;       // 아이템 이름 표시
                         Console.Write($"{item.ItemName}");
 
-                        Console.ForegroundColor = ConsoleColor.Yellow;      // 보유중인 수 표시
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;      // 보유중인 수 표시
                         Console.Write($" (보유: {item.Quantity})");
 
                         Console.ForegroundColor = ConsoleColor.White;       // 아이템 타입 표시
                         Console.SetCursorPosition(43, Console.CursorTop);
-                        Console.Write($"|  {type}");
+                        Console.Write($"|  {type}  ");
 
                         Console.SetCursorPosition(54, Console.CursorTop);   // 아이템 효과
                         Console.Write($"| {item.ItemEffectDesc}");
@@ -184,18 +184,18 @@ namespace TeamProjectSecond
                     Console.ForegroundColor = ConsoleColor.White;       // 아이템 번호 표현
                     EventManager.To(10, $"{i + 1}. ");
 
-                    Console.ForegroundColor = ConsoleColor.Yellow;      // 장비중이라면 [E]를 표시합니다.
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;      // 장비중이라면 [E]를 표시합니다.
                     Console.Write($"{equipped}");
 
                     Console.ForegroundColor = ConsoleColor.White;       // 아이템 이름 표시
                     Console.Write($"{item.ItemName}");
 
-                    Console.ForegroundColor = ConsoleColor.Yellow;      // 보유중인 수 표시
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;      // 보유중인 수 표시
                     Console.Write($" (보유: {item.Quantity})");
 
                     Console.ForegroundColor = ConsoleColor.White;       // 아이템 타입 표시
                     Console.SetCursorPosition(43, Console.CursorTop);
-                    Console.Write($"|  {type}");
+                    Console.Write($"|  {type}  ");
 
                     Console.SetCursorPosition(54, Console.CursorTop);   // 아이템 효과
                     Console.Write($"| {item.ItemEffectDesc}");
@@ -214,7 +214,7 @@ namespace TeamProjectSecond
                 if (input == null) return;                                      // 엔터 누를 시 돌아가기
                 else if (input == -1) listIndex = Math.Max(listIndex - 1, 1);   // 페이지 <- 이동 
                 else if (input == -2 && goNextPage) listIndex++;                // 페이지 -> 이동
-
+                else if (input == -2 && !goNextPage) continue;
                 else if (input >= 1 && input <= ownedItems.Count)
                 {
                     var selectedItem = ownedItems[(int)input - 1]; //선택 아이템 저장
@@ -288,7 +288,7 @@ namespace TeamProjectSecond
                     Console.ForegroundColor = ConsoleColor.White;       // 아이템 이름 표시
                     Console.Write($"{potion.ItemName}");
 
-                    Console.ForegroundColor = ConsoleColor.Yellow;      // 보유중인 수 표시
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;      // 보유중인 수 표시
                     Console.Write($" (보유: {potion.Quantity})");
 
                     Console.SetCursorPosition(50, Console.CursorTop);   // 아이템 효과
@@ -309,7 +309,7 @@ namespace TeamProjectSecond
                 if (input == null) break;                                       // 엔터 누를시 돌아가기
                 else if (input == -1) listIndex = Math.Max(listIndex - 1, 1);   // 페이지 <- 이동 
                 else if (input == -2 && goNextPage) listIndex++;                // 페이지 -> 이동
-
+                else if (input == -2 && !goNextPage) continue;
                 else if (input >=1 && input <= potions.Count)
                 {
                     Inventory.UsePotion(potions[(int)input - 1]);
