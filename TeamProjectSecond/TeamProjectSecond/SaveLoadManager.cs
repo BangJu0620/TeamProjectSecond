@@ -143,27 +143,30 @@ namespace TeamProjectSecond
         public static bool CheckEmptySaveCharacterData()    // 캐릭터 세이브 데이터가 비어있으면 true
         {
             string json = File.ReadAllText("character.json");
-            var loadedCharacterData = JsonSerializer.Deserialize<CharacterData>(json);
+            if (string.IsNullOrWhiteSpace(json)) return true;   // json 파일이 비어있거나 공백이면 true
 
-            if (loadedCharacterData == null) return true;
+            var loadedCharacterData = JsonSerializer.Deserialize<CharacterData>(json);
+            if (loadedCharacterData == null) return true;   // 받은 데이터를 변환했을때 비어있으면 true
             return false;
         }
 
         public static bool CheckEmptySaveItemData() // 아이템 세이브 데이터가 비어있으면 true
         {
             string json = File.ReadAllText("item.json");
-            var loadedItemData = JsonSerializer.Deserialize<ItemListData>(json);
+            if (string.IsNullOrWhiteSpace(json)) return true;   // json 파일이 비어있거나 공백이면 true
 
-            if (loadedItemData == null) return true;
+            var loadedItemData = JsonSerializer.Deserialize<ItemListData>(json);
+            if (loadedItemData == null) return true;    // 받은 데이터를 변환했을때 비어있으면 true
             return false;
         }
 
         public static bool CheckEmptySaveQuestData()    // 퀘스트 세이브 데이터가 비어있으면 true
         {
             string json = File.ReadAllText("quest.json");
-            var loadedQuestData = JsonSerializer.Deserialize<List<Quest>>(json);
+            if (string.IsNullOrWhiteSpace(json)) return true;   // json 파일이 비어있거나 공백이면 true
 
-            if (loadedQuestData == null) return true;
+            var loadedQuestData = JsonSerializer.Deserialize<List<Quest>>(json);
+            if (loadedQuestData == null) return true;   // 받은 데이터를 변환했을때 비어있으면 true
             return false;
         }
     }
