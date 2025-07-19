@@ -7,38 +7,26 @@ namespace TeamProjectSecond
     public static class Battle
     {
         private static int currentRerollCount;
-        private static List<Dice> sdList;
-        private static List<Dice> ddList;
+        private static List<Dice>? sdList;
+        private static List<Dice>? ddList;
         private static Character player => Character.Instance;
 
         public static void StartBattle(List<Monster> enemies)
         {
-            ShowWarningPhase(enemies);
+            BattleScreen.DrawMonsterArea(enemies);
+            BattleScreen.Log("몬스터가 나타났다!");
             var turnOrder = DetermineInitiative(enemies);
             StartRounds(turnOrder, enemies);
-        }
-
-        private static void ShowWarningPhase(List<Monster> enemies)
-        {
-
-            BattleUI.ShowWarningPhase(enemies);
-            foreach (var monster in enemies)
-            {
-                Console.WriteLine($"{monster.Name}: {monster.Cry}");
-            }
-            ;
         }
 
         private static List<object> DetermineInitiative(List<Monster> enemies)
         {
             List<(object entity, int initiative)> all = new();
 
-            // Player
             var id = new Dice(1, 6, DiceType.ID, 0);
             int playerInitiative = id.Roll() + player.Speed;
             all.Add((player, playerInitiative));
 
-            // Monsters
             foreach (var m in enemies)
             {
                 var mid = new Dice(1, 6, DiceType.ID, 0);
@@ -63,16 +51,14 @@ namespace TeamProjectSecond
 
                     if (player.HealthPoint <= 0)
                     {
-                        BattleUI.AnnouncePlayerDown();
-                        ;
+                        BattleScreen.Log("당신은 쓰러졌습니다...");
                         return;
                     }
 
                     if (enemies.All(e => e.IsDead))
                     {
-                        BattleUI.AnnounceVictory();
-                        // Reward.Grant(); // TODO: 보상 시스템 연결
-                        ;
+                        BattleScreen.Log("전투에서 승리했다!");
+                        // Reward.Grant(); // TODO
                         return;
                     }
                 }
@@ -81,9 +67,8 @@ namespace TeamProjectSecond
 
         private static void PlayerTurn(List<Monster> enemies)
         {
-
-            BattleUI.ShowPlayerActionMenu();
-            Console.WriteLine("1. 다이스 롤\n2. 스킬\n3. 아이템");
+            BattleScreen.Log("나의 턴 !");
+            BattleScreen.DrawCommandOptions(currentRerollCount);
 
             while (true)
             {
@@ -91,7 +76,7 @@ namespace TeamProjectSecond
                 if (input == 1) break;
                 else if (input == 2) { SelectAndApplySkill(); continue; }
                 else if (input == 3) { Inventory.ShowInventory(); return; }
-                else Console.WriteLine("잘못된 입력입니다.");
+                else EventManager.Wrong();
             }
 
             RollDice();
@@ -102,7 +87,7 @@ namespace TeamProjectSecond
         private static void SelectAndApplySkill()
         {
             var skills = player.ActiveSkills;
-            BattleUI.ShowSkillList(skills);
+            BattleScreen.Log("[스킬 목록 표시됨]");
             for (int i = 0; i < skills.Count; i++)
                 Console.WriteLine($"{i + 1}. {skills[i].Name} (MP {skills[i].ManaCost})");
 
@@ -126,16 +111,19 @@ namespace TeamProjectSecond
             for (int i = 0; i < player.DiceCount - 2; i++)
                 ddList.Add(new Dice(1, 6, DiceType.DD, 3 + i));
 
-            BattleUI.ShowDiceResults(sdList, ddList);
-            foreach (var die in sdList.Concat(ddList))
-                Console.WriteLine($"{die}: {die.Roll()}");
+            var sdValues = sdList.Select(d => d.Roll()).ToList();
+            var ddValues = ddList.Select(d => d.Roll()).ToList();
+
+            BattleScreen.DrawDiceRow(sdValues, 10, 15, "Strike Dice");
+            BattleScreen.DrawDiceRow(ddValues, 80, 23, "Damage Dice");
+            BattleScreen.DrawDDTotal(ddValues.Sum(), 60, 22);
         }
 
         private static void RerollPhase()
         {
             while (currentRerollCount > 0)
             {
-                Console.WriteLine($"1. Go!\n2. Reroll ({currentRerollCount} left)");
+                BattleScreen.DrawCommandOptions(currentRerollCount);
                 int? input = EventManager.CheckInput();
                 if (input == 1) break;
                 if (input == 2)
@@ -144,11 +132,11 @@ namespace TeamProjectSecond
                     for (int i = 0; i < all.Count; i++)
                         Console.WriteLine($"{i}. {all[i]}");
 
-                    Console.WriteLine("리롤할 주사위 번호 선택 (0 이상):");
+                    BattleScreen.Log("리롤할 주사위 번호 선택 (0 이상):");
                     int? index = EventManager.CheckInput();
                     if (index.HasValue && index.Value >= 0 && index.Value < all.Count)
                     {
-                        Console.WriteLine($"{all[index.Value]} 리롤 결과: {all[index.Value].Roll()}");
+                        BattleScreen.Log($"{all[index.Value]} 리롤 결과: {all[index.Value].Roll()}");
                         currentRerollCount--;
                     }
                 }
@@ -157,7 +145,7 @@ namespace TeamProjectSecond
 
         private static void SelectTargetAndAttack(List<Monster> enemies)
         {
-            BattleUI.ShowTargetSelection(enemies);
+            BattleScreen.Log("공격할 대상을 선택하세요.");
             for (int i = 0; i < enemies.Count; i++)
             {
                 var m = enemies[i];
@@ -178,17 +166,17 @@ namespace TeamProjectSecond
 
             if (isMiss)
             {
-                BattleUI.AnnounceMiss();
+                BattleScreen.Log("공격이 빗나갔다!");
                 return;
             }
 
             int damage = CalculatePlayerDamage(ddList, isCrit);
             target.CurrentHP -= damage;
-            BattleUI.AnnounceHit(target.Name, damage);
+            BattleScreen.Log($"{target.Name}에게 {damage} 데미지를 입혔다!");
             if (target.CurrentHP <= 0)
             {
                 target.IsDead = true;
-                BattleUI.AnnounceKill(target.Name);
+                BattleScreen.Log($"{target.Name}을(를) 처치했다!");
             }
         }
 
@@ -205,14 +193,14 @@ namespace TeamProjectSecond
         {
             if (monster.IsDead) return;
 
-
             int ddSum = 0;
             for (int i = 0; i < monster.Rank; i++)
                 ddSum += new Dice(1, 6, DiceType.DD, 3 + i).Roll();
 
             int damage = Math.Max(0, ddSum + monster.BaseAttack - player.DefensePoint);
             player.HealthPoint -= damage;
-            BattleUI.ShowMonsterAttack(monster.Name, damage, player.HealthPoint, player.MaxHealthPoint);
+
+            BattleScreen.Log($"{monster.Name}의 공격! {damage} 데미지를 입었다. (HP: {player.HealthPoint}/{player.MaxHealthPoint})");
         }
     }
 }

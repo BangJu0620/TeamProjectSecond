@@ -39,9 +39,7 @@ namespace TeamProjectSecond
                             EventManager.Announce(48, "세이브 파일이 비어있습니다.");
                             break;
                         }
-                        SaveLoadManager.LoadCharacterData("character.json");
-                        SaveLoadManager.LoadItemData("item.json");
-                        SaveLoadManager.LoadQuestData("quest.json");
+                        SaveLoadData.LoadAllData("save.json");
                         EventManager.Announce(50, "다시 오신 걸 환영합니다.");
                         return;
                     default:

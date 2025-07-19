@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BattleUI.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\TextRPG_Quest_Solution\TextRPGQuest.Data\TextRPGQuest.Data.csproj" />
   </ItemGroup>
 
