@@ -7,8 +7,8 @@ namespace TeamProjectSecond
     public static class Battle
     {
         private static int currentRerollCount;
-        private static List<Dice> sdList;
-        private static List<Dice> ddList;
+        private static List<Dice>? sdList;
+        private static List<Dice>? ddList;
         private static Character player => Character.Instance;
 
         public static void StartBattle(List<Monster> enemies)
@@ -57,7 +57,7 @@ namespace TeamProjectSecond
 
                     if (enemies.All(e => e.IsDead))
                     {
-                        BattleScreen.Log("전투에서 승리했습니다!");
+                        BattleScreen.Log("전투에서 승리했다!");
                         // Reward.Grant(); // TODO
                         return;
                     }
@@ -67,7 +67,7 @@ namespace TeamProjectSecond
 
         private static void PlayerTurn(List<Monster> enemies)
         {
-            BattleScreen.Log("당신의 턴입니다. 행동을 선택하세요.");
+            BattleScreen.Log("나의 턴 !");
             BattleScreen.DrawCommandOptions(currentRerollCount);
 
             while (true)
@@ -115,7 +115,7 @@ namespace TeamProjectSecond
             var ddValues = ddList.Select(d => d.Roll()).ToList();
 
             BattleScreen.DrawDiceRow(sdValues, 10, 15, "Strike Dice");
-            BattleScreen.DrawDiceRow(ddValues, 10, 23, "Damage Dice");
+            BattleScreen.DrawDiceRow(ddValues, 80, 23, "Damage Dice");
             BattleScreen.DrawDDTotal(ddValues.Sum(), 60, 22);
         }
 
@@ -166,17 +166,17 @@ namespace TeamProjectSecond
 
             if (isMiss)
             {
-                BattleScreen.Log("공격이 빗나갔습니다!");
+                BattleScreen.Log("공격이 빗나갔다!");
                 return;
             }
 
             int damage = CalculatePlayerDamage(ddList, isCrit);
             target.CurrentHP -= damage;
-            BattleScreen.Log($"{target.Name}에게 {damage} 데미지를 입혔습니다!");
+            BattleScreen.Log($"{target.Name}에게 {damage} 데미지를 입혔다!");
             if (target.CurrentHP <= 0)
             {
                 target.IsDead = true;
-                BattleScreen.Log($"{target.Name}을(를) 처치했습니다!");
+                BattleScreen.Log($"{target.Name}을(를) 처치했다!");
             }
         }
 
@@ -200,7 +200,7 @@ namespace TeamProjectSecond
             int damage = Math.Max(0, ddSum + monster.BaseAttack - player.DefensePoint);
             player.HealthPoint -= damage;
 
-            BattleScreen.Log($"{monster.Name}의 공격! {damage} 데미지를 입었습니다. (HP: {player.HealthPoint}/{player.MaxHealthPoint})");
+            BattleScreen.Log($"{monster.Name}의 공격! {damage} 데미지를 입었다. (HP: {player.HealthPoint}/{player.MaxHealthPoint})");
         }
     }
 }

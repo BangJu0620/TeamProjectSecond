@@ -82,7 +82,6 @@ namespace TeamProjectSecond
         public void Enter() // *************** 던전 입장 메서드 ********** Dungeon dungeon = new Dungeon(Difficulty.Easy혹은Normal혹은Hard); 그리고 dungeon.Enter(); 누르면 던전 들갑니당.
         {
             CurrentStageIndex = 0;
-            Console.WriteLine($"[{CurrentDifficulty}] 난이도 던전으로 레츠고고");
             StartCurrentStage();
         }
 
@@ -167,9 +166,6 @@ namespace TeamProjectSecond
         public void StartCurrentStage()
         {
             DungeonStage stage = GetCurrentStage();
-
-            Console.WriteLine(stage.IsBoss ? "보스 몬스터가 나타났다!" : "몬스터가 나타났다!");
-
             List<Monster> enemies = GenerateMonstersForCurrentStage();
 
             // 전투 시작
