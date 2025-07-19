@@ -31,26 +31,57 @@ namespace TeamProjectSecond
                 {
                     case null:
                         return;
-                    case 1: // 캐릭터, 아이템 정보를 세이브
-                        EventManager.Clear();
-                        SaveCharacterData("character.json");
-                        SaveItemData("item.json");
-                        SaveQuestData("quest.json");
-                        EventManager.Announce(51, "세이브가 완료되었습니다.");
+                    case 1: // 캐릭터, 아이템, 퀘스트 정보를 세이브
+                        if (RCheckExistSaveData())  // 세이브 파일이 하나라도 존재하는지 확인
+                        {
+                            ConfirmOverwriteSaveData();
+                        }
+                        else
+                        {
+                            SaveCharacterData("character.json");
+                            SaveItemData("item.json");
+                            SaveQuestData("quest.json");
+                            EventManager.Announce(51, "세이브가 완료되었습니다.");
+                        }
                         break;
-                    case 2: // 캐릭터, 아이템 정보를 로드
-                        EventManager.Clear();
-                        if (CheckExistSaveData())   // 셋 중 하나라도 없으면 없다고 출력
+                    case 2: // 캐릭터, 아이템, 퀘스트 정보를 삭제
+                        if (CheckExistSaveData())   // 셋 중 하나라도 없으면 없다고 출력, 이후 세이브 화면으로 돌아감
                         {
                             EventManager.Announce(51, "세이브 파일이 없습니다.");
                             break;
                         }
-                        CheckDeleteSaveData();
+                        CheckDeleteSaveData();  // 삭제할건지 재차 확인
                         break;
                     default:
                         EventManager.Wrong();
                         break;
                 }
+            }
+        }
+
+        public static void ConfirmOverwriteSaveData()   // 세이브 덮어씌울지 확인
+        {
+            EventManager.Clear();
+            EventManager.To(31, "세이브파일이 존재해 세이브를 할 경우 기존 데이터는 삭제됩니다.\n\n\n\n");
+            EventManager.To(50, "정말로 세이브하시겠습니까?\n\n\n");
+
+            Console.SetCursorPosition(0, 24);
+            Console.ForegroundColor = ConsoleColor.White;
+            EventManager.To(43, "1. 세이브           Enter. 돌아가기");
+            EventManager.Select();
+
+            switch (EventManager.CheckInput())
+            {
+                case null: return;  // Enter 입력시 돌아감
+                case 1: // 1 입력시 세이브
+                    SaveCharacterData("character.json");
+                    SaveItemData("item.json");
+                    SaveQuestData("quest.json");
+                    EventManager.Announce(50, "세이브가 완료되었습니다.");
+                    return;
+                default:
+                    EventManager.Wrong();
+                    break;
             }
         }
 
@@ -69,9 +100,8 @@ namespace TeamProjectSecond
 
                 switch (EventManager.CheckInput())
                 {
-                    case null: return;
-                    case 1:
-                        EventManager.Clear();
+                    case null: return;  // Enter 입력시 돌아감
+                    case 1: // 1 입력시 세이브 삭제
                         File.Delete("character.json");
                         File.Delete("item.json");
                         File.Delete("quest.json");
@@ -102,7 +132,7 @@ namespace TeamProjectSecond
             File.WriteAllText(filePath, json);
         }
 
-        public static void SaveQuestData(string filePath)
+        public static void SaveQuestData(string filePath)   // 퀘스트 데이터 저장
         {
             string json = JsonSerializer.Serialize(QuestDatabase.AllQuests, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(filePath, json);
@@ -110,55 +140,73 @@ namespace TeamProjectSecond
 
         public static void LoadCharacterData(string filePath) // 캐릭터 데이터 불러오기
         {
-            if (!File.Exists(filePath))
-            {
-                return;
-            }
             string json = File.ReadAllText(filePath);
             CharacterData loadedCharacterData = JsonSerializer.Deserialize<CharacterData>(json);
-
-            if(loadedCharacterData != null)
-            {
-                Character.Instance.LoadFromData(loadedCharacterData);
-            }
+            Character.Instance.LoadFromData(loadedCharacterData);
         }
 
         public static void LoadItemData(string filePath) // 아이템 데이터 불러오기
         {
-            if (!File.Exists(filePath))
-            {
-                return;
-            }
             string json = File.ReadAllText(filePath);
             ItemListData loadedItemListData = JsonSerializer.Deserialize<ItemListData>(json);
-
-            if(loadedItemListData != null)
-            {
-                Item.Instance.Clear();
-                Item.Instance.AddRange(loadedItemListData.Items);
-            }
+            Item.Instance.Clear();
+            Item.Instance.AddRange(loadedItemListData.Items);
         }
 
-        public static void LoadQuestData(string filePath)
+        public static void LoadQuestData(string filePath)   // 퀘스트 데이터 불러오기
         {
-            if (!File.Exists(filePath))
-            {
-                return;
-            }
             string json = File.ReadAllText(filePath);
             var loadedQuestData = JsonSerializer.Deserialize<List<Quest>>(json);
-
-            if(loadedQuestData != null)
-            {
-                QuestDatabase.AllQuests.Clear();
-                QuestDatabase.AllQuests.AddRange(loadedQuestData);
-            }
+            QuestDatabase.AllQuests.Clear();
+            QuestDatabase.AllQuests.AddRange(loadedQuestData);
         }
 
         public static bool CheckExistSaveData() // true 면 하나라도 없는 상태, false 면 다 있는 상태
         {
             if (!File.Exists("character.json") || !File.Exists("item.json") || !File.Exists("quest.json")) return true;
             else return false;
+        }
+
+        public static bool RCheckExistSaveData()    // true 면 하나라도 있는 상태, false 면 다 없는 상태
+        {
+            if (File.Exists("character.json") || File.Exists("item.json") || File.Exists("quest.json")) return true;
+            else return false;
+        }
+
+        public static bool CheckEmptySaveData() // 3개 중 1개라도 비어있으면 true, 다 있으면 false
+        {
+            if (CheckEmptySaveCharacterData() || CheckEmptySaveItemData() || CheckEmptySaveQuestData()) return true;
+            else return false;
+        }
+
+        public static bool CheckEmptySaveCharacterData()    // 캐릭터 세이브 데이터가 비어있으면 true
+        {
+            string json = File.ReadAllText("character.json");
+            if (string.IsNullOrWhiteSpace(json)) return true;   // json 파일이 비어있거나 공백이면 true
+
+            var loadedCharacterData = JsonSerializer.Deserialize<CharacterData>(json);
+            if (loadedCharacterData == null) return true;   // 받은 데이터를 변환했을때 비어있으면 true
+            return false;
+        }
+
+        public static bool CheckEmptySaveItemData() // 아이템 세이브 데이터가 비어있으면 true
+        {
+            string json = File.ReadAllText("item.json");
+            if (string.IsNullOrWhiteSpace(json)) return true;   // json 파일이 비어있거나 공백이면 true
+
+            var loadedItemData = JsonSerializer.Deserialize<ItemListData>(json);
+            if (loadedItemData == null) return true;    // 받은 데이터를 변환했을때 비어있으면 true
+            return false;
+        }
+
+        public static bool CheckEmptySaveQuestData()    // 퀘스트 세이브 데이터가 비어있으면 true
+        {
+            string json = File.ReadAllText("quest.json");
+            if (string.IsNullOrWhiteSpace(json)) return true;   // json 파일이 비어있거나 공백이면 true
+
+            var loadedQuestData = JsonSerializer.Deserialize<List<Quest>>(json);
+            if (loadedQuestData == null) return true;   // 받은 데이터를 변환했을때 비어있으면 true
+            return false;
         }
     }
 }
