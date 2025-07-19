@@ -32,7 +32,7 @@ namespace TeamProjectSecond
                     case null:
                         return;
                     case 1: // 캐릭터, 아이템, 퀘스트 정보를 세이브
-                        if (RCheckExistSaveData())
+                        if (RCheckExistSaveData())  // 세이브 파일이 하나라도 존재하는지 확인
                         {
                             ConfirmOverwriteSaveData();
                         }
@@ -59,7 +59,7 @@ namespace TeamProjectSecond
             }
         }
 
-        public static void ConfirmOverwriteSaveData()
+        public static void ConfirmOverwriteSaveData()   // 세이브 덮어씌울지 확인
         {
             EventManager.Clear();
             EventManager.To(31, "세이브파일이 존재해 세이브를 할 경우 기존 데이터는 삭제됩니다.\n\n\n\n");
