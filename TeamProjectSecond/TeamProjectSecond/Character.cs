@@ -37,6 +37,7 @@ namespace TeamProjectSecond
             ManaPoint = MaxManaPoint;
             HealthPoint = MaxHealthPoint;
             Speed = ClassData.BaseSpeed + BonusSpeed;
+            CritMultiplier = ClassData.BaseCritMultiplier + BonusCritMultiplier;
             Item.AddItem("HP 포션", 3, showMessage: false);//시작시 포션3개 지급
         }
 
@@ -48,11 +49,12 @@ namespace TeamProjectSecond
         public int HealthPoint { get; set; }
         public int ManaPoint { get; set; }
         public int Speed { get; set; }
+        public float CritMultiplier { get; set; }
         public float BaseDamageMultiplier { get; set; } = 1f; // 영구적인 데미지 관여 값 (영약으로 오르는 것도 여기다 넣으면 될 듯용)
         public float BaseDamageBonus { get; set; } = 0f;
-        public float TempDamageMultiplier { get; set; } = 1f;  // 일시적인 데미지 관여 값 (스킬같은 걸로 전투 중에만 적용)
+        public float TempDamageMultiplier { get; set; } = 0f;  // 일시적인 데미지 관여 값 (스킬같은 걸로 전투 중에만 적용)
         public float TempDamageBonus { get; set; } = 0f;
-        public float TotalDamageMultiplier => BaseDamageMultiplier * TempDamageMultiplier;  // 최종 적용값 (계산용 프로퍼티)
+        public float TotalDamageMultiplier => BaseDamageMultiplier + TempDamageMultiplier;  // 최종 적용값 (계산용 프로퍼티)
         public float TotalDamageBonus => BaseDamageBonus + TempDamageBonus;
         public int TotalRerollCount => RerollCount + Inventory.GetTotalRerollFromItems(); // 리롤 이거 한 줄 추가했습니다.여기 잘 안건드려서 뭐가 뭔지 모르겠...
 
@@ -61,6 +63,7 @@ namespace TeamProjectSecond
         public int BonusMaxMP { get; set; } = 0;
         public int BonusDefense { get; set; } = 0;
         public int BonusSpeed { get; set; } = 0;
+        public float BonusCritMultiplier { get; set; } = 0;
 
         public ClassData ClassData => new ClassData(ClassType);
 
@@ -96,6 +99,8 @@ namespace TeamProjectSecond
                 Gold = Gold,
                 HealthPoint = HealthPoint,
                 ManaPoint = ManaPoint,
+                Speed = Speed,
+                CritMultiplier = CritMultiplier,
                 //데미지계산식
                 BaseDamageMultiplier = BaseDamageMultiplier,
                 BaseDamageBonus = BaseDamageBonus,
@@ -118,6 +123,8 @@ namespace TeamProjectSecond
             Gold = data.Gold;
             HealthPoint = data.HealthPoint;
             ManaPoint = data.ManaPoint;
+            Speed = data.Speed;
+            CritMultiplier = data.CritMultiplier;
             //데미지계산식로드
             BaseDamageMultiplier = data.BaseDamageMultiplier;
             BaseDamageBonus = data.BaseDamageBonus;
@@ -175,6 +182,8 @@ namespace TeamProjectSecond
         public int Gold { get; set; }
         public int HealthPoint { get; set; }
         public int ManaPoint { get; set; }
+        public int Speed { get; set; }
+        public float CritMultiplier { get; set; }
         public float BaseDamageMultiplier { get; set; } = 1f; // 영구적인 데미지 관여 값 (영약으로 오르는 것도 여기다 넣으면 될 듯용)
         public float BaseDamageBonus { get; set; } = 0f;
         public float TempDamageMultiplier { get; set; } = 1f;  // 일시적인 데미지 관여 값 (스킬같은 걸로 전투 중에만 적용)
@@ -187,5 +196,8 @@ namespace TeamProjectSecond
         public int BonusMaxMP { get; set; }
         public int BonusDefense { get; set; }
         public int BonusSpeed { get; set; }
+        public float BonusCritMultiplier { get; set; }
+        public int DiceCount { get; set; }
+        public int RerollCount { get; set; }
     }
 }

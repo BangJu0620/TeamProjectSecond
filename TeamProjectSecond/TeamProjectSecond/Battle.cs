@@ -11,13 +11,6 @@ namespace TeamProjectSecond
         private static List<Dice>? ddList;
         private static Character player => Character.Instance;
 
-        public static void StartBattle(List<Monster> enemies)
-        {
-            BattleScreen.DrawMonsterArea(enemies);
-            BattleScreen.Log("몬스터가 나타났다!");
-            var turnOrder = DetermineInitiative(enemies);
-            StartRounds(turnOrder, enemies);
-        }
 
         private static List<object> DetermineInitiative(List<Monster> enemies)
         {
@@ -35,6 +28,17 @@ namespace TeamProjectSecond
 
             return all.OrderByDescending(t => t.initiative).Select(t => t.entity).ToList();
         }
+
+        public static void StartBattle(Dungeon dungeon, List<Monster> enemies)
+        {
+            BattleScreen.UpdateCurrentStage(dungeon);
+            BattleScreen.DrawMonsterArea(enemies);                 // UI
+            BattleScreen.Log("몬스터가 나타났다!");                 // UI
+            var turnOrder = DetermineInitiative(enemies);
+            StartRounds(turnOrder, enemies);
+        }
+
+
 
         private static void StartRounds(List<object> turnOrder, List<Monster> enemies)
         {
@@ -58,7 +62,7 @@ namespace TeamProjectSecond
                     if (enemies.All(e => e.IsDead))
                     {
                         BattleScreen.Log("전투에서 승리했다!");
-                        // Reward.Grant(); // TODO
+                        // Reward.Grant(); ////////////////////////////////////////////// TODO
                         return;
                     }
                 }
@@ -68,7 +72,7 @@ namespace TeamProjectSecond
         private static void PlayerTurn(List<Monster> enemies)
         {
             BattleScreen.Log("나의 턴 !");
-            BattleScreen.DrawCommandOptions(currentRerollCount);
+            BattleScreen.DrawCommandOptions(" Dice  Roll !"," 스  킬"," 아 이 템");                    // UI
 
             while (true)
             {
@@ -79,28 +83,28 @@ namespace TeamProjectSecond
                 else EventManager.Wrong();
             }
 
-            RollDice();
+            RollPhase();
             RerollPhase();
             SelectTargetAndAttack(enemies);
         }
 
         private static void SelectAndApplySkill()
         {
-            var skills = player.ActiveSkills;
-            BattleScreen.Log("[스킬 목록 표시됨]");
-            for (int i = 0; i < skills.Count; i++)
-                Console.WriteLine($"{i + 1}. {skills[i].Name} (MP {skills[i].ManaCost})");
+            //var skills = player.ActiveSkills;
+            //BattleScreen.Log("[스킬 목록 표시됨]");
+            //for (int i = 0; i < skills.Count; i++)
+            //    Console.WriteLine($"{i + 1}. {skills[i].Name} (MP {skills[i].ManaCost})");
 
-            int? selected = EventManager.CheckInput();
-            if (!selected.HasValue || selected < 1 || selected > skills.Count)
-                return;
+            //int? selected = EventManager.CheckInput();
+            //if (!selected.HasValue || selected < 1 || selected > skills.Count)
+            //    return;
 
-            var skillData = skills[selected.Value - 1];
-            var skill = new Skill(skillData.Name, skillData.Description, skillData.ManaCost, skillData.RequiredLevel, skillData.IsActive, c => { });
-            skill.TryUse(player);
+            //var skillData = skills[selected.Value - 1];
+            //var skill = new Skill(skillData.Name, skillData.Description, skillData.ManaCost, skillData.RequiredLevel, skillData.IsActive, c => { });
+            //skill.TryUse(player);
         }
 
-        private static void RollDice()
+        private static void RollPhase()
         {
             sdList = new List<Dice>
             {
@@ -108,22 +112,25 @@ namespace TeamProjectSecond
                 new Dice(1, 6, DiceType.SD, 2)
             };
             ddList = new();
-            for (int i = 0; i < player.DiceCount - 2; i++)
-                ddList.Add(new Dice(1, 6, DiceType.DD, 3 + i));
+            for (int i = 0; i < player.DiceCount - 1; i++)
+            {
+                var dd = new Dice(1, 6, DiceType.DD, 3 + i);
+                ddList.Add(dd);
+            }
+                
 
             var sdValues = sdList.Select(d => d.Roll()).ToList();
             var ddValues = ddList.Select(d => d.Roll()).ToList();
-
-            BattleScreen.DrawDiceRow(sdValues, 10, 15, "Strike Dice");
-            BattleScreen.DrawDiceRow(ddValues, 80, 23, "Damage Dice");
-            BattleScreen.DrawDDTotal(ddValues.Sum(), 60, 22);
+            BattleScreen.DrawSD(sdValues);
+            BattleScreen.DrawDD(ddValues);
+            //         BattleScreen.DrawDDTotal(ddValues.Sum(), 60, 22);
         }
 
         private static void RerollPhase()
         {
             while (currentRerollCount > 0)
             {
-                BattleScreen.DrawCommandOptions(currentRerollCount);
+                BattleScreen.DrawCommandOptions(" 이대로 Go !",$" Reroll {currentRerollCount}left"," 아 이 템");
                 int? input = EventManager.CheckInput();
                 if (input == 1) break;
                 if (input == 2)
@@ -185,7 +192,7 @@ namespace TeamProjectSecond
             int ddSum = ddList.Sum(d => d.Roll());
             float damage = (ddSum + player.TotalDamageBonus)
                            * player.TotalDamageMultiplier
-                           * (isCrit ? 1.6f : 1f);
+                           * (isCrit ? player.CritMultiplier : 1f);
             return (int)Math.Max(1, damage);
         }
 
@@ -201,6 +208,7 @@ namespace TeamProjectSecond
             player.HealthPoint -= damage;
 
             BattleScreen.Log($"{monster.Name}의 공격! {damage} 데미지를 입었다. (HP: {player.HealthPoint}/{player.MaxHealthPoint})");
+            BattleScreen.UpdateHPMP();
         }
     }
 }
