@@ -13,6 +13,8 @@ namespace TeamProjectSecond
 {
     public class SaveLoadManager
     {
+        public static string filePath = "save.json";
+
         public static void DisplaySaveUI()
         {
             while (true)
@@ -38,7 +40,7 @@ namespace TeamProjectSecond
                         }
                         else
                         {
-                            SaveLoadData.SaveAllData("save.json");
+                            SaveLoadData.SaveAllData(filePath);
                             EventManager.Announce(51, "세이브가 완료되었습니다.");
                         }
                         break;
@@ -72,7 +74,7 @@ namespace TeamProjectSecond
             {
                 case null: return;  // Enter 입력시 돌아감
                 case 1: // 1 입력시 세이브
-                    SaveLoadData.SaveAllData("save.json");
+                    SaveLoadData.SaveAllData(filePath);
                     EventManager.Announce(50, "세이브가 완료되었습니다.");
                     return;
                 default:
@@ -98,7 +100,7 @@ namespace TeamProjectSecond
                 {
                     case null: return;  // Enter 입력시 돌아감
                     case 1: // 1 입력시 세이브 삭제
-                        File.Delete("save.json");
+                        File.Delete(filePath);
                         EventManager.Announce(50, "세이브가 삭제되었습니다.");
                         return;
                     default:
@@ -110,13 +112,13 @@ namespace TeamProjectSecond
 
         public static bool CheckExistSaveData() // true 면 없는 상태, false 면 있는 상태
         {
-            if (!File.Exists("save.json")) return true;
+            if (!File.Exists(filePath)) return true;
             else return false;
         }
 
         public static bool CheckEmptySaveData() // 비어있으면 true, 있으면 false
         {
-            string json = File.ReadAllText("save.json");
+            string json = File.ReadAllText(filePath);
             if (string.IsNullOrWhiteSpace(json)) return true;
 
             var saveData = JsonSerializer.Deserialize<SaveLoadData>(json);
