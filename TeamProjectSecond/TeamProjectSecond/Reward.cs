@@ -72,6 +72,7 @@ namespace TeamProjectSecond
                 int ExpGain = stageRank * stageRank * 10;
                 character.Exp += ExpGain;
             }
+        }
         
     }
 }
