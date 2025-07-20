@@ -6,12 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Save\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\TeamProjectSecond\SharedBridge\SharedBridge.csproj" />
-  </ItemGroup>
-
 </Project>

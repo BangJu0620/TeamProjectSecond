@@ -11,6 +11,13 @@ namespace TeamProjectSecond
     {
         static void RewardBoard(int stageRank)
         {
+            GetExp(stageRank);
+            GetItem(stageRank);
+
+        }
+
+        static void GetItem(int stageRank)
+        {
             int total = 0;
 
             EventManager.Clear();
@@ -73,6 +80,12 @@ namespace TeamProjectSecond
                     GetRewardT(stageRank);
             }
         }
+        static void GetExp(int stageRank)
+        {
+            var character = Character.Instance;
+            int ExpGain = stageRank * stageRank * 10;
+            character.Exp += ExpGain;
+        }
         static void GetRewardTmm(int stageRank) // 티어 -2의 아이템 획득
         {
             var tmmItems = Item.Instance.Where(item => item.ItemRank == Math.Min(1, (stageRank) - 2)).ToList();
@@ -112,5 +125,6 @@ namespace TeamProjectSecond
             EventManager.Announce(45, $"{randomItem.ItemName} 아이템을 획득했습니다!");
         }
     }
+
 }
 

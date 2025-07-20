@@ -66,8 +66,7 @@ namespace TeamProjectSecond
             EventManager.To(49, "정말로 세이브하시겠습니까?\n\n\n");
 
             Console.SetCursorPosition(0, 24);
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            EventManager.To(44, "1. 세이브           Enter. 돌아가기");
+            EventManager.ToS(44, "1. 세이브           Enter. 돌아가기");
             EventManager.Select();
 
             switch (EventManager.CheckInput())
