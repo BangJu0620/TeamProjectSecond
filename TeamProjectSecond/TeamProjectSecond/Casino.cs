@@ -129,10 +129,9 @@ namespace TeamProjectSecond
         }
         static void GambleDiceRoll(int coinRank)
         {
-            int total = 0;
-            int leftRerollTry = 1;
             while(true)
             {
+                int total = 0;
                 List<Dice> dicelist = new List<Dice>   // 주사위 3개를 설정합니다.
                 {
                     new Dice(1, 6, DiceType.ID, 0),
