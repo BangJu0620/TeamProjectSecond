@@ -18,7 +18,6 @@ namespace TeamProjectSecond
             EventManager.To(55, "보상을 획득하세요.");
             EventManager.To(45, "주사위 값이 클 수록 좋은 보상을 얻을 확률이 높아집니다.");
 
-
             List<Dice> dicelist = new List<Dice>   // 주사위 3개를 설정합니다.
             {
                 new Dice(1, 6, DiceType.ID, 0),

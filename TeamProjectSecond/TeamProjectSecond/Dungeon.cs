@@ -126,7 +126,7 @@ namespace TeamProjectSecond
             };
         }
 
-        private List<DungeonStage> GetStagesForDifficulty(Difficulty difficulty)  // 던전 스테이지의 랭크값
+        private List<DungeonStage> GetStagesForDifficulty(Difficulty difficulty)
         {
             List<DungeonStage> result = new();
 
