@@ -16,15 +16,12 @@ namespace TeamProjectSecond
             get
             {
                 if (instance == null)
-                {
                     instance = new Rest();
-                }
                 return instance;
             }
         }
 
         private Rest() { }              // 외부에서 Rest 인스턴스를 생성하는 것을 방지합니다.
-
 
         private int? restCost;          // restCost라는 null값도 받을 수 있는 변수를 선언
         public int RestCost             // 그 변수에 값을 입력하기 위해 호출되는 변수를 선언
@@ -32,9 +29,7 @@ namespace TeamProjectSecond
             get                         // 외부에서 RestCost의 값을 호출하는 순간 get이라는 함수가 작동
             {
                 if (restCost == null)   // restCost는 선언만 됐을 뿐 아무런 값도 입력되지 않았기 때문에
-                {
                     restCost = 500;     // if문이 동작하고, restCost에 500이라는 값이 입력됩니다
-                }
                 return (int)restCost;   // 조건식의 바깥. 즉 언제나 작동되는 부위입니다
             }                           // 호출된 RestCost에 (int)restCost라는 값을 반환합니다.
                                         // int?는 int를 암시적 형변환 하는 것이 불가능하기 때문에 
@@ -54,6 +49,7 @@ namespace TeamProjectSecond
                 EventManager.Clear();
                 EventManager.To(56," 휴 식 하 기\n\n");
                 EventManager.To(43,"골드를 지불하여 체력을 회복할 수 있습니다.\n\n\n\n");
+                Console.ForegroundColor = ConsoleColor.White;
                 EventManager.To(41,$"1. 휴식하기 - {RestCost} 골드\n\n");
                 Console.SetCursorPosition(0, 22);
                 EventManager.To(41,$"Enter. 돌아가기\n\n");
