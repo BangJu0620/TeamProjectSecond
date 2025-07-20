@@ -57,92 +57,60 @@ namespace TeamProjectSecond
                 data.IsActive,
                 character =>
                 {
-                    // Active Skill 처리
                     if (data.IsActive)
                     {
                         switch (data.Name)
                         {
-                            case "FixAllDD=5":
-                  //              character.TempDDOverride = 5;
+                            case "확신의 5":
                                 break;
-
-                            case "MinDice2":
-                   //             character.DDTransform = d => Math.Max(2, d);
+                            case "최소 2":
                                 break;
-
-                            case "MinDice3":
-                       //         character.DDTransform = d => Math.Max(3, d);
+                            case "최소 3":
                                 break;
-
-                            case "Dmg+Lv/10":
-                     //           character.TempDamageBonus += character.Level / 10f;
+                            case "받고, 더":
                                 break;
-
-                            case "AOE":
-                     //           character.MageMPRecoveryInsteadOfAttack = true;
+                            case "땡값":
                                 break;
-
-                            case "Exclude1/3+AOE":
-                        //        character.DDTransform = d => (d == 1 || d == 3) ? 0 : d;
-                        //        character.MageMPRecoveryInsteadOfAttack = true;
+                            case "로디드 다이스":
                                 break;
-
-                            case "Def+4DD / MP+8DD":
+                            case "나이스 폴드":
                                 character.BonusDefense += 4;
                                 character.ManaPoint += 8 * Battle.ddValues.Sum();
                                 break;
-
-                            case "CubeDmg":
+                            case "Ready to 🎲":
                                 character.TempDamageBonus += (float)Math.Pow(Battle.ddValues.Sum() - 1, 3);
                                 break;
                         }
                     }
-                    // Passive Skill 처리
                     else
                     {
                         switch (data.Name)
                         {
-                            case "BonusDmgPerLevel":
+                            case "야금야금":
                                 character.BaseDamageBonus += character.Level;
                                 break;
-
-                            case "FlatDmg+0.5":
+                            case "능숙한 베팅":
                                 character.BaseDamageMultiplier += 0.5f;
                                 break;
-
-                            case "FlatDmg+1 / SD1=5":
+                            case "평정심":
                                 character.BaseDamageMultiplier += 1.0f;
-                         //       character.TempSDOverride = 5;
                                 break;
-
-                            case "NoCrit / MPShield":
-                           //     character.CritThreshold = 99;
-                                // MP로 데미지 흡수 → 별도 전투 로직에서 분기 필요
+                            case "미신쟁이의 습관":
                                 break;
-
-                            case "EvenDD+1.0":
-                        //        character.DDTransform = d => (d % 2 == 0) ? d + 1 : d;
+                            case "메이드":
                                 break;
-
-                            case "Crit+0.5 / Crit9+":
+                            case "스몰 블라인드":
                                 character.BonusCritMultiplier += 0.5f;
                                 character.BonusCritThreshold += 2;
                                 break;
-
-                            case "6+Bonus+1f":
-                //                character.DDTransform = d => (d >= 6) ? d + 1 : d;
+                            case "아웃사이드 베팅":
                                 break;
-
-                            case "MaxDice=7":
-                   //             character.DDTransform = d => Math.Min(7, d);
-                      //          character.SDTransform = d => Math.Min(7, d);
+                            case "럭키 세븐":
                                 break;
-
-                            case "Crit2.0x":
+                            case "빅 블라인드":
                                 character.BonusCritMultiplier += 0.4f;
                                 break;
-
-                            case "Crit8+":
+                            case "칩 리더":
                                 character.BonusCritThreshold += 3;
                                 break;
                         }
