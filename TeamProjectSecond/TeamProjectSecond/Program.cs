@@ -20,6 +20,7 @@ namespace TeamProjectSecond
             EventBridge.OnGetExp = () => Character.Instance.Exp;
             EventBridge.OnAddGold = amount => Character.Instance.Gold += amount;
             EventBridge.OnAddExp = amount => Character.Instance.Exp += amount;
+            EventBridge.OnGetMpPotionCount = () => Item.Instance.First(i => i.ItemName == "MP 포션").Quantity;
 
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.CursorVisible = false;
