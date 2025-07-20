@@ -112,7 +112,7 @@ namespace TeamProjectSecond
                 new Dice(1, 6, DiceType.SD, 2)
             };
             ddList = new();
-            for (int i = 0; i < player.DiceCount + 6; i++)
+            for (int i = 0; i < player.DiceCount; i++)
             {
                 var dd = new Dice(1, 6, DiceType.DD, 3 + i);
                 ddList.Add(dd);

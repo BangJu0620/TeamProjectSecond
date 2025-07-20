@@ -194,11 +194,12 @@ namespace TeamProjectSecond
                 }
 
                 Console.SetCursorPosition(0, 29);
-                for (int i = 60; i > 0; i--)
+                for (int i = 59; i > 0; i--)
                 {
                     Console.Write(repeated[(i + 5) % 6]);
                     Console.Write(" ");
                 }
+                Console.Write(repeated[0]);
             }
             Console.SetCursorPosition(0, 2);
         }

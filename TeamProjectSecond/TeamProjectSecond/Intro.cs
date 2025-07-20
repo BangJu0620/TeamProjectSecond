@@ -15,10 +15,48 @@ namespace TeamProjectSecond
             while (true)
             {
                 EventManager.Clear();
-                EventManager.To(58, "타  이  틀\n\n");
+                Console.SetCursorPosition(0, 5);
 
-                EventManager.To(42, "1. 새로 시작\n\n\n\n\n");
-                EventManager.To(42, "2. 이어하기\n\n\n\n\n");
+                string[] title = new string[]
+                {
+                    "█████╗   ██████╗  █████╗  ██████╗     ██████╗   █████╗  ██╗     ██╗    ",
+                    "██╔══██╗ ╚═██╔═╝ ██╔══██╗ ██╔═══╝     ██╔══██║ ██╔══██║ ██║     ██║    ",
+                    "██║  ██║   ██║   ██║  ╚═╝ ██████╗     █████╔═╝ ██║  ██║ ██║     ██║    ",
+                    "██║  ██║   ██║   ██║  ██╗ ██╔═══╝     ██╔═██╗  ██║  ██║ ██║     ██║    ",
+                    "█████╔═╝ ██████╗  █████╔╝ ██████╗     ██║  ██╗  █████╔╝ ██████╗ ██████╗",
+                    "╚════╝   ╚═════╝  ╚════╝  ╚═════╝     ╚═╝  ╚═╝  ╚════╝  ╚═════╝ ╚═════╝",
+                    "",
+                    "",
+                    "           ██████╗  ██╗        ██╗   ██╗   ██╗ ██████╗ ██╗   ██╗  █████╗       █████╗      ██╗    ██╗       ██╗ ██████╗",
+                    "           ██╔══██╗ ██║       ████╗   ██╗ ██╔╝ ╚═██╔═╝ ███╗  ██║ ██╔═══╝      ██╔═══╝     ████╗   ███╗     ███║ ██╔═══╝",
+                    "           ██████╔╝ ██║      ██╔═██╗   ████╔╝    ██║   ██╔██╗██║ ██║ ███╗     ██║ ███╗   ██╔═██╗  ██║██╗ ██║██║ ██████╗",
+                    "           ██╔═══╝  ██║     ████████╗   ██╔╝     ██║   ██║╚═███║ ██║ ╚═██╗    ██║ ╚═██╗ ████████╗ ██║ ████╔╝██║ ██╔═══╝",
+                    "           ██║      ██████╗ ██╔═══██║   ██║    ██████╗ ██║   ██║  █████╔═╝     █████╔═╝ ██╔═══██╗ ██║  ██╔╝ ██║ ██████╗",
+                    "           ╚═╝      ╚═════╝ ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚═╝   ╚═╝  ╚════╝       ╚════╝   ╚═╝   ╚═╝ ╚═╝  ╚═╝  ╚═╝ ╚═════╝"
+                };
+
+                //ConsoleColor[] colors = new ConsoleColor[]
+                //{
+                //    ConsoleColor.DarkRed,
+                //    ConsoleColor.DarkYellow,
+                //    ConsoleColor.DarkGreen,
+                //    ConsoleColor.DarkCyan,
+                //    ConsoleColor.DarkBlue,
+                //    ConsoleColor.DarkMagenta,
+                //    ConsoleColor.Gray
+                //};
+
+                for (int i = 0; i < title.Length; i++)
+                {
+                    //Console.ForegroundColor = colors[i % colors.Length];
+                    Console.SetCursorPosition(0, 5 + i);
+                    Console.WriteLine(title[i]);
+                    Thread.Sleep(70); // 시간차로 색상 변화 효과
+                }
+
+
+                Console.SetCursorPosition(0, 23);
+                EventManager.To(44, "1. 새로 시작            2. 이어하기");
                 EventManager.Select();
 
                 switch (EventManager.CheckInput())
