@@ -278,7 +278,7 @@ namespace TeamProjectSecond
                     target.IsDead = true;
                     BattleScreen.Log($"{target.Name}을(를) 처치했다!");
                     target.CurrentHP = 0;
-                    if (target.Name == "주사위 슬라임")
+                    if (target.Name == "주사위 슬라임" && QuestDatabase.AllQuests[0].Status == QuestStatus.InProgress)
                     {
                         QuestDatabase.AllQuests[0].CurrentCount++;
                     }
