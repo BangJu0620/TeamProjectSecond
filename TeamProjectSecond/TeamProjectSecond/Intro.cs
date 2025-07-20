@@ -50,8 +50,8 @@ namespace TeamProjectSecond
                     EventManager.Clear();
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.SetCursorPosition(0, 11);
-                    EventManager.To(51, "1. 새로하기\n\n\n");
-                    EventManager.To(51, "2. 이어하기");
+                    EventManager.To(53, "1. 새로하기\n\n\n");
+                    EventManager.To(53, "2. 이어하기");
                     EventManager.Select();
 
                     switch (EventManager.CheckInput())
@@ -62,7 +62,7 @@ namespace TeamProjectSecond
                             SetClass(classTypeChange);  // 클래스 설정
                             return;
                         case 2:
-                            if (SaveLoadManager.CheckExistSaveData())   // 세이브 파일 존재하는지 확인
+                            if (SaveLoadManager.CheckMissingSaveData())   // 세이브 파일 존재하는지 확인
                             {
                                 EventManager.Announce(50, "세이브 파일이 없습니다.");
                                 break;
@@ -110,6 +110,7 @@ namespace TeamProjectSecond
             {
                 EventManager.Clear();
                 Console.SetCursorPosition(0, 13);
+                Console.ForegroundColor = ConsoleColor.White;
                 EventManager.To(53, "이름을 입력해주세요.");
                 Console.SetCursorPosition(0, 20);
                 EventManager.To(43, "▶▶ ");
@@ -125,6 +126,7 @@ namespace TeamProjectSecond
             {
                 EventManager.Clear();
                 Console.SetCursorPosition(0, 12);
+                Console.ForegroundColor = ConsoleColor.White;
                 EventManager.To(58, $"{name}\n\n\n");
                 EventManager.To(50, "이대로 진행하시겠습니까?\n\n\n");
                 EventManager.To(46, "1. 진행하기     Enter. 다시 입력");
@@ -163,6 +165,7 @@ namespace TeamProjectSecond
             {
                 EventManager.Clear();
                 Console.SetCursorPosition(0, 7);
+                Console.ForegroundColor = ConsoleColor.White;
                 EventManager.To(52, "직업을 선택해주세요.\n\n\n");
                 EventManager.To(46, "1. Warrior\n\n\n");
                 EventManager.To(46, "2. Mage\n\n\n");
@@ -193,6 +196,7 @@ namespace TeamProjectSecond
             {
                 EventManager.Clear();
                 Console.SetCursorPosition(0, 12);
+                Console.ForegroundColor = ConsoleColor.White;
                 EventManager.To(58, $"{Character.Instance.ClassType}\n\n\n");
                 EventManager.To(50, "이대로 진행하시겠습니까?\n\n\n");
                 EventManager.To(46, "1. 진행하기     Enter. 다시 입력");

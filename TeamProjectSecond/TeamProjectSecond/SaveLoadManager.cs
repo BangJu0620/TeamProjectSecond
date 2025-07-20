@@ -61,12 +61,13 @@ namespace TeamProjectSecond
         {
             EventManager.Clear();
             Console.SetCursorPosition(0, 11);
+            Console.ForegroundColor = ConsoleColor.White;
             EventManager.To(31, "세이브파일이 존재해 세이브를 할 경우 기존 데이터는 삭제됩니다.\n\n\n\n");
             EventManager.To(49, "정말로 세이브하시겠습니까?\n\n\n");
 
             Console.SetCursorPosition(0, 24);
-            Console.ForegroundColor = ConsoleColor.White;
-            EventManager.To(43, "1. 세이브           Enter. 돌아가기");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            EventManager.To(44, "1. 세이브           Enter. 돌아가기");
             EventManager.Select();
 
             switch (EventManager.CheckInput())
@@ -88,12 +89,13 @@ namespace TeamProjectSecond
             {
                 EventManager.Clear();
                 Console.SetCursorPosition(0, 11);
-                EventManager.To(55, "세이브 삭제\n\n\n\n");
-                EventManager.To(49, "정말로 삭제하시겠습니까?\n\n\n");
+                Console.ForegroundColor = ConsoleColor.White;
+                EventManager.To(57, "세이브 삭제\n\n\n\n");
+                EventManager.To(50, "정말로 삭제하시겠습니까?\n\n\n");
 
                 Console.SetCursorPosition(0, 24);
-                Console.ForegroundColor = ConsoleColor.White;
-                EventManager.To(43, "1. 세이브 삭제       Enter. 돌아가기");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                EventManager.To(44, "1. 세이브 삭제       Enter. 돌아가기");
                 EventManager.Select();
 
                 switch (EventManager.CheckInput())
