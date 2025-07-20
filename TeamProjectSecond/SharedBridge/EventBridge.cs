@@ -22,5 +22,6 @@ namespace SharedBridge
         public static Action<int> OnAddExp;
         public static Func<int> OnGetMpPotionCount;
         public static Action<string, int> OnDecreaseItemQuantityByName;
+        public static Action<int>? OnGainExp;
     }
 }

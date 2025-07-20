@@ -34,6 +34,7 @@ namespace TeamProjectSecond
                     }
                 }
             };
+            EventBridge.OnGainExp = LevelManager.GainExpWithEffect;
 
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.CursorVisible = false;

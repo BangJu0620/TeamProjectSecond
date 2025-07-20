@@ -190,7 +190,7 @@ namespace TextRPGQuest.QuestSystem
                 //Player.Instance.Gold += quest.RewardGold;
                 EventBridge.OnAddGold?.Invoke(quest.RewardGold);
                 //Player.Instance.Exp += quest.RewardExp;
-                EventBridge.OnAddExp?.Invoke(quest.RewardExp);
+                EventBridge.OnGainExp?.Invoke(quest.RewardExp);
                 quest.Status = QuestStatus.Rewarded;
                 if(quest.ID == 3)
                 {
