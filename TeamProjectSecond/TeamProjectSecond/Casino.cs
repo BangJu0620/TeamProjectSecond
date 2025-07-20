@@ -14,6 +14,7 @@ namespace TeamProjectSecond
         {
             var character = Character.Instance;
 
+
             //ShowEnter();
 
             while (true)

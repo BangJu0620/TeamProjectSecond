@@ -9,7 +9,9 @@ namespace TeamProjectSecond
 {
     public class Reward
     {
+
         public static void RewardBoard(Dungeon dungeon, int stageRank)
+
         {
             var character = Character.Instance;
 
@@ -70,6 +72,6 @@ namespace TeamProjectSecond
                 int ExpGain = stageRank * stageRank * 10;
                 character.Exp += ExpGain;
             }
-        }
+        
     }
 }

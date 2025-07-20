@@ -187,7 +187,7 @@ namespace TeamProjectSecond
             }
             else
             {
-                To(48, 25, ConsoleColor.Green, $"사용 가능한 스킬이 없습니다."); 
+                To(48, 25, ConsoleColor.Green, $"사용 가능한 스킬이 없다."); 
             }
         }
         //HP MP Bar그리기
