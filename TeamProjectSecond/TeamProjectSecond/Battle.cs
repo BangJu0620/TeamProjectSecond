@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using TextRPGQuest.QuestSystem;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace TeamProjectSecond
@@ -277,6 +278,10 @@ namespace TeamProjectSecond
                     target.IsDead = true;
                     BattleScreen.Log($"{target.Name}을(를) 처치했다!");
                     target.CurrentHP = 0;
+                    if (target.Name == "주사위 슬라임")
+                    {
+                        QuestDatabase.AllQuests[0].CurrentCount++;
+                    }
                 }
                 BattleScreen.UpdateHPMP();
                 IsTargetPhase = false;
