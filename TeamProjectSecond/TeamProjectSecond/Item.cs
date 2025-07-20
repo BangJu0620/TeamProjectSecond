@@ -83,8 +83,8 @@ namespace TeamProjectSecond
             instance.Add(new ItemData(318, "괴인의 수첩", ItemType.Accessory, 0, 0, 0, 0, 1, 5, 0, "추가데미지+5", "'뭐가 적혀있는 거지?'", 800, false, false, null, false));
 
             //consumables
-            instance.Add(new ItemData(400, "HP 포션", "HP 30 회복", "HP를 30 회복시켜주는 포션.", 500, false, false, true, 1));
-            instance.Add(new ItemData(401, "MP 포션", "MP 30 회복", "MP를 30 회복시켜주는 포션.", 500, false, false, true, 1));
+            instance.Add(new ItemData(400, "HP 포션", "HP 30 회복", "HP를 30 회복시켜주는 포션.", 100, false, false, true, 1));
+            instance.Add(new ItemData(401, "MP 포션", "MP 30 회복", "MP를 30 회복시켜주는 포션.", 100, false, false, true, 1));
 
             instance.Add(new ItemData(450, "수호의 영약", "방어력 +1", "방어력을 1 증가시켜주는 물약.", 1000, false, false, false,2));
             instance.Add(new ItemData(451, "신속의 영약", "속도 +1", "속도를 1 증가시켜주는 물약.", 1000, false, false, false,2));
