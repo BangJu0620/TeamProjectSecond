@@ -9,14 +9,19 @@ namespace TeamProjectSecond
 {
     public static class Battle
     {
+        public static Dungeon currentDungeon;
+        public static int StageRankSumThisRound { get; set; }
         private static int currentRerollCount;
-        public static List<Dice>? sdList;
+        public static List<Dice>? sdList { get; private set; } = new();
         public static List<Dice>? ddList;
         public static List<int>? sdValues;
         public static List<int>? ddValues;
         public static bool IsRerollPhase = false;
         public static bool IsTargetPhase = false;
         private static Character player => Character.Instance;
+        public static int min => player.MinDice;
+        public static int max => player.MaxDice;
+        public static int IncomingMonsterDamage = 0;
         private static List<Skill> AppliedSkills = new();
         private static List<Skill> AppliedActiveSkills = new();
         private static List<Skill> PassiveSkills => player.PassiveSkills.Select(Skill.From).ToList();
@@ -29,9 +34,12 @@ namespace TeamProjectSecond
         private static void InitializeSkillsForRound()
         {
             AppliedActiveSkills.Clear();
-            AppliedSkills = PassiveSkills.ToList(); // 깊은 복사
+            AppliedSkills = PassiveSkills.ToList(); 
             foreach (var skill in AppliedSkills)
-                skill.ApplyPassive(player); // 항상 적용
+                skill.ApplyPassive(player);
+
+            player.ManaPoint += 20;
+            player.ManaPoint = player.ManaPoint > player.MaxManaPoint ? player.MaxManaPoint : player.ManaPoint;
         }
         private static List<object> DetermineInitiative(List<Monster> enemies)
         {
@@ -52,15 +60,19 @@ namespace TeamProjectSecond
 
         public static void StartBattle(Dungeon dungeon, List<Monster> enemies)
         {
+            currentDungeon = dungeon;
             BattleScreen.Clear();
-            BattleScreen.UpdateCurrentStage(dungeon);
+            BattleScreen.UpdateCurrentStage(currentDungeon);
             BattleScreen.UpdateMonsterUI(enemies);                 // UI
             BattleScreen.Log("몬스터가 나타났다!");                 // UI
+            foreach (var skill in AppliedSkills)
+                skill.OnRoundStart?.Invoke(player);
             var turnOrder = DetermineInitiative(enemies);
             bool won = StartRounds(turnOrder, enemies);
             if (won)
             {
-                dungeon.ProceedToNextStage();
+                Reward.RewardBoard(dungeon, StageRankSumThisRound);
+                //dungeon.ProceedToNextStage();
             }
             else
             {
@@ -73,12 +85,12 @@ namespace TeamProjectSecond
             }
         }
 
-
-
         private static bool StartRounds(List<object> turnOrder, List<Monster> enemies)
         {
+
             while (true)
             {
+                player.ResetTurnTempEffects();
                 InitializeSkillsForRound();
                 currentRerollCount = player.RerollCount;
 
@@ -88,6 +100,8 @@ namespace TeamProjectSecond
                         PlayerTurn(enemies);
                     else if (actor is Monster m && !m.IsDead)
                         MonsterTurn(m);
+                    foreach (var skill in AppliedSkills)
+                        skill.OnRoundEnd?.Invoke(player);
 
                     if (player.HealthPoint <= 0)
                     {
@@ -102,6 +116,7 @@ namespace TeamProjectSecond
                         return true;
                     }
                 }
+                
             }
         }
 
@@ -114,7 +129,17 @@ namespace TeamProjectSecond
                 int? input = EventManager.CheckInput();
                 if (input == 1) break;
                 else if (input == 2) { SelectAndApplyActiveSkill(); continue; }
-                else if (input == 3) { Inventory.ShowInventory(); return; }
+                else if (input == 3)
+                {
+                    Console.Clear();
+                    EventManager.Clear();
+                    Inventory.ShowInventory();
+                    Console.Clear();
+                    BattleScreen.Clear();
+                    BattleScreen.UpdateCurrentStage(currentDungeon);
+                    BattleScreen.UpdateMonsterUI(enemies);
+                    BattleScreen.DrawCommandOptions(" Dice  Roll !", " 스  킬      ", " 아 이 템");
+                    continue; }
                 else { BattleScreen.Wrong(); BattleScreen.DrawCommandOptions(" Dice  Roll !", " 스  킬      ", " 아 이 템"); }
             }
 
@@ -130,7 +155,7 @@ namespace TeamProjectSecond
             BattleScreen.DrawCommandOptions("사용할 스킬을 선택하세요:");
             if (skills.Count == 0)
             {
-                BattleScreen.DrawCommandOptions("사용 가능한 스킬이 없습니다.");
+                BattleScreen.DrawCommandOptions("사용 가능한 스킬이 없다.");
                 return;
             }
 
@@ -157,18 +182,21 @@ namespace TeamProjectSecond
         private static void RollPhase()
         {
             BattleScreen.BattleDiceUI();
+            foreach (var skill in AppliedSkills)
+                skill.OnBeforePrepareRoll?.Invoke(player);
             sdList = new List<Dice>
             {
-                new Dice(1, 6, DiceType.SD, 1),
-                new Dice(1, 6, DiceType.SD, 2)
+                new Dice(min, max, DiceType.SD, 1),
+                new Dice(min, max, DiceType.SD, 2)
             };
             ddList = new();
             for (int i = 0; i < player.DiceCount; i++)
             {
-                var dd = new Dice(1, 6, DiceType.DD, 3 + i);
+                var dd = new Dice(min, max, DiceType.DD, 3 + i);
                 ddList.Add(dd);
             }
-                
+            foreach (var skill in AppliedSkills)
+                skill.OnBeforeRoll?.Invoke(player);
             //눈 값 저장
             sdValues = sdList.Select(d => d.Roll()).ToList();
             ddValues = ddList.Select(d => d.Roll()).ToList();
@@ -191,7 +219,7 @@ namespace TeamProjectSecond
                     if (currentRerollCount == 0 )
                     {
                         BattleScreen.DrawCommandOptions("리롤 횟수가 부족합니다.");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         continue; 
                     }     /// 리롤횟수 0 이면 돌아가.
                     IsRerollPhase = true;
@@ -224,6 +252,8 @@ namespace TeamProjectSecond
                     {
                         BattleScreen.Wrong();  // 잘못된 인덱스 입력
                     }
+                    foreach (var skill in AppliedSkills)
+                        skill.OnAfterRoll?.Invoke(player);
                     continue;
                 }
                 if (input == 3)
@@ -241,52 +271,57 @@ namespace TeamProjectSecond
         private static void SelectTarget(List<Monster> enemies)
         {
             IsRerollPhase = false;
-            while (true)
+            if (player.MageMPRecoveryInsteadOfAttack == false)
             {
-                IsTargetPhase = true;
-                BattleScreen.UpdateMonsterUI(enemies);   
-                BattleScreen.DrawCommandOptions("공격할 대상을 선택");
-                for (int i = 0; i < enemies.Count; i++)
+                while (true)
                 {
-                    var m = enemies[i];
-                }
+                    IsTargetPhase = true;
+                    BattleScreen.UpdateMonsterUI(enemies);
+                    BattleScreen.DrawCommandOptions("공격할 대상을 선택");
+                    for (int i = 0; i < enemies.Count; i++)
+                    {
+                        var m = enemies[i];
+                    }
 
-                int? selected = EventManager.CheckInput();
-                if (!selected.HasValue || selected < 1 || selected > enemies.Count)
-                {
-                    continue;
-                }
+                    int? selected = EventManager.CheckInput();
+                    if (!selected.HasValue || selected < 1 || selected > enemies.Count)
+                    {
+                        continue;
+                    }
 
-                var target = enemies[selected.Value - 1];
-                if (target.IsDead) return;
+                    var target = enemies[selected.Value - 1];
+                    if (target.IsDead) continue;
 
-                int sdTotal = sdValues.Sum();
-                bool isMiss = sdTotal <= 3;
-                bool isCrit = sdTotal >= Character.Instance.CritThreshold;
+                    int sdTotal = sdValues.Sum();
+                    bool isMiss = sdTotal <= 3;
+                    bool isCrit = sdTotal >= Character.Instance.CritThreshold;
 
-                if (isMiss)
-                {
-                    BattleScreen.Log("공격이 빗나갔다!");
+                    if (isMiss)
+                    {
+                        BattleScreen.Log("공격이 빗나갔다!");
+                        break;
+                    }
+
+                    int damage = CalculatePlayerDamage(ddValues, isCrit, target);
+                    target.CurrentHP -= damage;
+                    BattleScreen.Log($"{target.Name}에게 {damage} 데미지를 입혔다!");
+                    if (target.CurrentHP <= 0)
+                    {
+                        target.IsDead = true;
+                        BattleScreen.Log($"{target.Name}을(를) 처치했다!");
+                        target.CurrentHP = 0;
+                    }
+                    BattleScreen.UpdateHPMP();
+                    IsTargetPhase = false;
+                    BattleScreen.UpdateMonsterUI(enemies);
                     break;
                 }
-
-                int damage = CalculatePlayerDamage(ddValues, isCrit, target);
-                target.CurrentHP -= damage;
-                BattleScreen.Log($"{target.Name}에게 {damage} 데미지를 입혔다!");
-                if (target.CurrentHP <= 0)
-                {
-                    target.IsDead = true;
-                    BattleScreen.Log($"{target.Name}을(를) 처치했다!");
-                    target.CurrentHP = 0;
-                    if (target.Name == "주사위 슬라임" && QuestDatabase.AllQuests[0].Status == QuestStatus.InProgress)
-                    {
-                        QuestDatabase.AllQuests[0].CurrentCount++;
-                    }
-                }
+            }
+            else
+            {
+                BattleScreen.DrawCommandOptions("아무키나 눌러 마나회복");
+                Console.ReadKey(true); 
                 BattleScreen.UpdateHPMP();
-                IsTargetPhase = false;
-                BattleScreen.UpdateMonsterUI(enemies);
-                break;
             }
         }
 
@@ -301,6 +336,8 @@ namespace TeamProjectSecond
 
         private static void MonsterTurn(Monster monster)
         {
+            IncomingMonsterDamage = 0;
+            
             if (monster.IsDead) return;
 
             int ddSum = 0;
@@ -308,7 +345,10 @@ namespace TeamProjectSecond
                 ddSum += new Dice(1, 6, DiceType.DD, 3 + i).Roll();
 
             int damage = Math.Max(0, ddSum + monster.BaseAttack - player.DefensePoint);
-            player.HealthPoint -= damage;
+            IncomingMonsterDamage = damage;
+            foreach (var skill in AppliedSkills)
+                skill.OnMonsterAttack?.Invoke(player);
+            player.HealthPoint -= IncomingMonsterDamage;
 
             BattleScreen.Log($"{monster.Name}의 공격! {damage} 만큼 아프다.");
             if (player.HealthPoint <= 0)

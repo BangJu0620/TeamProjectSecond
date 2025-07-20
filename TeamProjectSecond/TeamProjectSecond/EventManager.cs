@@ -34,8 +34,11 @@ namespace TeamProjectSecond
                 To(43,"3. 상점\n\n");
                 To(43,"4. 던전\n\n");
                 To(43,"5. 휴식하기\n\n");
-                To(43,"6. 퀘스트\n\n");
-                To(43,"7. 세이브\n\n");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                To(43,"6. ~$$ 주사위의 성지 $$~\n\n");
+                Console.ForegroundColor = ConsoleColor.White;
+                To(43,"7. 퀘스트\n\n");
+                To(43,"8. 세이브\n\n");
                 Select();
 
                 switch (CheckInput())
@@ -61,10 +64,13 @@ namespace TeamProjectSecond
                         rest.RestInVillage();
                         break;
                     case 6:
+                        Casino.EnterCasino();
+                        break;
+                    case 7:
                         // 퀘스트
                         QuestBoard.ShowQuests();
                         break;
-                    case 7:
+                    case 8:
                         // 저장/불러오기
                         SaveLoadManager.DisplaySaveUI();
                         break;

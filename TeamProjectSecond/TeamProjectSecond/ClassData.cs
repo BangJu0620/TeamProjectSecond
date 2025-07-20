@@ -40,13 +40,13 @@ namespace TeamProjectSecond
                     BaseSpeed = 15;
                     BaseCritMultiplier = 1.6f;
 
-                    PassiveSkills.Add(new SkillData("야금야금", "레벨당 뻥딜 보너스", 0, 1, false));
-                    PassiveSkills.Add(new SkillData("능숙한 베팅", "뻥딜 +0.5f", 0, 8, false));
-                    PassiveSkills.Add(new SkillData("평정심", "뻥딜+1f / SD_1이 5로 고정", 0, 16, false));
+                    PassiveSkills.Add(new SkillData("야금야금", "레벨당 데미지 보너스", 0, 1, false));
+                    PassiveSkills.Add(new SkillData("능숙한 베팅", "데미지계수+50%", 0, 8, false));
+                    PassiveSkills.Add(new SkillData("평정심", "데미지계수+100% / 첫번째 SD가 항상 5로 고정", 0, 16, false));
 
-                    ActiveSkills.Add(new SkillData("최소 2", "[A] MinDiceThreshold = 2", 10, 4, true));
-                    ActiveSkills.Add(new SkillData("최소 3", "[A] MinDiceThreshold = 3", 20, 12, true));
-                    ActiveSkills.Add(new SkillData("확신의 5", "[A] 모든 DD를 5로 고정", 30, 20, true));
+                    ActiveSkills.Add(new SkillData("최소 2", "다음 굴림의 주사위 최솟값은 2다.", 10, 4, true));
+                    ActiveSkills.Add(new SkillData("최소 3", "다음 굴림의 주사위 최솟값은 3이다.", 20, 12, true));
+                    ActiveSkills.Add(new SkillData("확신의 5", "모든 DamageDice를 5로 고정", 30, 20, true));
                     break;
 
                 case ClassType.Mage:
@@ -58,13 +58,13 @@ namespace TeamProjectSecond
                     BaseSpeed = 10;
                     BaseCritMultiplier = 1.6f;
 
-                    PassiveSkills.Add(new SkillData("미신쟁이의 습관", "크리 없음 / 피해의 80%를 MP로 감당", 0, 1, false));
-                    PassiveSkills.Add(new SkillData("메이드", "짝수 DD마다 뻥딜 +1", 0, 16, false));
+                    PassiveSkills.Add(new SkillData("안좋은 습관", "크리티컬X / 피해의 80%를 MP로 감당", 0, 1, false));
+                    PassiveSkills.Add(new SkillData("메이드", "짝수 Damage Dice마다 데미지 보너스 +1", 0, 16, false));
 
-                    ActiveSkills.Add(new SkillData("땡값", "[A] 전체 공격", 40, 4, true));
-                    ActiveSkills.Add(new SkillData("받고, 더", "[A] 뻥딜 +(Lv/10)", 60, 8, true));
-                    ActiveSkills.Add(new SkillData("나이스 폴드", "[A] 방어력+ / 마나 회복", 10, 12, true));
-                    ActiveSkills.Add(new SkillData("로디드 다이스", "[A] 1,3 제외 전체공격", 200, 20, true));
+                    ActiveSkills.Add(new SkillData("패 돌리기", "전체 공격", 40, 4, true));
+                    ActiveSkills.Add(new SkillData("받고, 더", "레벨마다 10%p의 데미지계수로 공격", 60, 8, true));
+                    ActiveSkills.Add(new SkillData("나이스 폴드", "합계 네배만큼의 방어력, 라운드 종료시 합계 8배만큼 마나 회복", 10, 12, true));
+                    ActiveSkills.Add(new SkillData("로디드 다이스", "주사위에서 1 / 3눈이 나오지 않는다. 전체 공격", 200, 20, true));
                     break;
 
                 case ClassType.Rogue:

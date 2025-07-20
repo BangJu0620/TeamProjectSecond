@@ -57,7 +57,7 @@ namespace TeamProjectSecond
         {
             DrawCommandOptionsClear();
             DrawCommandOptions("잘못된 입력입니다.");
-            Console.ReadKey();
+            Console.ReadKey(true);
         }
         public static void CenteredText(int x, int y, int width, string text, ConsoleColor color, ConsoleColor backcolor)
         {
@@ -187,7 +187,7 @@ namespace TeamProjectSecond
             }
             else
             {
-                To(48, 25, ConsoleColor.Green, $"사용 가능한 스킬이 없습니다."); 
+                To(48, 25, ConsoleColor.Green, $"사용 가능한 스킬이 없다."); 
             }
         }
         //HP MP Bar그리기
@@ -202,7 +202,7 @@ namespace TeamProjectSecond
             Bar(55, 17, filled, barWidth, ConsoleColor.Red);
             To(75, 17, ConsoleColor.DarkGray, "|");
             To(76, 17, ConsoleColor.White, $"   ");
-            To(77, 17, ConsoleColor.White, $"{player.HealthPoint}");
+            To(77, 17, ConsoleColor.White, $"{player.HealthPoint} ");
             To(81, 17, ConsoleColor.White, "/");
             To(83, 17, ConsoleColor.White, $"{player.MaxHealthPoint}");
             filled = (int)((player.ManaPoint / (float)player.MaxManaPoint) * barWidth);
@@ -211,7 +211,7 @@ namespace TeamProjectSecond
             Bar(55, 18, filled, barWidth, ConsoleColor.Blue);
             To(75, 18, ConsoleColor.DarkGray, "|");
             To(76, 18, ConsoleColor.White, $"   ");
-            To(77, 18, ConsoleColor.White, $"{player.ManaPoint}");
+            To(77, 18, ConsoleColor.White, $"{player.ManaPoint} ");
             To(81, 18, ConsoleColor.White, "/");
             To(83, 18, ConsoleColor.White, $"{player.MaxManaPoint}");
         }
@@ -554,7 +554,7 @@ namespace TeamProjectSecond
             To(x, y + 5, c, "    ╚═╝     ╚════╝   ╚════╝      ╚════╝   ╚═════╝ ╚═════╝ ╚════╝  ");
             Console.ResetColor();
             To(51,25, ConsoleColor.DarkGray, "- Press Any Key -");
-            Console.ReadKey();
+            Console.ReadKey(true);
         }
 
 
