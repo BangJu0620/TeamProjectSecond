@@ -59,6 +59,43 @@ namespace TeamProjectSecond
             DrawCommandOptions("잘못된 입력입니다.");
             Console.ReadKey();
         }
+        public static void CenteredText(int x, int y, int width, string text, ConsoleColor color, ConsoleColor backcolor)
+        {
+            int textWidth = GetConsoleTextWidth(text);
+            int startX = x + Math.Max(0, (width - textWidth) / 2);
+
+            Console.SetCursorPosition(startX, y);
+            Console.ForegroundColor = color;
+            Console.BackgroundColor = backcolor;
+            Console.Write(text);
+            Console.ResetColor();
+        }
+        private static int GetConsoleTextWidth(string text) // 문자열의 콘솔 너비를 계산 (한글은 2칸, 영어 등은 1칸)
+        {
+            int width = 0;
+            foreach (char c in text)
+            {
+                if (IsWideChar(c))
+                    width += 2;
+                else
+                    width += 1;
+            }
+            return width;
+        }
+
+        private static bool IsWideChar(char c)
+        {
+            return c >= 0x1100 && (
+                   c <= 0x115F || // Hangul Jamo
+                   c == 0x2329 || c == 0x232A ||
+                   (c >= 0x2E80 && c <= 0xA4CF && c != 0x303F) || // CJK Radicals
+                   (c >= 0xAC00 && c <= 0xD7A3) || // Hangul Syllables
+                   (c >= 0xF900 && c <= 0xFAFF) || // CJK Compatibility Ideographs
+                   (c >= 0xFE10 && c <= 0xFE19) || // Vertical forms
+                   (c >= 0xFE30 && c <= 0xFE6F) || // CJK Compatibility Forms
+                   (c >= 0xFF00 && c <= 0xFF60) || // Fullwidth Forms
+                   (c >= 0xFFE0 && c <= 0xFFE6));
+        }
 
         // ─────────────── 전투 화면 영역 ───────────────
         public static void Clear() // 전투 화면 프레임 으로 초기화
@@ -207,38 +244,94 @@ namespace TeamProjectSecond
 
         /// ///////////////////////////////////////////////////////////////////////몬스터 UI
 
-        public static void DrawMonsterArea(List<Monster> monsters)
+
+
+
+
+
+        public static void UpdateMonsterUI(List<Monster> monsters)
         {
-            int totalWidth = monsters.Count * 20;
-            int startX = (60 - totalWidth) / 2;
+            int cardWidth = 22;                  // 몬스터 1명당 UI 가로 너비
+            int totalWidth = monsters.Count * cardWidth;
+            int startX = 44 - totalWidth / 2;    // 콘솔 너비가 120 기준 중앙 정렬
 
             for (int i = 0; i < monsters.Count; i++)
             {
                 var m = monsters[i];
-                int x = startX + i * 20;
-                int y = 2;
+                int x = startX + i * cardWidth;
+                int y = 6;
 
-                Fill(x + 3, y, 6, 3, ConsoleColor.Cyan);
-                To(x, y + 4, ConsoleColor.White, $"[{m.Name}]  HP: {m.CurrentHP} / {m.MaxHP}");
+                if (m.IsDead)
+                {
+                    CenteredText(x, y - 2, cardWidth, $"Lv.{m.Rank} [{m.Name}]", ConsoleColor.DarkGray, ConsoleColor.Black);
+                    Fill(x + 8, y, 6, 3, ConsoleColor.DarkGray);
+                    CenteredText(x, y + 1, cardWidth, "X  X", ConsoleColor.Black, ConsoleColor.DarkGray);
+                    CenteredText(x, y + 6, cardWidth, "   사망   ", ConsoleColor.DarkGray, ConsoleColor.Black);
+                }
+                else
+                {
+                    CenteredText(x, y - 2, cardWidth, $"Lv.{m.Rank} [{m.Name}]", ConsoleColor.White, ConsoleColor.Black);
+                    Fill(x + 8, y, 6, 3, ConsoleColor.Cyan);
+                    CenteredText(x, y + 1, cardWidth, "^  ^", ConsoleColor.Black, ConsoleColor.Cyan);
+                    CenteredText(x, y + 6, cardWidth, $"  {m.CurrentHP} / {m.MaxHP}  ", ConsoleColor.White, ConsoleColor.Black);
+                }
 
-                int barWidth = 12;
+                // HP 바
+                int barWidth = 16;
                 int filled = (int)((m.CurrentHP / (float)m.MaxHP) * barWidth);
-                Bar(x, y + 5, filled, barWidth, ConsoleColor.Red);
+                Bar(x+3, y + 5, filled, barWidth, ConsoleColor.Red);
             }
         }
+
 
         ////////////////////////////////////////////////////////////////////////////////////////// 주사위 UI
         public static void DrawDie(int value, int x, int y, ConsoleColor dicecolor, ConsoleColor dotcolor)
         {
-            string[] lines = value switch
+            string[] lines = value switch //                                                                    << 여기 윈도우 버전 조심
             {
-                1 => new[] { "      ", "  ●  ", "      ", "      ", " < 1> " },
-                2 => new[] { "●    ", "      ", "    ●", "      ", " < 2> " },
-                3 => new[] { "    ●", "  ●  ", "●    ", "      ", " < 3> " },
-                4 => new[] { "●  ●", "      ", "●  ●", "      ", " < 4> " },
-                5 => new[] { "●  ●", "  ●  ", "●  ●", "      ", " < 5> " },
-                6 => new[] { "●  ●", "●  ●", "●  ●", "      ", " < 6> " },
-                7 => new[] { "●  ●", "●●●", "●  ●", "      ", " < 7> " }, // Rogue 전용
+                1 => new[] { "     "
+               , "  ●  ",
+                 "     ",
+                 "      ",
+                 " < 1> " },
+
+                2 => new[] { "●    ",
+                 "     ",
+                 "    ●",
+                 "      ",
+                 " < 2> " },
+
+                3 => new[] { "    ●",
+                 "  ●  ",
+                 "●    ",
+                 "      ",
+                 " < 3> " },
+
+                4 => new[] { "●   ●",
+                 "     ",
+                 "●   ●",
+                 "      ",
+                 " < 4> " },
+
+                5 => new[] { "●   ●",
+                 "  ●  ",
+                 "●   ●",
+                 "      ",
+                 " < 5> " },
+
+                6 => new[] { "●   ●",
+                 "●   ●",
+                 "●   ●",
+                 "      ",
+                 " < 6> " },
+
+                7 => new[] { "●   ●",
+                 "● ● ●",
+                 "●   ●",
+                 "      ",
+                 " < 7> " },
+                // Rogue 전용
+
                 _ => new[] { "??????", "??????", "??????", "      ", " <??> " }
             };
 
@@ -280,7 +373,11 @@ namespace TeamProjectSecond
                 DrawDie(values[i], startX + i * 8, y, ConsoleColor.DarkGreen, ConsoleColor.White);
                 if (Battle.IsRerollPhase == true)
                 {
-                    To(4+i*8, 22, ConsoleColor.Yellow, $"{i+1}번?");
+                    To(4 + i * 8, 22, ConsoleColor.Yellow, $"{i + 1}번?");
+                }
+                else
+                {
+                    To(4 + i * 8, 22, ConsoleColor.Yellow, $"    ");
                 }
             }
         }
@@ -302,8 +399,16 @@ namespace TeamProjectSecond
             {
                 int x = startX + i * dieWidth;
                 DrawDie(values[i], x, y, ConsoleColor.Yellow, ConsoleColor.Black);
-
+                if (Battle.IsRerollPhase == true)
+                {
+                    To(x + 1, 22, ConsoleColor.Yellow, $"{i + 3}번?");
+                }
+                else
+                {
+                    To(x + 1, 22, ConsoleColor.Yellow, $"    ");
+                }
             }
+            Console.SetCursorPosition(114, 28);
         }
         public static void DrawDDTotal(int value, int x, int y)
         {
@@ -391,6 +496,7 @@ namespace TeamProjectSecond
             int DDTotalone = DDTotal % 10; // 1의 자리 숫자
             DrawDDTotal(DDTotalten, 78, 23);
             DrawDDTotal(DDTotalone, 83, 23);
+            Console.SetCursorPosition(114, 28);
         }
 
         public static void DrawCommandOptions(string firstOption, string secondOption, string thirdOption)
