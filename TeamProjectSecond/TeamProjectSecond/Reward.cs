@@ -28,8 +28,8 @@ namespace TeamProjectSecond
             foreach (var dice in dicelist)          // 주사위를 차례대로 굴려
                 total += dice.Roll();               // 그 값을 total에 저장합니다
 
-            Random rand = new Random();
-            double roll = rand.NextDouble();
+            Random rand = new Random();             // 랜덤을 생성합니다
+            double roll = rand.NextDouble();        // roll은 0 ~ 1의 수를 가집니다.
 
             if (1 <= total && total < 4)
             {
@@ -72,10 +72,8 @@ namespace TeamProjectSecond
                 if (roll <= 1)      // T
                     GetRewardT(stageRank);
             }
-            EventManager.To(57, "\n\n");
-            EventManager.To(44, "\n\n");
         }
-        static void GetRewardTmm(int stageRank)
+        static void GetRewardTmm(int stageRank) // 티어 -2의 아이템 획득
         {
             var tmmItems = Item.Instance.Where(item => item.ItemRank == Math.Min(1, (stageRank) - 2)).ToList();
 
@@ -85,10 +83,10 @@ namespace TeamProjectSecond
             var randomItem = tmmItems[index];
             randomItem.IsOwned = true;
             randomItem.Quantity += 1;
-            EventManager.Announce(45, $"{randomItem.ItemName} 아이템을 새로 획득했습니다!");
+            EventManager.Announce(45, $"{randomItem.ItemName} 아이템을 획득했습니다!");
         }
 
-        static void GetRewardTm(int stageRank)
+        static void GetRewardTm(int stageRank) // 티어 -1의 아이템 획득
         {
             var tmmItems = Item.Instance.Where(item => item.ItemRank == Math.Min(1, (stageRank) - 1)).ToList();
 
@@ -98,10 +96,10 @@ namespace TeamProjectSecond
             var randomItem = tmmItems[index];
             randomItem.IsOwned = true;
             randomItem.Quantity += 1;
-            EventManager.Announce(45, $"{randomItem.ItemName} 아이템을 새로 획득했습니다!");
+            EventManager.Announce(45, $"{randomItem.ItemName} 아이템을 획득했습니다!");
         }
 
-        static void GetRewardT(int stageRank)
+        static void GetRewardT(int stageRank) // 해당 티어의 아이템 획득
         {
             var tmmItems = Item.Instance.Where(item => item.ItemRank == Math.Min(1, (Math.Max(3,stageRank)))).ToList();
 
@@ -111,7 +109,7 @@ namespace TeamProjectSecond
             var randomItem = tmmItems[index];
             randomItem.IsOwned = true;
             randomItem.Quantity += 1;
-            EventManager.Announce(45, $"{randomItem.ItemName} 아이템을 새로 획득했습니다!");
+            EventManager.Announce(45, $"{randomItem.ItemName} 아이템을 획득했습니다!");
         }
     }
 }
