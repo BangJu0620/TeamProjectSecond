@@ -34,37 +34,36 @@ namespace TeamProjectSecond
                 character.BitCoin += 2;
                 EventManager.Announce(50, "비트 코인을 2개 획득했습니다.");
             }
-            EventManager.Clear();
-            Console.SetCursorPosition(0, 12);
-            EventManager.To(55, $"남은 계층 : {dungeon.Stages.Count}\n\n");
-            EventManager.To(55, $"현재 도달 계층 : {dungeon.CurrentStageIndex}\n\n\n");
-            EventManager.To(55, "1. 진행하기\n\n");
-            EventManager.To(55, "2. 스킬사용\n\n");
-            EventManager.To(55, "3. 포션사용\n\n");
-            EventManager.To(55, "4. 포기하기");
-            EventManager.Select();
-
-            switch (EventManager.CheckInput())
+            while (true)
             {
-                case 1:
-                    dungeon.ProceedToNextStage();
-                    break;
-                case 2:
-                    Skill.ShowSkills();
-                    break;
-                case 3:
-                    Inventory.UsePotionFlow();
-                    break;
-                case 4:
-                    return;
-                default:
-                    EventManager.Wrong();
-                    break;
+                EventManager.Clear();
+                Console.SetCursorPosition(0, 12);
+                EventManager.To(55, $"남은 계층 : {dungeon.Stages.Count}\n\n");
+                EventManager.To(55, $"현재 도달 계층 : {dungeon.CurrentStageIndex}\n\n\n");
+                EventManager.To(55, "1. 진행하기\n\n");
+                EventManager.To(55, "2. 스킬사용\n\n");
+                EventManager.To(55, "3. 포션사용\n\n");
+                EventManager.To(55, "4. 포기하기");
+                EventManager.Select();
 
-
-
+                switch (EventManager.CheckInput())
+                {
+                    case 1:
+                        dungeon.ProceedToNextStage();
+                        break;
+                    case 2:
+                        Skill.ShowSkills();
+                        break;
+                    case 3:
+                        Inventory.UsePotionFlow();
+                        break;
+                    case 4:
+                        return;
+                    default:
+                        EventManager.Wrong();
+                        break;
+                }
             }
-
             static void GetExp(int stageRank)
             {
                 var character = Character.Instance;

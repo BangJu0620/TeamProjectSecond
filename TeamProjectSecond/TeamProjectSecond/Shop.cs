@@ -58,7 +58,6 @@ namespace TeamProjectSecond
                 bool goNextPage = (shopItems.Count - listIndex * 9 > 0 && (shopItems.Count - (listIndex * 9)) % 9 != 0);  // 리스트 다음장에 아이템이 남아있는지 확인
 
                 Console.SetCursorPosition(0, 24);
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 EventManager.ToS(25, $"◁◁ A         1. 아이템 구매  2. 아이템 판매  Enter. 돌아가기         D ▷▷\n\n");
                 EventManager.Select();
 

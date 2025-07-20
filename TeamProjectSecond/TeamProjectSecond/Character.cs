@@ -34,9 +34,9 @@ namespace TeamProjectSecond
             ClassType = ClassType.Warrior;
             Exp = 0;
             Gold = 1500;
-            NaeBaeCampCoin = 0;
-            SpartaCoin = 0;
-            BitCoin = 0;
+            NaeBaeCampCoin = 5;
+            SpartaCoin = 5;
+            BitCoin = 5;
             ManaPoint = MaxManaPoint;
             HealthPoint = MaxHealthPoint;
             Speed = ClassData.BaseSpeed + BonusSpeed;
