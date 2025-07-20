@@ -9,7 +9,7 @@ namespace TeamProjectSecond
 {
     public class Reward
     {
-        static void RewardBoard(Dungeon dungeon,int stageRank)
+        public static void RewardBoard(Dungeon dungeon,int stageRank)
         {
             var character = Character.Instance;
 
@@ -60,10 +60,8 @@ namespace TeamProjectSecond
                 default:
                     EventManager.Wrong();
                     break;
-
-
-
             }
+        }
 
         static void GetExp(int stageRank)
         {

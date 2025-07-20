@@ -13,7 +13,7 @@ namespace TeamProjectSecond
         {
             var character = Character.Instance;
 
-            ShowEnter();
+           // ShowEnter();
 
             while (true)
             {
@@ -25,7 +25,7 @@ namespace TeamProjectSecond
                 EventManager.To(42, "1. 내배캠 코인\n\n");
                 EventManager.To(42, "2. 스파르타 코인\n\n");
                 EventManager.To(42, "3. 비트 코인\n\n");
-                EventManager.To(42, "Enter. 돌아가기";
+                EventManager.To(42, "Enter. 돌아가기");
                 EventManager.Select();
 
                 switch (EventManager.CheckInput())

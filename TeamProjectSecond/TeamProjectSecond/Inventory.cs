@@ -256,7 +256,7 @@ namespace TeamProjectSecond
         }
 
 
-        private static void UsePotionFlow()
+        public static void UsePotionFlow()
         {
             int listIndex = 1;
             while (true)

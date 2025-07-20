@@ -16,6 +16,8 @@ namespace TeamProjectSecond
         public static bool IsRerollPhase = false;
         public static bool IsTargetPhase = false;
         private static Character player => Character.Instance;
+        public static int min => player.MinDice;
+        public static int max => player.MaxDice;
         private static List<Skill> AppliedSkills = new();
         private static List<Skill> AppliedActiveSkills = new();
         private static List<Skill> PassiveSkills => player.PassiveSkills.Select(Skill.From).ToList();
@@ -71,8 +73,6 @@ namespace TeamProjectSecond
                 return;
             }
         }
-
-
 
         private static bool StartRounds(List<object> turnOrder, List<Monster> enemies)
         {
@@ -158,13 +158,13 @@ namespace TeamProjectSecond
             BattleScreen.BattleDiceUI();
             sdList = new List<Dice>
             {
-                new Dice(1, 6, DiceType.SD, 1),
-                new Dice(1, 6, DiceType.SD, 2)
+                new Dice(min, max, DiceType.SD, 1),
+                new Dice(min, max, DiceType.SD, 2)
             };
             ddList = new();
             for (int i = 0; i < player.DiceCount; i++)
             {
-                var dd = new Dice(1, 6, DiceType.DD, 3 + i);
+                var dd = new Dice(min, max, DiceType.DD, 3 + i);
                 ddList.Add(dd);
             }
                 
