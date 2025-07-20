@@ -117,5 +117,64 @@ namespace TeamProjectSecond
                     }
                 });
         }
+
+        public static void ShowSkills()
+        {
+            while(true)
+            {
+                var character = Character.Instance;
+                var classData = character.ClassData;
+                EventManager.Clear();
+                Console.ForegroundColor = ConsoleColor.Gray;
+                EventManager.To(45, $"───── {classData.Type} 클래스 스킬 목록 ─────\n\n\n");
+
+                Console.ForegroundColor = ConsoleColor.White;
+                EventManager.To(28, "📌 [액티브 스킬]\n\n");
+                foreach (var skill in classData.ActiveSkills)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;   // 스킬 이름 표시
+                    EventManager.To(28, $"- ");
+                    Console.Write($"{skill.Name}");                      
+
+                    Console.ForegroundColor = ConsoleColor.Gray;        // 스킬 코스트
+                    Console.SetCursorPosition(48, Console.CursorTop);
+                    Console.Write($"| MP {skill.ManaCost}");
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.SetCursorPosition(61, Console.CursorTop);    // 스킬 설명
+                    Console.Write($"| {skill.Description}\n\n");
+                }
+                Console.WriteLine();
+
+                EventManager.To(28, "📌 [패시브 스킬]\n\n");
+                foreach (var skill in classData.PassiveSkills)
+
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;   // 스킬 번호 표현
+                    EventManager.To(28, $"- ");
+                    Console.Write($"{skill.Name}");                      // 스킬 이름 표시
+
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.SetCursorPosition(48, Console.CursorTop);    // 스킬 요구 레벨
+                    Console.Write($"| 요구LV {skill.RequiredLevel}");
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.SetCursorPosition(61, Console.CursorTop);    // 스킬 설명
+                    Console.Write($"| {skill.Description}\n\n");
+                }
+                    Console.SetCursorPosition(0, 24);
+                    EventManager.ToS(54, "Enter. 돌아가기\n");
+                    EventManager.Select();
+
+                switch (EventManager.CheckInput())
+                {
+                    case null:
+                        return;
+                    default:
+                        EventManager.Wrong();
+                        break;
+                    }
+            }
+        }
     }
 }

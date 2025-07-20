@@ -9,11 +9,11 @@ namespace TeamProjectSecond
 {
     public class Reward
     {
-        static void RewardBoard(Dungeon dungeon,int stageRank)
+        public static void RewardBoard(Dungeon dungeon, int stageRank)
         {
             var character = Character.Instance;
 
-        GetExp(stageRank);
+            GetExp(stageRank);
             if (stageRank <= 4)
             {
                 character.NaeBaeCampCoin++;
@@ -36,7 +36,7 @@ namespace TeamProjectSecond
             }
             EventManager.Clear();
             Console.SetCursorPosition(0, 12);
-            EventManager.To(55,$"남은 계층 : {dungeon.Stages.Count}\n\n");
+            EventManager.To(55, $"남은 계층 : {dungeon.Stages.Count}\n\n");
             EventManager.To(55, $"현재 도달 계층 : {dungeon.CurrentStageIndex}\n\n\n");
             EventManager.To(55, "1. 진행하기\n\n");
             EventManager.To(55, "2. 스킬사용\n\n");
@@ -50,7 +50,7 @@ namespace TeamProjectSecond
                     dungeon.ProceedToNextStage();
                     break;
                 case 2:
-
+                    Skill.ShowSkills();
                     break;
                 case 3:
                     Inventory.UsePotionFlow();
@@ -65,11 +65,12 @@ namespace TeamProjectSecond
 
             }
 
-        static void GetExp(int stageRank)
-        {
-            var character = Character.Instance;
-            int ExpGain = stageRank * stageRank * 10;
-            character.Exp += ExpGain;
+            static void GetExp(int stageRank)
+            {
+                var character = Character.Instance;
+                int ExpGain = stageRank * stageRank * 10;
+                character.Exp += ExpGain;
+            }
         }
     }
 }
