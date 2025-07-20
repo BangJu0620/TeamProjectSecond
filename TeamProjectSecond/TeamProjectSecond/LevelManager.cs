@@ -75,49 +75,16 @@ namespace TeamProjectSecond
 
                     EventManager.Clear();
                     Console.SetCursorPosition(0, 12);
-                    Console.ForegroundColor = ConsoleColor.White;
-                    EventManager.To(55, $"🎉 LEVEL UP!\r");
-                    Thread.Sleep(30);
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    EventManager.To(55, $"🎉 LEVEL UP!\r");
-                    Thread.Sleep(30);
-                    Console.ForegroundColor = ConsoleColor.White;
-                    EventManager.To(55, $"🎉 LEVEL UP!\r");
-                    Thread.Sleep(30);
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    EventManager.To(55, $"🎉 LEVEL UP!\r");
-                    Thread.Sleep(30);
-                    Console.ForegroundColor = ConsoleColor.White;
-                    EventManager.To(55, $"🎉 LEVEL UP!\r");
-                    Thread.Sleep(30);
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    EventManager.To(55, $"🎉 LEVEL UP!\r");
-                    Thread.Sleep(30);
-                    Console.ForegroundColor = ConsoleColor.White;
-                    EventManager.To(55, $"🎉 LEVEL UP!\r");
-                    Thread.Sleep(30);
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    EventManager.To(55, $"🎉 LEVEL UP!\r");
-                    Thread.Sleep(30);
-                    Console.ForegroundColor = ConsoleColor.White;
-                    EventManager.To(55, $"🎉 LEVEL UP!\r");
-                    Thread.Sleep(30);
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    EventManager.To(55, $"🎉 LEVEL UP!\r");
-                    Thread.Sleep(30);
-                    Console.ForegroundColor = ConsoleColor.White;
-                    EventManager.To(55, $"🎉 LEVEL UP!\r");
-                    Thread.Sleep(30);
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    EventManager.To(55, $"🎉 LEVEL UP!\r");
-                    Thread.Sleep(30);
-                    Console.ForegroundColor = ConsoleColor.White;
-                    EventManager.To(55, $"🎉 LEVEL UP!\r");
-                    Thread.Sleep(30);
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    EventManager.To(55, $"🎉 LEVEL UP!\r");
-                    Thread.Sleep(30);
-
+                    for (int i = 0; i < 30; i++)
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                        EventManager.To(55, $"🎉 LEVEL UP!\r");
+                        Thread.Sleep(30);
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        EventManager.To(55, $"🎉 LEVEL UP!\r");
+                        Thread.Sleep(30);
+                    }
+                    
                     EventManager.To(55,$"현재 레벨: {character.Level} 🎉");
                     if (character.Level >= MaxLevel) break;
                 }
