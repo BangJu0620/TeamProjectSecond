@@ -11,7 +11,7 @@ namespace TeamProjectSecond
         public const int MaxLevel = 20;
         public const int StartLevel = 1;
         public const int BaseExp = 100;
-        public const double GrowthRate = 1.2;  // 지수적으로 증가 비율
+        public const double GrowthRate = 1.1;  // 지수적으로 증가 비율
 
         public static readonly List<int> ExpRequirements;
 

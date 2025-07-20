@@ -8,6 +8,8 @@ namespace TeamProjectSecond
 {
     public static class Battle
     {
+        public static Dungeon currentDungeon;
+        public static int StageRankSumThisRound { get; set; }
         private static int currentRerollCount;
         public static List<Dice>? sdList { get; private set; } = new();
         public static List<Dice>? ddList;
@@ -33,7 +35,10 @@ namespace TeamProjectSecond
             AppliedActiveSkills.Clear();
             AppliedSkills = PassiveSkills.ToList(); 
             foreach (var skill in AppliedSkills)
-                skill.ApplyPassive(player); 
+                skill.ApplyPassive(player);
+
+            player.ManaPoint += 20;
+            player.ManaPoint = player.ManaPoint > player.MaxManaPoint ? player.MaxManaPoint : player.ManaPoint;
         }
         private static List<object> DetermineInitiative(List<Monster> enemies)
         {
@@ -54,8 +59,9 @@ namespace TeamProjectSecond
 
         public static void StartBattle(Dungeon dungeon, List<Monster> enemies)
         {
+            currentDungeon = dungeon;
             BattleScreen.Clear();
-            BattleScreen.UpdateCurrentStage(dungeon);
+            BattleScreen.UpdateCurrentStage(currentDungeon);
             BattleScreen.UpdateMonsterUI(enemies);                 // UI
             BattleScreen.Log("몬스터가 나타났다!");                 // UI
             foreach (var skill in AppliedSkills)
@@ -64,7 +70,8 @@ namespace TeamProjectSecond
             bool won = StartRounds(turnOrder, enemies);
             if (won)
             {
-                dungeon.ProceedToNextStage();
+                Reward.RewardBoard(dungeon, StageRankSumThisRound);
+                //dungeon.ProceedToNextStage();
             }
             else
             {
@@ -92,6 +99,8 @@ namespace TeamProjectSecond
                         PlayerTurn(enemies);
                     else if (actor is Monster m && !m.IsDead)
                         MonsterTurn(m);
+                    foreach (var skill in AppliedSkills)
+                        skill.OnRoundEnd?.Invoke(player);
 
                     if (player.HealthPoint <= 0)
                     {
@@ -106,8 +115,7 @@ namespace TeamProjectSecond
                         return true;
                     }
                 }
-                foreach (var skill in AppliedSkills)
-                    skill.OnRoundEnd?.Invoke(player);
+                
             }
         }
 
@@ -120,7 +128,17 @@ namespace TeamProjectSecond
                 int? input = EventManager.CheckInput();
                 if (input == 1) break;
                 else if (input == 2) { SelectAndApplyActiveSkill(); continue; }
-                else if (input == 3) { Inventory.ShowInventory(); return; }
+                else if (input == 3)
+                {
+                    Console.Clear();
+                    EventManager.Clear();
+                    Inventory.ShowInventory();
+                    Console.Clear();
+                    BattleScreen.Clear();
+                    BattleScreen.UpdateCurrentStage(currentDungeon);
+                    BattleScreen.UpdateMonsterUI(enemies);
+                    BattleScreen.DrawCommandOptions(" Dice  Roll !", " 스  킬      ", " 아 이 템");
+                    continue; }
                 else { BattleScreen.Wrong(); BattleScreen.DrawCommandOptions(" Dice  Roll !", " 스  킬      ", " 아 이 템"); }
             }
 
@@ -136,7 +154,7 @@ namespace TeamProjectSecond
             BattleScreen.DrawCommandOptions("사용할 스킬을 선택하세요:");
             if (skills.Count == 0)
             {
-                BattleScreen.DrawCommandOptions("사용 가능한 스킬이 없습니다.");
+                BattleScreen.DrawCommandOptions("사용 가능한 스킬이 없다.");
                 return;
             }
 
@@ -200,7 +218,7 @@ namespace TeamProjectSecond
                     if (currentRerollCount == 0 )
                     {
                         BattleScreen.DrawCommandOptions("리롤 횟수가 부족합니다.");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         continue; 
                     }     /// 리롤횟수 0 이면 돌아가.
                     IsRerollPhase = true;
@@ -301,7 +319,7 @@ namespace TeamProjectSecond
             else
             {
                 BattleScreen.DrawCommandOptions("아무키나 눌러 마나회복");
-                Console.ReadKey(); 
+                Console.ReadKey(true); 
                 BattleScreen.UpdateHPMP();
             }
         }
