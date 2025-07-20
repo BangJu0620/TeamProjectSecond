@@ -62,8 +62,7 @@ namespace TeamProjectSecond
                         break;
                     case 6:
                         // 퀘스트
-                        Console.Clear();
-                        Console.WriteLine("퀘스트");
+                        
                         break;
                     case 7:
                         // 저장/불러오기
@@ -173,7 +172,7 @@ namespace TeamProjectSecond
             Console.SetCursorPosition(0, 14);
             To(i,input);
             Console.ResetColor();
-            Console.ReadKey();
+            Console.ReadKey(true);
         }
 
         public static void Clear() // 화면을 청소하는 함수
