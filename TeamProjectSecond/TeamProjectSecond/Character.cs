@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Xsl;
 using TeamProjectSecond;
 
 namespace TeamProjectSecond
@@ -72,6 +73,7 @@ namespace TeamProjectSecond
         public int TotalRerollCount => RerollCount + Inventory.GetTotalRerollFromItems(); // 리롤 이거 한 줄 추가했습니다.여기 잘 안건드려서 뭐가 뭔지 모르겠...
         public int MinDice => BaseMinDice + TempMinDice;
         public int MaxDice => BaseMaxDice + TempMaxDice;
+        public bool MageMPRecoveryInsteadOfAttack { get; set; } = false;
 
         // 이 밑으로 영약 추가했습니다, 영약 관련 주석들 확인 후 필요없어지면 삭제하셔도 무방합니다 /// 확인했습니다요
         public int BonusMaxHP { get; set; } = 0;
@@ -85,7 +87,8 @@ namespace TeamProjectSecond
         public int MaxHealthPoint => ClassData.MaxHPByLevel(Level) + BonusMaxHP; //+ Bonus 붙은 부분이 영약 계산식입니다
         public int MaxManaPoint => ClassData.MaxMPByLevel(Level) + BonusMaxMP;
         public int DefensePoint => ClassData.DefenseByLevel(Level) + BonusDefense;
-        public int DiceCount => ClassData.DiceCountByLevel
+        public int? TempDiceCountOverride { get; set; } = null;
+        public int DiceCount => TempDiceCountOverride ?? ClassData.DiceCountByLevel
                                   .Where(kv => kv.Key <= Level)
                                   .Select(kv => kv.Value)
                                   .Last();
@@ -119,8 +122,6 @@ namespace TeamProjectSecond
                 ManaPoint = ManaPoint,
                 Speed = Speed,
                 CritMultiplier = CritMultiplier,
-                MinDice = MinDice,
-                MaxDice = MaxDice,
                 //데미지계산식
                 BaseDamageMultiplier = BaseDamageMultiplier,
                 BaseDamageBonus = BaseDamageBonus,
@@ -158,6 +159,16 @@ namespace TeamProjectSecond
             BonusMaxMP = data.BonusMaxMP;
             BonusDefense = data.BonusDefense;
             BonusSpeed = data.BonusSpeed;
+        }
+        public void ResetTurnTempEffects()
+        {
+            TempDiceCountOverride = null;
+            TempDamageBonus = 0;
+            TempDamageMultiplier = 0;
+            TempMinDice = 0;
+            TempMaxDice = 0;
+            BonusCritThreshold = 0;
+            MageMPRecoveryInsteadOfAttack = false;
         }
     }
 
@@ -233,5 +244,7 @@ namespace TeamProjectSecond
         public float BonusCritMultiplier { get; set; }
         public int DiceCount { get; set; }
         public int RerollCount { get; set; }
+        public bool MageMPRecoveryInsteadOfAttack { get; set; }
     }
+
 }

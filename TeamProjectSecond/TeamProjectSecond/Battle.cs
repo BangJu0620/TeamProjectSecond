@@ -9,7 +9,7 @@ namespace TeamProjectSecond
     public static class Battle
     {
         private static int currentRerollCount;
-        public static List<Dice>? sdList;
+        public static List<Dice>? sdList { get; private set; } = new();
         public static List<Dice>? ddList;
         public static List<int>? sdValues;
         public static List<int>? ddValues;
@@ -18,6 +18,7 @@ namespace TeamProjectSecond
         private static Character player => Character.Instance;
         public static int min => player.MinDice;
         public static int max => player.MaxDice;
+        public static int IncomingMonsterDamage = 0;
         private static List<Skill> AppliedSkills = new();
         private static List<Skill> AppliedActiveSkills = new();
         private static List<Skill> PassiveSkills => player.PassiveSkills.Select(Skill.From).ToList();
@@ -30,9 +31,9 @@ namespace TeamProjectSecond
         private static void InitializeSkillsForRound()
         {
             AppliedActiveSkills.Clear();
-            AppliedSkills = PassiveSkills.ToList(); // 깊은 복사
+            AppliedSkills = PassiveSkills.ToList(); 
             foreach (var skill in AppliedSkills)
-                skill.ApplyPassive(player); // 항상 적용
+                skill.ApplyPassive(player); 
         }
         private static List<object> DetermineInitiative(List<Monster> enemies)
         {
@@ -57,6 +58,8 @@ namespace TeamProjectSecond
             BattleScreen.UpdateCurrentStage(dungeon);
             BattleScreen.UpdateMonsterUI(enemies);                 // UI
             BattleScreen.Log("몬스터가 나타났다!");                 // UI
+            foreach (var skill in AppliedSkills)
+                skill.OnRoundStart?.Invoke(player);
             var turnOrder = DetermineInitiative(enemies);
             bool won = StartRounds(turnOrder, enemies);
             if (won)
@@ -76,8 +79,10 @@ namespace TeamProjectSecond
 
         private static bool StartRounds(List<object> turnOrder, List<Monster> enemies)
         {
+
             while (true)
             {
+                player.ResetTurnTempEffects();
                 InitializeSkillsForRound();
                 currentRerollCount = player.RerollCount;
 
@@ -101,6 +106,8 @@ namespace TeamProjectSecond
                         return true;
                     }
                 }
+                foreach (var skill in AppliedSkills)
+                    skill.OnRoundEnd?.Invoke(player);
             }
         }
 
@@ -156,6 +163,8 @@ namespace TeamProjectSecond
         private static void RollPhase()
         {
             BattleScreen.BattleDiceUI();
+            foreach (var skill in AppliedSkills)
+                skill.OnBeforePrepareRoll?.Invoke(player);
             sdList = new List<Dice>
             {
                 new Dice(min, max, DiceType.SD, 1),
@@ -167,7 +176,8 @@ namespace TeamProjectSecond
                 var dd = new Dice(min, max, DiceType.DD, 3 + i);
                 ddList.Add(dd);
             }
-                
+            foreach (var skill in AppliedSkills)
+                skill.OnBeforeRoll?.Invoke(player);
             //눈 값 저장
             sdValues = sdList.Select(d => d.Roll()).ToList();
             ddValues = ddList.Select(d => d.Roll()).ToList();
@@ -223,6 +233,8 @@ namespace TeamProjectSecond
                     {
                         BattleScreen.Wrong();  // 잘못된 인덱스 입력
                     }
+                    foreach (var skill in AppliedSkills)
+                        skill.OnAfterRoll?.Invoke(player);
                     continue;
                 }
                 if (input == 3)
@@ -240,48 +252,57 @@ namespace TeamProjectSecond
         private static void SelectTarget(List<Monster> enemies)
         {
             IsRerollPhase = false;
-            while (true)
+            if (player.MageMPRecoveryInsteadOfAttack == false)
             {
-                IsTargetPhase = true;
-                BattleScreen.UpdateMonsterUI(enemies);   
-                BattleScreen.DrawCommandOptions("공격할 대상을 선택");
-                for (int i = 0; i < enemies.Count; i++)
+                while (true)
                 {
-                    var m = enemies[i];
-                }
+                    IsTargetPhase = true;
+                    BattleScreen.UpdateMonsterUI(enemies);
+                    BattleScreen.DrawCommandOptions("공격할 대상을 선택");
+                    for (int i = 0; i < enemies.Count; i++)
+                    {
+                        var m = enemies[i];
+                    }
 
-                int? selected = EventManager.CheckInput();
-                if (!selected.HasValue || selected < 1 || selected > enemies.Count)
-                {
-                    continue;
-                }
+                    int? selected = EventManager.CheckInput();
+                    if (!selected.HasValue || selected < 1 || selected > enemies.Count)
+                    {
+                        continue;
+                    }
 
-                var target = enemies[selected.Value - 1];
-                if (target.IsDead) return;
+                    var target = enemies[selected.Value - 1];
+                    if (target.IsDead) continue;
 
-                int sdTotal = sdValues.Sum();
-                bool isMiss = sdTotal <= 3;
-                bool isCrit = sdTotal >= Character.Instance.CritThreshold;
+                    int sdTotal = sdValues.Sum();
+                    bool isMiss = sdTotal <= 3;
+                    bool isCrit = sdTotal >= Character.Instance.CritThreshold;
 
-                if (isMiss)
-                {
-                    BattleScreen.Log("공격이 빗나갔다!");
+                    if (isMiss)
+                    {
+                        BattleScreen.Log("공격이 빗나갔다!");
+                        break;
+                    }
+
+                    int damage = CalculatePlayerDamage(ddValues, isCrit, target);
+                    target.CurrentHP -= damage;
+                    BattleScreen.Log($"{target.Name}에게 {damage} 데미지를 입혔다!");
+                    if (target.CurrentHP <= 0)
+                    {
+                        target.IsDead = true;
+                        BattleScreen.Log($"{target.Name}을(를) 처치했다!");
+                        target.CurrentHP = 0;
+                    }
+                    BattleScreen.UpdateHPMP();
+                    IsTargetPhase = false;
+                    BattleScreen.UpdateMonsterUI(enemies);
                     break;
                 }
-
-                int damage = CalculatePlayerDamage(ddValues, isCrit, target);
-                target.CurrentHP -= damage;
-                BattleScreen.Log($"{target.Name}에게 {damage} 데미지를 입혔다!");
-                if (target.CurrentHP <= 0)
-                {
-                    target.IsDead = true;
-                    BattleScreen.Log($"{target.Name}을(를) 처치했다!");
-                    target.CurrentHP = 0;
-                }
+            }
+            else
+            {
+                BattleScreen.DrawCommandOptions("아무키나 눌러 마나회복");
+                Console.ReadKey(); 
                 BattleScreen.UpdateHPMP();
-                IsTargetPhase = false;
-                BattleScreen.UpdateMonsterUI(enemies);
-                break;
             }
         }
 
@@ -296,6 +317,8 @@ namespace TeamProjectSecond
 
         private static void MonsterTurn(Monster monster)
         {
+            IncomingMonsterDamage = 0;
+            
             if (monster.IsDead) return;
 
             int ddSum = 0;
@@ -303,7 +326,10 @@ namespace TeamProjectSecond
                 ddSum += new Dice(1, 6, DiceType.DD, 3 + i).Roll();
 
             int damage = Math.Max(0, ddSum + monster.BaseAttack - player.DefensePoint);
-            player.HealthPoint -= damage;
+            IncomingMonsterDamage = damage;
+            foreach (var skill in AppliedSkills)
+                skill.OnMonsterAttack?.Invoke(player);
+            player.HealthPoint -= IncomingMonsterDamage;
 
             BattleScreen.Log($"{monster.Name}의 공격! {damage} 만큼 아프다.");
             if (player.HealthPoint <= 0)
