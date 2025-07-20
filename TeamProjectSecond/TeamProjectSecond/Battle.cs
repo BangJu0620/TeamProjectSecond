@@ -7,8 +7,11 @@ namespace TeamProjectSecond
     public static class Battle
     {
         private static int currentRerollCount;
-        private static List<Dice>? sdList;
-        private static List<Dice>? ddList;
+        public static List<Dice> sdList;
+        public static List<Dice> ddList;
+        public static List<int> sdValues;
+        public static List<int> ddValues;
+        public static bool IsRerollPhase = false;
         private static Character player => Character.Instance;
 
 
@@ -31,6 +34,7 @@ namespace TeamProjectSecond
 
         public static void StartBattle(Dungeon dungeon, List<Monster> enemies)
         {
+            BattleScreen.Clear();
             BattleScreen.UpdateCurrentStage(dungeon);
             BattleScreen.DrawMonsterArea(enemies);                 // UI
             BattleScreen.Log("몬스터가 나타났다!");                 // UI
@@ -80,7 +84,7 @@ namespace TeamProjectSecond
                 if (input == 1) break;
                 else if (input == 2) { SelectAndApplySkill(); continue; }
                 else if (input == 3) { Inventory.ShowInventory(); return; }
-                else EventManager.Wrong();
+                else { BattleScreen.Wrong(); BattleScreen.DrawCommandOptions(" Dice  Roll !", " 스  킬", " 아 이 템"); }
             }
 
             RollPhase();
@@ -112,15 +116,16 @@ namespace TeamProjectSecond
                 new Dice(1, 6, DiceType.SD, 2)
             };
             ddList = new();
-            for (int i = 0; i < player.DiceCount + 6; i++)
+            for (int i = 0; i < player.DiceCount; i++)
             {
                 var dd = new Dice(1, 6, DiceType.DD, 3 + i);
                 ddList.Add(dd);
             }
                 
-
-            var sdValues = sdList.Select(d => d.Roll()).ToList();
-            var ddValues = ddList.Select(d => d.Roll()).ToList();
+            //눈 값 저장
+            sdValues = sdList.Select(d => d.Roll()).ToList();
+            ddValues = ddList.Select(d => d.Roll()).ToList();
+            // 화면 출력
             BattleScreen.DrawSD(sdValues);
             BattleScreen.DrawDD(ddValues);
             BattleScreen.UpdateDDTotal(ddValues);
@@ -128,24 +133,56 @@ namespace TeamProjectSecond
 
         private static void RerollPhase()
         {
-            while (currentRerollCount > 0)
+            
+            while (true)
             {
-                BattleScreen.DrawCommandOptions(" 이대로 Go !",$" Reroll {currentRerollCount}left"," 아 이 템");
+                BattleScreen.DrawCommandOptions(" Go !", $" Reroll {currentRerollCount}left", " 아 이 템");
                 int? input = EventManager.CheckInput();
                 if (input == 1) break;
+
                 if (input == 2)
                 {
+                   // if (  ) ;
+                    IsRerollPhase = true;
                     List<Dice> all = sdList.Concat(ddList).ToList();
-                    for (int i = 0; i < all.Count; i++)
-                        Console.WriteLine($"{i}. {all[i]}");
-
-                    BattleScreen.Log("리롤할 주사위 번호 선택 (0 이상):");
-                    int? index = EventManager.CheckInput();
+                    BattleScreen.DrawCommandOptions("리롤할 주사위 번호를 선택");
+                    BattleScreen.DrawSD(sdValues);
+                    BattleScreen.DrawDD(ddValues);
+                    int? index = EventManager.CheckInput() - 1;
                     if (index.HasValue && index.Value >= 0 && index.Value < all.Count)
                     {
-                        BattleScreen.Log($"{all[index.Value]} 리롤 결과: {all[index.Value].Roll()}");
-                        currentRerollCount--;
+                        int rolledValue = all[index.Value].Roll();
+                        if (index.Value < sdList.Count)
+                        {
+                            // SD 쪽
+                            sdValues[index.Value] = rolledValue;
+                        }
+                        else
+                        {
+                            // DD 쪽
+                            int ddIndex = index.Value - sdList.Count;
+                            ddValues[ddIndex] = rolledValue;
+                        }
                     }
+                    else
+                    {
+                        BattleScreen.Wrong();  // 잘못된 인덱스 입력
+                    }
+                    BattleScreen.DrawSD(sdValues);
+                    BattleScreen.DrawDD(ddValues);
+                    BattleScreen.UpdateDDTotal(ddValues);
+                    currentRerollCount--;
+                    IsRerollPhase = false;
+                    continue;
+                }
+                if (input == 3)
+                {
+                    //           여기에 아이템을 입력.          //
+                    break; // 일단 브레이크 ;;; ㅜ
+                }
+                else
+                {
+                    BattleScreen.Wrong(); BattleScreen.DrawCommandOptions(" Go !", $" Reroll {currentRerollCount}left", " 아 이 템");
                 }
             }
         }

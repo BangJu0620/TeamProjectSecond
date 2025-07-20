@@ -11,8 +11,6 @@ namespace TeamProjectSecond
 
         static BattleScreen()
         {
-            Clear();
-            Console.ReadKey();
             Console.SetWindowSize(120, 30);
             Console.CursorVisible = false;
         }
@@ -54,6 +52,12 @@ namespace TeamProjectSecond
             Console.BackgroundColor = ConsoleColor.DarkGray;
             Console.Write(new string(' ', total - filled));
             Console.ResetColor();
+        }
+        public static void Wrong()  // "잘못된 입력입니다."를 출력하는 함수
+        {
+            DrawCommandOptionsClear();
+            DrawCommandOptions("잘못된 입력입니다.");
+            Console.ReadKey();
         }
 
         // ─────────────── 전투 화면 영역 ───────────────
@@ -114,8 +118,8 @@ namespace TeamProjectSecond
                     Console.SetCursorPosition(88, i + 1);
                     Console.Write("|");
                 }
-                
-                
+
+
                 To(4, 20, ConsoleColor.Cyan, "Strike Dice");
                 To(43, 20, ConsoleColor.Cyan, "Damage Dice");
                 To(80, 20, ConsoleColor.Cyan, "합 계");
@@ -264,13 +268,29 @@ namespace TeamProjectSecond
 
         public static void DrawSD(List<int> values)
         {
+            if (values == null || values.Count == 0)
+            {
+                Console.WriteLine(" 엥? 전투관련 버그발생");
+                return;
+            }
             int startX = 3;
             int y = 23;
             for (int i = 0; i < values.Count; i++)
-                DrawDie(values[i], startX + i * 8, y, ConsoleColor.DarkGreen, ConsoleColor.White);  // 가로 간격 16칸으로 여유 있게
+            {
+                DrawDie(values[i], startX + i * 8, y, ConsoleColor.DarkGreen, ConsoleColor.White);
+                if (Battle.IsRerollPhase == true)
+                {
+                    To(4+i*8, 22, ConsoleColor.Yellow, $"{i+1}번?");
+                }
+            }
         }
         public static void DrawDD(List<int> values)
         {
+            if (values == null || values.Count == 0)
+            {
+                Console.WriteLine(" 엥? 전투관련 버그발생");
+                return;
+            }
             int dieWidth = 8;
             int centerX = 49;
             int y = 23;
@@ -282,19 +302,20 @@ namespace TeamProjectSecond
             {
                 int x = startX + i * dieWidth;
                 DrawDie(values[i], x, y, ConsoleColor.Yellow, ConsoleColor.Black);
+
             }
         }
         public static void DrawDDTotal(int value, int x, int y)
         {
             string[] lines = value switch
             {
-                0 => new[] { " ▌▌ ", "▌ ▟", "▙▜", "▛ ▌", " ▌▌ " },
-                1 => new[] { "  ▌ ", " ▌▌ ", "  ▌ ", "  ▌ ", " ▌▌▌" },
-                2 => new[] { " ▌▌ ", "▌  ▌", " ▟ ", "▞  ", "▌▌▌▌" },
-                3 => new[] { " ▌▌ ", "▌  ▌", "  ▌ ", "▌  ▌", " ▌▌ " },
+                0 => new[] { " ███▌", "▌ ▟█", "▙  ▜", "█▛  ▌", " ███▌" },
+                1 => new[] { "  █ ", " ██ ", "  █ ", "  █ ", " ███" },
+                2 => new[] { " ██▌", "▌  ▌", " ▟█", "▞  ", "███▌" },
+                3 => new[] { " ██ ", "▌  ▌", "  ▌ ", "▌  ▌", " ██ " },
                 4 => new[] { " ▟ ", "▞▌ ", "▌ ▌ ", "▌▌▌▌", " ▌ " },
-                5 => new[] { "▌▌▌▌", "▌   ", "▌▌▙", "▖▌", "▜▛" },
-                6 => new[] { "▟▙", "▌ ▝", "▌▌▙", "▌  ▌", " ▌▌ " },
+                5 => new[] { "████", "█   ", "██▙", "▖  █", "████" },
+                6 => new[] { "▟█▙", "█   █", "▌▌▙", "▌  ▌", " ▌▌ " },
                 7 => new[] { "▌▌▌▌", "▌  ▌", "  ▌ ", " ▌  ", " ▌  " },
                 8 => new[] { " ▌▌ ", "▌  ▌", " ▌▌ ", "▌  ▌", " ▌▌ " },
                 9 => new[] { " ▌▌ ", "▌  ▌", " ▌▌▌", "▖ ▌", "▜▛" }
@@ -317,22 +338,41 @@ namespace TeamProjectSecond
         public static void UpdateDDTotal(List<int> values)
         {
             int DDTotal = values.Sum();
-            int DDTotalten = DDTotal / 10;
-            int DDTotalone = DDTotal % 10;
+            int DDTotalten = DDTotal / 10; // 10의 자리 숫자
+            int DDTotalone = DDTotal % 10; // 1의 자리 숫자
             DrawDDTotal(DDTotalten, 78, 23);
             DrawDDTotal(DDTotalone, 83, 23);
         }
 
         public static void DrawCommandOptions(string firstOption, string secondOption, string thirdOption)
         {
+            DrawCommandOptionsClear();
             int x = 92;
             int y = 23;
             To(x, y, ConsoleColor.White, $"(1) {firstOption}");
             To(x, y + 2, ConsoleColor.White, $"(2) {secondOption}");
             To(x, y + 4, ConsoleColor.White, $"(3) {thirdOption}");
-            To(x + 15, y + 5, ConsoleColor.Gray, "선택 : ");
+            To(x + 15, y + 5, ConsoleColor.Gray, "선택 :      ");
+            Console.SetCursorPosition(114, 28); //////////////////////           커서 위치 초기화 <<<<<<<
         }
-
+        public static void DrawCommandOptions(string firstOption)
+        {
+            DrawCommandOptionsClear();
+            int x = 92;
+            int y = 23;
+            To(x, y + 2, ConsoleColor.White, $"{firstOption}");
+            To(x + 15, y + 5, ConsoleColor.Gray, "선택 :      ");
+            Console.SetCursorPosition(114, 28); //////////////////////           커서 위치 초기화 <<<<<<<
+        }
+        public static void DrawCommandOptionsClear()
+        {
+            int x = 92;
+            int y = 23;
+            for( y=23; y<28; y++)
+            { To(x, y, ConsoleColor.White, "                         "); }
+            To(x + 15, 28, ConsoleColor.Gray, "선택 :      ");
+            Console.SetCursorPosition(114, 28); //////////////////////           커서 위치 초기화 <<<<<<<
+        }
 
 
 
