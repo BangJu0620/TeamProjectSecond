@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,52 +16,69 @@ namespace TeamProjectSecond
             while (true)
             {
                 EventManager.Clear();
-                Console.SetCursorPosition(0, 5);
+                Console.SetCursorPosition(0, 2);
 
                 Color1();
-                Console.Write(" █████╗  ");   Color3(); Console.Write(" ██████╗  █████╗  ██████╗");   Color2(); Console.Write("     ██████╗ "); Color3(); Console.Write("  █████╗  ██╗     ██╗    \n");Color1(); Thread.Sleep(70);
-                Console.Write(" ██╔══██╗");   Color3(); Console.Write(" ╚═██╔═╝ ██╔══██╗ ██╔═══╝");   Color2(); Console.Write("     ██╔══██║"); Color3(); Console.Write(" ██╔══██║ ██║     ██║    \n"); Color1(); Thread.Sleep(70);
-                Console.Write(" ██║  ██║");   Color3(); Console.Write("   ██║   ██║  ╚═╝ ██████╗");   Color2(); Console.Write("     █████╔═╝"); Color3(); Console.Write(" ██║  ██║ ██║     ██║    \n"); Color1(); Thread.Sleep(70);
-                Console.Write(" ██║  ██║");   Color3(); Console.Write("   ██║   ██║  ██╗ ██╔═══╝");   Color2(); Console.Write("     ██╔═██╗ "); Color3(); Console.Write(" ██║  ██║ ██║     ██║    \n"); Color1(); Thread.Sleep(70);
-                Console.Write(" █████╔═╝");   Color3(); Console.Write(" ██████╗  █████╔╝ ██████╗");   Color2(); Console.Write("     ██║  ██╗"); Color3(); Console.Write("  █████╔╝ ██████╗ ██████╗\n"); Color1(); Thread.Sleep(70);
-                Console.Write(" ╚════╝  ");   Color3(); Console.Write(" ╚═════╝  ╚════╝  ╚═════╝");   Color2(); Console.Write("     ╚═╝  ╚═╝"); Color3(); Console.Write("  ╚════╝  ╚═════╝ ╚═════╝\n"); Thread.Sleep(70);
+                EventManager.To(10, " █████╗  ");   Color3(); Console.Write(" ██████╗  █████╗  ██████╗");   Color2(); Console.Write("     ██████╗ "); Color3(); Console.Write("  █████╗  ██╗     ██╗    \n"); Color1(); Thread.Sleep(70);
+                EventManager.To(10, " ██╔══██╗");   Color3(); Console.Write(" ╚═██╔═╝ ██╔══██╗ ██╔═══╝");   Color2(); Console.Write("     ██╔══██║"); Color3(); Console.Write(" ██╔══██║ ██║     ██║    \n"); Color1(); Thread.Sleep(70);
+                EventManager.To(10, " ██║  ██║");   Color3(); Console.Write("   ██║   ██║  ╚═╝ ██████╗");   Color2(); Console.Write("     █████╔═╝"); Color3(); Console.Write(" ██║  ██║ ██║     ██║    \n"); Color1(); Thread.Sleep(70);
+                EventManager.To(10, " ██║  ██║");   Color3(); Console.Write("   ██║   ██║  ██╗ ██╔═══╝");   Color2(); Console.Write("     ██╔═██╗ "); Color3(); Console.Write(" ██║  ██║ ██║     ██║    \n"); Color1(); Thread.Sleep(70);
+                EventManager.To(10, " █████╔═╝");   Color3(); Console.Write(" ██████╗  █████╔╝ ██████╗");   Color2(); Console.Write("     ██║  ██╗"); Color3(); Console.Write("  █████╔╝ ██████╗ ██████╗\n"); Color1(); Thread.Sleep(70);
+                EventManager.To(10, " ╚════╝  ");   Color3(); Console.Write(" ╚═════╝  ╚════╝  ╚═════╝");   Color2(); Console.Write("     ╚═╝  ╚═╝"); Color3(); Console.Write("  ╚════╝  ╚═════╝ ╚═════╝\n"); Thread.Sleep(150);
                 Console.Write("\n"); Thread.Sleep(70);
                 Console.Write("\n"); Thread.Sleep(70); Color2();
-                Console.Write("           ██████╗ "); Color3(); Console.Write(" ██╗        ██╗   ██╗   ██╗ ██████╗ ██╗   ██╗  █████╗  "); Color2(); Console.Write("     █████╗  "); Color3(); Console.Write("    ██╗    ██╗       ██╗ ██████╗\n"); Color2(); Thread.Sleep(70);
-                Console.Write("           ██╔══██╗"); Color3(); Console.Write(" ██║       ████╗   ██╗ ██╔╝ ╚═██╔═╝ ███╗  ██║ ██╔═══╝  "); Color2(); Console.Write("    ██╔═══╝  "); Color3(); Console.Write("   ████╗   ███╗     ███║ ██╔═══╝\n"); Color2(); Thread.Sleep(70);
-                Console.Write("           ██████╔╝"); Color3(); Console.Write(" ██║      ██╔═██╗   ████╔╝    ██║   ██╔██╗██║ ██║ ▄▄▄╗ "); Color2(); Console.Write("    ██║ ▄▄▄╗ "); Color3(); Console.Write("  ██╔═██╗  ██║██╗ ██║██║ ██████╗\n"); Color2(); Thread.Sleep(70);
-                Console.Write("           ██╔═══╝ "); Color3(); Console.Write(" ██║     ████████╗   ██╔╝     ██║   ██║╚═███║ ██║ ▀▀██╗"); Color2(); Console.Write("    ██║ ▀▀██╗"); Color3(); Console.Write(" ████████╗ ██║ ████╔╝██║ ██╔═══╝\n"); Color2(); Thread.Sleep(70);
-                Console.Write("           ██║     "); Color3(); Console.Write(" ██████╗ ██╔═══██║   ██║    ██████╗ ██║   ██║  █████▀╔╝"); Color2(); Console.Write("     █████▀╔╝"); Color3(); Console.Write(" ██╔═══██╗ ██║  ██╔╝ ██║ ██████╗\n"); Color2(); Thread.Sleep(70);
-                Console.Write("           ╚═╝     "); Color3(); Console.Write(" ╚═════╝ ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚═╝   ╚═╝  ╚════╝  "); Color2(); Console.Write("     ╚════╝  "); Color3(); Console.Write(" ╚═╝   ╚═╝ ╚═╝  ╚═╝  ╚═╝ ╚═════╝"); Thread.Sleep(70);
+                EventManager.To(54, "██████╗ "); Color3(); Console.Write(" ██╗        ██╗   ██╗   ██╗ ██████╗ ██╗   ██╗  █████╗  \n"); Color2(); Thread.Sleep(70);
+                EventManager.To(54, "██╔══██╗"); Color3(); Console.Write(" ██║       ████╗   ██╗ ██╔╝ ╚═██╔═╝ ███╗  ██║ ██╔═══╝  \n"); Color2(); Thread.Sleep(70);
+                EventManager.To(54, "██████╔╝"); Color3(); Console.Write(" ██║      ██╔═██╗   ████╔╝    ██║   ██╔██╗██║ ██║ ▄▄▄╗ \n"); Color2(); Thread.Sleep(70);
+                EventManager.To(54, "██╔═══╝ "); Color3(); Console.Write(" ██║     ████████╗   ██╔╝     ██║   ██║╚═███║ ██║ ▀▀██╗\n"); Color2(); Thread.Sleep(70);
+                EventManager.To(54, "██║     "); Color3(); Console.Write(" ██████╗ ██╔═══██║   ██║    ██████╗ ██║   ██║  █████▀╔╝\n"); Color2(); Thread.Sleep(70);
+                EventManager.To(54, "╚═╝     "); Color3(); Console.Write(" ╚═════╝ ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚═╝   ╚═╝  ╚════╝  \n"); Color2(); Thread.Sleep(150);
+                Console.Write("\n"); Thread.Sleep(70);
+                Console.Write("\n"); Thread.Sleep(70); Color2();
+                EventManager.To(59, " █████╗  "); Color3(); Console.Write("    ██╗    ██╗       ██╗ ██████╗\n"); Color2(); Thread.Sleep(70); Color2();
+                EventManager.To(59, "██╔═══╝  "); Color3(); Console.Write("   ████╗   ███╗     ███║ ██╔═══╝\n"); Color2(); Thread.Sleep(70); Color2();
+                EventManager.To(59, "██║ ▄▄▄╗ "); Color3(); Console.Write("  ██╔═██╗  ██║██╗ ██║██║ ██████╗\n"); Color2(); Thread.Sleep(70); Color2();
+                EventManager.To(59, "██║ ▀▀██╗"); Color3(); Console.Write(" ████████╗ ██║ ████╔╝██║ ██╔═══╝\n"); Color2(); Thread.Sleep(70); Color2();
+                EventManager.To(59, " █████▀╔╝"); Color3(); Console.Write(" ██╔═══██╗ ██║  ██╔╝ ██║ ██████╗\n"); Color2(); Thread.Sleep(70); Color2();
+                EventManager.To(59, " ╚════╝  "); Color3(); Console.Write(" ╚═╝   ╚═╝ ╚═╝  ╚═╝  ╚═╝ ╚═════╝"); Thread.Sleep(500);
+                Console.SetCursorPosition(0, 26);
+                EventManager.To(51, "- Press Any Key -");
+                Console.ReadKey(true);
 
-                Console.SetCursorPosition(0, 23);
-                EventManager.To(44, "1. 새로 시작            2. 이어하기"); Thread.Sleep(70);
-                EventManager.Select();
-
-                switch (EventManager.CheckInput())
+                while (true)
                 {
-                    case 1:
-                        QuestDatabase.RegisterDefaultQuests();  // 퀘스트 생성
-                        SetName();                  // 이름 받기
-                        SetClass(classTypeChange);  // 클래스 설정
-                        return;
-                    case 2:
-                        if (SaveLoadManager.CheckExistSaveData())   // 세이브 파일 존재하는지 확인
-                        {
-                            EventManager.Announce(50, "세이브 파일이 없습니다.");
+                    EventManager.Clear();
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.SetCursorPosition(0, 11);
+                    EventManager.To(51, "1. 새로하기\n\n\n");
+                    EventManager.To(51, "2. 이어하기");
+                    EventManager.Select();
+
+                    switch (EventManager.CheckInput())
+                    {
+                        case 1:
+                            QuestDatabase.RegisterDefaultQuests();  // 퀘스트 생성
+                            SetName();                  // 이름 받기
+                            SetClass(classTypeChange);  // 클래스 설정
+                            return;
+                        case 2:
+                            if (SaveLoadManager.CheckExistSaveData())   // 세이브 파일 존재하는지 확인
+                            {
+                                EventManager.Announce(50, "세이브 파일이 없습니다.");
+                                break;
+                            }
+                            if (SaveLoadManager.CheckEmptySaveData())   // 세이브 파일 비어있는지 확인
+                            {
+                                EventManager.Announce(48, "세이브 파일이 비어있습니다.");
+                                break;
+                            }
+                            SaveLoadData.LoadAllData("save.json");
+                            EventManager.Announce(50, "다시 오신 걸 환영합니다.");
+                            return;
+                        default:
+                            EventManager.Wrong();
                             break;
-                        }
-                        if (SaveLoadManager.CheckEmptySaveData())   // 세이브 파일 비어있는지 확인
-                        {
-                            EventManager.Announce(48, "세이브 파일이 비어있습니다.");
-                            break;
-                        }
-                        SaveLoadData.LoadAllData("save.json");
-                        EventManager.Announce(50, "다시 오신 걸 환영합니다.");
-                        return;
-                    default:
-                        EventManager.Wrong();
-                        break;
+                    }
                 }
             }
         }

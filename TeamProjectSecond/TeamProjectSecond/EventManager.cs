@@ -161,7 +161,7 @@ namespace TeamProjectSecond
             Console.SetCursorPosition(0, 14);
             To(54,"잘못된 입력입니다.");
             Console.ResetColor();
-            Console.ReadKey();
+            Console.ReadKey(true);
         }
 
         public static void Announce(int i, string input)    // Wrong의 변형, 출력 위치와 출력 문구를 매개변수로 받아 출력
