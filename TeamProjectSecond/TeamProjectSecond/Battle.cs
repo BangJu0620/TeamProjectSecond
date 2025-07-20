@@ -51,8 +51,9 @@ namespace TeamProjectSecond
             {
                 Console.Clear();
                 EventManager.Clear();
-                BattleScreen.CenteredText(60, 15, 20, "YOU DIED", ConsoleColor.DarkRed, ConsoleColor.Black);
-                BattleScreen.CenteredText(60, 25, 8, "아무 키나 눌러 계속", ConsoleColor.DarkGray, ConsoleColor.Black);
+                BattleScreen.CenteredText(50, 12, 10, "YOU DIED", ConsoleColor.DarkRed, ConsoleColor.Black);
+                BattleScreen.CenteredText(50, 25, 10, "아무 키나 눌러 계속", ConsoleColor.DarkGray, ConsoleColor.Black);
+                Console.ReadKey();
                 player.HealthPoint = player.MaxHealthPoint;
                 player.ManaPoint = player.MaxManaPoint;
                 return;
@@ -77,6 +78,7 @@ namespace TeamProjectSecond
                     if (player.HealthPoint <= 0)
                     {
                         BattleScreen.Log("당신은 쓰러졌습니다...");
+                        player.HealthPoint = 0;
                         return false;
                     }
 
@@ -273,6 +275,10 @@ namespace TeamProjectSecond
             player.HealthPoint -= damage;
 
             BattleScreen.Log($"{monster.Name}의 공격! {damage} 만큼 아프다.");
+            if (player.HealthPoint <= 0)
+            {
+                player.HealthPoint = 0;
+            }
             BattleScreen.UpdateHPMP();
         }
     }

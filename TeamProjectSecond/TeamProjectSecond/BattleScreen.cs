@@ -176,6 +176,7 @@ namespace TeamProjectSecond
             To(54, 17, ConsoleColor.DarkGray, "|");
             Bar(55, 17, filled, barWidth, ConsoleColor.Red);
             To(75, 17, ConsoleColor.DarkGray, "|");
+            To(76, 17, ConsoleColor.White, $"   ");
             To(77, 17, ConsoleColor.White, $"{player.HealthPoint}");
             To(81, 17, ConsoleColor.White, "/");
             To(83, 17, ConsoleColor.White, $"{player.MaxHealthPoint}");
@@ -184,6 +185,7 @@ namespace TeamProjectSecond
             To(54, 18, ConsoleColor.DarkGray, "|");
             Bar(55, 18, filled, barWidth, ConsoleColor.Blue);
             To(75, 18, ConsoleColor.DarkGray, "|");
+            To(76, 18, ConsoleColor.White, $"   ");
             To(77, 18, ConsoleColor.White, $"{player.ManaPoint}");
             To(81, 18, ConsoleColor.White, "/");
             To(83, 18, ConsoleColor.White, $"{player.MaxManaPoint}");
@@ -289,49 +291,13 @@ namespace TeamProjectSecond
         {
             string[] lines = value switch //                                                                    << 여기 윈도우 버전 조심
             {
-                1 => new[] { "     "
-               , "  ●  ",
-                 "     ",
-                 "      ",
-                 " < 1> " },
-
-                2 => new[] { "●    ",
-                 "     ",
-                 "    ●",
-                 "      ",
-                 " < 2> " },
-
-                3 => new[] { "    ●",
-                 "  ●  ",
-                 "●    ",
-                 "      ",
-                 " < 3> " },
-
-                4 => new[] { "●   ●",
-                 "     ",
-                 "●   ●",
-                 "      ",
-                 " < 4> " },
-
-                5 => new[] { "●   ●",
-                 "  ●  ",
-                 "●   ●",
-                 "      ",
-                 " < 5> " },
-
-                6 => new[] { "●   ●",
-                 "●   ●",
-                 "●   ●",
-                 "      ",
-                 " < 6> " },
-
-                7 => new[] { "●   ●",
-                 "● ● ●",
-                 "●   ●",
-                 "      ",
-                 " < 7> " },
-                // Rogue 전용
-
+                1 => new[] { "      ", "  ●  ", "      ", "      ", " < 1> " },
+                2 => new[] { "●    ", "      ", "    ●", "      ", " < 2> " },
+                3 => new[] { "    ●", "  ●  ", "●    ", "      ", " < 3> " },
+                4 => new[] { "●  ●", "      ", "●  ●", "      ", " < 4> " },
+                5 => new[] { "●  ●", "  ●  ", "●  ●", "      ", " < 5> " },
+                6 => new[] { "●  ●", "●  ●", "●  ●", "      ", " < 6> " },
+                7 => new[] { "●  ●", "●●●", "●  ●", "      ", " < 7> " }, // Rogue 전용
                 _ => new[] { "??????", "??????", "??????", "      ", " <??> " }
             };
 
