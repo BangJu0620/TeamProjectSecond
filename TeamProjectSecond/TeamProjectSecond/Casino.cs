@@ -211,14 +211,18 @@ namespace TeamProjectSecond
             randomItem.IsOwned = true;
             randomItem.Quantity += 1;
             character.Gold += 20 * total;
-            EventManager.Announce(45, $"{randomItem.ItemName} 아이템을 획득했습니다!");
+            EventManager.Clear();
+            Console.SetCursorPosition(0, 12);
+            EventManager.To(45, $"{randomItem.ItemName} 아이템을 획득했습니다!\n\n");
+            EventManager.To(45, $"{20 * total} 골드를 획득했습니다!");
+            Console.ReadKey(true);
         }
 
         static void GetRewardT2(int coinRank, int total) // 티어 2의 아이템 획득
         {
             var character = Character.Instance;
 
-            var t2Items = Item.Instance.Where(item => item.ItemRank == Math.Min(2,coinRank-1)).ToList();
+            var t2Items = Item.Instance.Where(item => item.ItemRank == Math.Min(2, coinRank - 1)).ToList();
 
             Random rand = new Random();
             int index = rand.Next(t2Items.Count);  // 0부터 (갯수-1) 사이 랜덤 인덱스
@@ -227,9 +231,12 @@ namespace TeamProjectSecond
             randomItem.IsOwned = true;
             randomItem.Quantity += 1;
             character.Gold += 30 * total;
-            EventManager.Announce(45, $"{randomItem.ItemName} 아이템을 획득했습니다!");
+            EventManager.Clear();
+            Console.SetCursorPosition(0, 12);
+            EventManager.To(45, $"{randomItem.ItemName} 아이템을 획득했습니다!\n\n");
+            EventManager.To(45, $"{30 * total} 골드를 획득했습니다!");
+            Console.ReadKey(true);
         }
-
         static void GetRewardT3(int coinRank, int total) // 티어3 아이템 획득
         {
             var character = Character.Instance;
@@ -242,8 +249,13 @@ namespace TeamProjectSecond
             randomItem.IsOwned = true;
             randomItem.Quantity += 1;
             character.Gold += 40 * total;
-            EventManager.Announce(45, $"{randomItem.ItemName} 아이템을 획득했습니다!");
+            EventManager.Clear();
+            Console.SetCursorPosition(0, 12);
+            EventManager.To(45, $"{randomItem.ItemName} 아이템을 획득했습니다!\n\n");
+            EventManager.To(45, $"{40 * total} 골드를 획득했습니다!");
+            Console.ReadKey(true);
         }
+
         public static void DrawDie(int value, int x, int y, ConsoleColor dicecolor, ConsoleColor dotcolor)
         {
             string[] lines = value switch

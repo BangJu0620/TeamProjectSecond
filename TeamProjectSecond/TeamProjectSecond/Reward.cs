@@ -70,7 +70,7 @@ namespace TeamProjectSecond
             {
                 var character = Character.Instance;
                 int ExpGain = stageRank * stageRank * 10;
-                character.Exp += ExpGain;
+                LevelManager.GainExpWithEffect(ExpGain);
             }
         }
         
