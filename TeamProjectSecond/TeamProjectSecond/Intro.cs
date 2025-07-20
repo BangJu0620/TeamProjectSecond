@@ -29,7 +29,7 @@ namespace TeamProjectSecond
                         SetClass(classTypeChange);  // 클래스 설정
                         return;
                     case 2:
-                        if (SaveLoadManager.CheckExistSaveData())   // 세이브 파일 존재하는지 확인
+                        if (SaveLoadManager.CheckMissingSaveData())   // 세이브 파일 존재하는지 확인
                         {
                             EventManager.Announce(50, "세이브 파일이 없습니다.");
                             break;
