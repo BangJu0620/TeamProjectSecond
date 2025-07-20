@@ -82,6 +82,7 @@ namespace TeamProjectSecond
         public int BonusSpeed { get; set; } = 0;
         public float BonusCritMultiplier { get; set; } = 0;
 
+        public bool IsAOEAttack { get; set; } = false;
         public ClassData ClassData => new ClassData(ClassType);
 
         public int MaxHealthPoint => ClassData.MaxHPByLevel(Level) + BonusMaxHP; //+ Bonus 붙은 부분이 영약 계산식입니다
@@ -236,6 +237,7 @@ namespace TeamProjectSecond
         public float TotalDamageBonus => BaseDamageBonus + TempDamageBonus;
         public int MinDice => BaseMinDice + TempMinDice;
         public int MaxDice => BaseMaxDice + TempMaxDice;
+        public bool IsAOEAttack { get; set; }
         //영약
         public int BonusMaxHP { get; set; }
         public int BonusMaxMP { get; set; }

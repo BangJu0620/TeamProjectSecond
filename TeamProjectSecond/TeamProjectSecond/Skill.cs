@@ -76,6 +76,9 @@ namespace TeamProjectSecond
                                 d.FixedEyes = 5;
                         };
                         break;
+                    case "패 돌리기":
+                        skill.OnAfterRoll = c => c.IsAOEAttack = true;
+                        break;
 
                     case "최소 2":
                         skill.OnBeforePrepareRoll = c => c.TempMinDice += 1;
@@ -98,6 +101,7 @@ namespace TeamProjectSecond
                                 d.Excluded.Add(3);
                             }
                         };
+                        skill.OnAfterRoll = c => c.IsAOEAttack = true;
                         break;
 
                     case "나이스 폴드":

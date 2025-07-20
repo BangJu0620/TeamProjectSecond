@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using TextRPGQuest.QuestSystem;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace TeamProjectSecond
@@ -112,6 +111,7 @@ namespace TeamProjectSecond
 
                     if (enemies.All(e => e.IsDead))
                     {
+                        // Reward.Grant(); ////////////////////////////////////////////// TODO
                         return true;
                     }
                 }
@@ -301,15 +301,37 @@ namespace TeamProjectSecond
                         break;
                     }
 
-                    int damage = CalculatePlayerDamage(ddValues, isCrit, target);
-                    target.CurrentHP -= damage;
-                    BattleScreen.Log($"{target.Name}에게 {damage} 데미지를 입혔다!");
-                    if (target.CurrentHP <= 0)
+                    if (player.IsAOEAttack)
                     {
-                        target.IsDead = true;
-                        BattleScreen.Log($"{target.Name}을(를) 처치했다!");
-                        target.CurrentHP = 0;
+                        foreach (var aoeTarget in enemies.Where(e => !e.IsDead))
+                        {
+                            int damage = CalculatePlayerDamage(ddValues, isCrit, aoeTarget);
+                            aoeTarget.CurrentHP -= damage;
+                            BattleScreen.Log($"{aoeTarget.Name}에게 {damage} 데미지를 입혔다!");
+                            if (aoeTarget.CurrentHP <= 0)
+                            {
+                                aoeTarget.IsDead = true;
+                                BattleScreen.Log($"{aoeTarget.Name}을(를) 처치했다!");
+                                aoeTarget.CurrentHP = 0;
+                            }
+                        }
+                        player.IsAOEAttack = false;
                     }
+                    else
+                    {
+                        if (target.IsDead) continue;
+
+                        int damage = CalculatePlayerDamage(ddValues, isCrit, target);
+                        target.CurrentHP -= damage;
+                        BattleScreen.Log($"{target.Name}에게 {damage} 데미지를 입혔다!");
+                        if (target.CurrentHP <= 0)
+                        {
+                            target.IsDead = true;
+                            BattleScreen.Log($"{target.Name}을(를) 처치했다!");
+                            target.CurrentHP = 0;
+                        }
+                    }
+
                     BattleScreen.UpdateHPMP();
                     IsTargetPhase = false;
                     BattleScreen.UpdateMonsterUI(enemies);
@@ -349,7 +371,8 @@ namespace TeamProjectSecond
                 skill.OnMonsterAttack?.Invoke(player);
             player.HealthPoint -= IncomingMonsterDamage;
 
-            BattleScreen.Log($"{monster.Name}의 공격! {damage} 만큼 아프다.");
+            BattleScreen.Log($"{monster.Name}의 공격!");
+            BattleScreen.Log($"{ damage}만큼 아프다."); 
             if (player.HealthPoint <= 0)
             {
                 player.HealthPoint = 0;

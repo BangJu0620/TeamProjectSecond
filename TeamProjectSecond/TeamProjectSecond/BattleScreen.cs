@@ -224,33 +224,44 @@ namespace TeamProjectSecond
 
 
         ////// 전투로그 처리
-
+        private static int GetTotalWrappedLineCount(IEnumerable<string> queue)
+        {
+            int total = 0;
+            foreach (var line in queue)
+                total += WrapText(line, 16).Count;
+            return total;
+        }
         private static Queue<string> logQueue = new Queue<string>();
         public static void Log(string message)
         {
-            if (logQueue.Count >= 6) logQueue.Dequeue();
             logQueue.Enqueue(message);
+
+            while (GetTotalWrappedLineCount(logQueue) > 15)
+                logQueue.Dequeue();
+
             DrawLog();
         }
 
         public static void DrawLog()
         {
-            int xStart = 90;           // 조금 더 오른쪽으로
-            int yStart = 2;            // 위에서부터 출력
-            int maxLines = 15;          // 최대 출력 줄 수
-            int lineWidth = 16;        // 한 줄 너비 제한
+            int xStart = 90;
+            int yStart = 2;
+            int maxLines = 15;
+            int lineWidth = 17;  
+
+            // 먼저 로그 영역 지우기
+            for (int i = 0; i < maxLines; i++)
+            {
+                To(xStart, yStart + i, ConsoleColor.Black, "                              ");
+            }
 
             int lineCounter = 0;
-
             foreach (var fullLine in logQueue)
             {
-                // 긴 줄은 줄바꿈 처리
-                List<string> wrappedLines = WrapText(fullLine, lineWidth);
-
+                var wrappedLines = WrapText(fullLine, lineWidth);
                 foreach (var wrapped in wrappedLines)
                 {
                     if (lineCounter >= maxLines) return;
-
                     To(xStart, yStart + lineCounter, ConsoleColor.Gray, $" {wrapped.PadRight(lineWidth)}");
                     lineCounter++;
                 }
@@ -258,13 +269,22 @@ namespace TeamProjectSecond
         }
         private static List<string> WrapText(string text, int maxLength)
         {
-            List<string> lines = new List<string>();
+            List<string> lines = new();
+            string[] words = text.Split(' ');
 
-            for (int i = 0; i < text.Length; i += maxLength)
+            string currentLine = "";
+            foreach (var word in words)
             {
-                int len = Math.Min(maxLength, text.Length - i);
-                lines.Add(text.Substring(i, len));
+                if ((currentLine + word).Length > maxLength)
+                {
+                    lines.Add(currentLine.TrimEnd());
+                    currentLine = "";
+                }
+                currentLine += word + " ";
             }
+
+            if (!string.IsNullOrWhiteSpace(currentLine))
+                lines.Add(currentLine.TrimEnd());
 
             return lines;
         }
