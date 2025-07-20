@@ -34,6 +34,9 @@ namespace TeamProjectSecond
             ClassType = ClassType.Warrior;
             Exp = 0;
             Gold = 1500;
+            NaeBaeCampCoin = 0;
+            SpartaCoin = 0;
+            BitCoin = 0;
             ManaPoint = MaxManaPoint;
             HealthPoint = MaxHealthPoint;
             Speed = ClassData.BaseSpeed + BonusSpeed;
@@ -46,6 +49,9 @@ namespace TeamProjectSecond
         public ClassType ClassType { get; set; }  // 변수들 몇개 좀 ClassData쪽으로 옮겨서 관리하겄슴다 
         public int Exp { get; set; }
         public int Gold { get; set; }
+        public int NaeBaeCampCoin { get; set; }
+        public int SpartaCoin { get; set; }
+        public int BitCoin { get; set; }
         public int HealthPoint { get; set; }
         public int ManaPoint { get; set; }
         public int Speed { get; set; }
@@ -100,6 +106,9 @@ namespace TeamProjectSecond
                 ClassType = ClassType,
                 Exp = Exp,
                 Gold = Gold,
+                NaeBaeCampCoin = NaeBaeCampCoin,
+                SpartaCoin = SpartaCoin,
+                BitCoin = BitCoin,
                 HealthPoint = HealthPoint,
                 ManaPoint = ManaPoint,
                 Speed = Speed,
@@ -124,6 +133,9 @@ namespace TeamProjectSecond
             ClassType = data.ClassType;
             Exp = data.Exp;
             Gold = data.Gold;
+            NaeBaeCampCoin = data.NaeBaeCampCoin;
+            SpartaCoin = data.SpartaCoin;
+            BitCoin = data.BitCoin;
             HealthPoint = data.HealthPoint;
             ManaPoint = data.ManaPoint;
             Speed = data.Speed;
@@ -183,6 +195,9 @@ namespace TeamProjectSecond
         public ClassType ClassType { get; set; }
         public int Exp { get; set; }
         public int Gold { get; set; }
+        public int NaeBaeCampCoin { get; set; }
+        public int SpartaCoin { get; set; }
+        public int BitCoin { get; set; }
         public int HealthPoint { get; set; }
         public int ManaPoint { get; set; }
         public int Speed { get; set; }
