@@ -16,12 +16,14 @@ namespace TeamProjectSecond
         public int StageNumber { get; private set; }
         public List<int> StageRank { get; private set; }
         public bool IsBoss { get; private set; }
+        public int MaxMonsterRank { get; private set; }
 
-        public DungeonStage(Difficulty difficulty, int stageNumber, List<int> possibleRanks, bool isBoss = false)
+        public DungeonStage(Difficulty difficulty, int stageNumber, List<int> possibleRanks, int maxMonsterRank, bool isBoss = false)
         {
             Difficulty = difficulty;
             StageNumber = stageNumber;
             StageRank = possibleRanks;
+            MaxMonsterRank = maxMonsterRank;
             IsBoss = isBoss;
         }
 
@@ -98,7 +100,7 @@ namespace TeamProjectSecond
 
         public bool HasNextStage()
         {
-            return CurrentStageIndex < stages.Count;
+            return CurrentStageIndex + 1 < stages.Count;
         }
 
         public DungeonStage GetCurrentStage()
@@ -108,19 +110,24 @@ namespace TeamProjectSecond
 
         public void ProceedToNextStage()
         {
-            if (HasNextStage())
+            if (HasNextStage()==true)
             {
                 CurrentStageIndex++;
-            }  
-            StartCurrentStage();
+                StartCurrentStage();
+            }
+            else
+            {
+                return;
+            }
         }
 
         public List<Monster> GenerateMonstersForCurrentStage()
         {
             DungeonStage stage = GetCurrentStage();
             int rankSum = stage.GetRandomStageRank();
-
-            return Monster.Gen(rankSum, rankSum, GetMaxRankAllowed());
+            int maxRank = stage.MaxMonsterRank;
+            Battle.StageRankSumThisRound = rankSum;
+            return Monster.Gen(rankSum, rankSum, maxRank);
         }
 
         private int GetMaxRankAllowed()
@@ -141,30 +148,30 @@ namespace TeamProjectSecond
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    result.Add(new DungeonStage(difficulty, 1, new() { 2 }));
-                    result.Add(new DungeonStage(difficulty, 2, new() { 2, 3 }));
-                    result.Add(new DungeonStage(difficulty, 3, new() { 3 }));
-                    result.Add(new DungeonStage(difficulty, 4, new() { 3, 4 }));
-                    result.Add(new DungeonStage(difficulty, 5, new() { 4 }));
+                    result.Add(new DungeonStage(difficulty, 1, new() { 2 }, maxMonsterRank: 2));
+                    result.Add(new DungeonStage(difficulty, 2, new() { 2, 3 }, maxMonsterRank: 2));
+                    result.Add(new DungeonStage(difficulty, 3, new() { 3 }, maxMonsterRank: 2));
+                    result.Add(new DungeonStage(difficulty, 4, new() { 3, 4 }, maxMonsterRank: 2));
+                    result.Add(new DungeonStage(difficulty, 5, new() { 4 }, maxMonsterRank: 2));
                     break;
 
                 case Difficulty.Normal:
-                    result.Add(new DungeonStage(difficulty, 1, new() { 4 }));
-                    result.Add(new DungeonStage(difficulty, 2, new() { 4, 5 }));
-                    result.Add(new DungeonStage(difficulty, 3, new() { 5 }));
-                    result.Add(new DungeonStage(difficulty, 4, new() { 5, 6 }));
-                    result.Add(new DungeonStage(difficulty, 5, new() { 6 }));
-                    result.Add(new DungeonStage(difficulty, 6, new() { 7 }, true)); // 보스
+                    result.Add(new DungeonStage(difficulty, 1, new() { 4 }, maxMonsterRank: 3));
+                    result.Add(new DungeonStage(difficulty, 2, new() { 4, 5 }, maxMonsterRank: 3));
+                    result.Add(new DungeonStage(difficulty, 3, new() { 5 }, maxMonsterRank: 3));
+                    result.Add(new DungeonStage(difficulty, 4, new() { 5, 6 }, maxMonsterRank: 3));
+                    result.Add(new DungeonStage(difficulty, 5, new() { 6 }, maxMonsterRank: 3));
+                    result.Add(new DungeonStage(difficulty, 6, new() { 7 }, maxMonsterRank: 7, true)); // 보스
                     break;
 
                 case Difficulty.Hard:
-                    result.Add(new DungeonStage(difficulty, 1, new() { 6 }));
-                    result.Add(new DungeonStage(difficulty, 2, new() { 6, 7 }));
-                    result.Add(new DungeonStage(difficulty, 3, new() { 7 }));
-                    result.Add(new DungeonStage(difficulty, 4, new() { 7, 8 }));
-                    result.Add(new DungeonStage(difficulty, 5, new() { 8 }));
-                    result.Add(new DungeonStage(difficulty, 6, new() { 8 }));
-                    result.Add(new DungeonStage(difficulty, 7, new() { 10 }, true)); // 보스
+                    result.Add(new DungeonStage(difficulty, 1, new() { 6 }, maxMonsterRank: 4));
+                    result.Add(new DungeonStage(difficulty, 2, new() { 6, 7 }, maxMonsterRank: 4));
+                    result.Add(new DungeonStage(difficulty, 3, new() { 7 }, maxMonsterRank: 5));
+                    result.Add(new DungeonStage(difficulty, 4, new() { 7, 8 }, maxMonsterRank: 5));
+                    result.Add(new DungeonStage(difficulty, 5, new() { 8 }, maxMonsterRank: 5));
+                    result.Add(new DungeonStage(difficulty, 6, new() { 8 }, maxMonsterRank: 8));
+                    result.Add(new DungeonStage(difficulty, 7, new() { 10 }, maxMonsterRank: 10, true)); // 보스
                     break;
             }
 

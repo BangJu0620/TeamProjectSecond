@@ -206,15 +206,15 @@ namespace TeamProjectSecond
                 foreach (var skill in classData.ActiveSkills)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkYellow;   // 스킬 이름 표시
-                    EventManager.To(28, $"- ");
+                    EventManager.To(22, $"- ");
                     Console.Write($"{skill.Name}");                      
 
                     Console.ForegroundColor = ConsoleColor.Gray;        // 스킬 코스트
-                    Console.SetCursorPosition(48, Console.CursorTop);
+                    Console.SetCursorPosition(42, Console.CursorTop);
                     Console.Write($"| MP {skill.ManaCost}");
 
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.SetCursorPosition(61, Console.CursorTop);    // 스킬 설명
+                    Console.SetCursorPosition(55, Console.CursorTop);    // 스킬 설명
                     Console.Write($"| {skill.Description}\n\n");
                 }
                 Console.WriteLine();
@@ -224,15 +224,15 @@ namespace TeamProjectSecond
 
                 {
                     Console.ForegroundColor = ConsoleColor.DarkYellow;   // 스킬 번호 표현
-                    EventManager.To(28, $"- ");
+                    EventManager.To(22, $"- ");
                     Console.Write($"{skill.Name}");                      // 스킬 이름 표시
 
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    Console.SetCursorPosition(48, Console.CursorTop);    // 스킬 요구 레벨
+                    Console.SetCursorPosition(42, Console.CursorTop);    // 스킬 요구 레벨
                     Console.Write($"| 요구LV {skill.RequiredLevel}");
 
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.SetCursorPosition(61, Console.CursorTop);    // 스킬 설명
+                    Console.SetCursorPosition(55, Console.CursorTop);    // 스킬 설명
                     Console.Write($"| {skill.Description}\n\n");
                 }
                     Console.SetCursorPosition(0, 24);
