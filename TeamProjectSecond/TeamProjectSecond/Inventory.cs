@@ -103,7 +103,29 @@ namespace TeamProjectSecond
                 }
             }
         }
+        private static void UpdateEquipmentEffects()
+        {
+            var c = Character.Instance;
 
+            // 초기화
+            c.BonusDefense = 0;
+            c.BonusSpeed = 0;
+            c.BonusMaxHP = 0;
+            c.BonusMaxMP = 0;
+            c.BaseDamageMultiplier = 1f;   // 기본값 주의!
+            c.BaseDamageBonus = 0;
+
+            // 장착 장비 기준으로 재계산
+            foreach (var item in Item.Instance.Where(i => i.IsEquipped))
+            {
+                c.BonusDefense += item.ItemDefensePoint;
+                c.BonusSpeed += item.ItemSpeed;
+                c.BonusMaxHP += item.ItemMaxHP;
+                c.BonusMaxMP += item.ItemMaxMP;
+                c.BaseDamageMultiplier += item.DamageMultiplier - 1f;  // 1.05면 +0.05
+                c.BaseDamageBonus += item.DamageBonus;
+            }
+        }
         public static void ManageEquippedItems()  //아이템 장착 관리
         {
             int listIndex = 1;
@@ -207,6 +229,7 @@ namespace TeamProjectSecond
                         selectedItem.IsEquipped = true;
                         EventManager.Announce(47, $"{selectedItem.ItemName}을(를) 장착했습니다.");
                     }
+                    UpdateEquipmentEffects();
                 }
                 else
                     EventManager.Wrong();
@@ -317,22 +340,22 @@ namespace TeamProjectSecond
             var c = Character.Instance;
 
             if (item.ItemEffectDesc.Contains("MaxHP"))
-                c.BonusMaxHP += 5;
+                c.ElixirMaxHP += 5;
 
             else if (item.ItemEffectDesc.Contains("MaxMP"))
-                c.BonusMaxMP += 5;
+                c.ElixirMaxMP += 5;
 
             else if (item.ItemEffectDesc.Contains("방어력"))
-                c.BonusDefense += 1;
+                c.ElixirDefense += 1;
 
             else if (item.ItemEffectDesc.Contains("속도"))
-                c.BonusSpeed += 1;
+                c.ElixirSpeed += 1;
 
             else if (item.ItemEffectDesc.Contains("데미지"))
-                c.BaseDamageMultiplier += 0.05f;
+                c.ElixirDamageMultiplier += 0.05f;
 
             else if (item.ItemEffectDesc.Contains("추가데미지"))
-                c.BaseDamageBonus += 1;
+                c.ElixirDamageBonus += 1;
         }
 
         public static int GetTotalRerollFromItems()
