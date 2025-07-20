@@ -37,8 +37,8 @@ namespace TeamProjectSecond
         {
             instance = new List<ItemData>();
             //드랍 전용 아이템 = 마지막에 false 추가
-            //ID, "템이름", 아이템타입, 방, 속도, 최대체력, 최대마나, 데미지 배율, 데미지 보너스, "설명", "설정설명", 가격, 보유여부, 착용여부, 스킬, 상점 판매여부
-            //(소모품) ID, "템이름", "설명", "설정설명", 가격, 보유여부, 착용여부, 상점 판매여부
+            //ID, "템이름", 아이템타입, 방어력, 속도, 최대체력, 최대마나, 데미지 배율, 데미지 보너스, "설명", "설정설명", 가격, 보유여부, 착용여부, 스킬, 상점 판매여부
+            //(소모품) ID, "템이름", "설명", "설정설명", 가격, 보유여부, 착용여부, 상점 판매여부. 아이템 랭크 (0이면 드랍안함)
 
             //Weapon
             instance.Add(new ItemData(100, "주사위 뿅망치", ItemType.Weapon, 0, 0, 0, 0, 1.02f, 0, 0, "데미지+2%", "주사위 모양의 뿅망치.", 600, false, false));
@@ -72,15 +72,15 @@ namespace TeamProjectSecond
 
 
             //consumables
-            instance.Add(new ItemData(400, "HP 포션", "HP 30 회복", "HP를 30 회복시켜주는 포션.", 500, false, false));
-            instance.Add(new ItemData(401, "MP 포션", "MP 30 회복", "MP를 30 회복시켜주는 포션.", 500, false, false));
+            instance.Add(new ItemData(400, "HP 포션", "HP 30 회복", "HP를 30 회복시켜주는 포션.", 500, false, false, true, 1));
+            instance.Add(new ItemData(401, "MP 포션", "MP 30 회복", "MP를 30 회복시켜주는 포션.", 500, false, false, true, 1));
 
-            instance.Add(new ItemData(450, "수호의 영약", "방어력 +1", "방어력을 1 증가시켜주는 물약.", 1000, false, false, false));
-            instance.Add(new ItemData(451, "신속의 영약", "속도 +1", "속도를 1 증가시켜주는 물약.", 1000, false, false, false));
-            instance.Add(new ItemData(452, "강건의 영약", "MaxHP +5", "MaxHP를 5 증가시켜주는 물약.", 1000, false, false, false));
-            instance.Add(new ItemData(453, "정신의 영약", "MaxMP +5", "MaxMP를 5 증가시켜주는 물약.", 1000, false, false, false));
-            instance.Add(new ItemData(454, "힘의 영약", "데미지 +5%", "데미지를 5% 증가시켜주는 물약.", 1000, false, false, false));
-            instance.Add(new ItemData(455, "강타의 영약", "추가데미지 +1", "추가데미지를 1 증가시켜주는 물약.", 1000, false, false, false));
+            instance.Add(new ItemData(450, "수호의 영약", "방어력 +1", "방어력을 1 증가시켜주는 물약.", 1000, false, false, false,2));
+            instance.Add(new ItemData(451, "신속의 영약", "속도 +1", "속도를 1 증가시켜주는 물약.", 1000, false, false, false,2));
+            instance.Add(new ItemData(452, "강건의 영약", "MaxHP +5", "MaxHP를 5 증가시켜주는 물약.", 1000, false, false, false, 2));
+            instance.Add(new ItemData(453, "정신의 영약", "MaxMP +5", "MaxMP를 5 증가시켜주는 물약.", 1000, false, false, false, 2));
+            instance.Add(new ItemData(454, "힘의 영약", "데미지 +5%", "데미지를 5% 증가시켜주는 물약.", 1000, false, false, false, 2));
+            instance.Add(new ItemData(455, "강타의 영약", "추가데미지 +1", "추가데미지를 1 증가시켜주는 물약.", 1000, false, false, false, 2));
         }
 
         // 아이템 획득 로직
@@ -97,7 +97,7 @@ namespace TeamProjectSecond
 
                 if (showMessage)
                 {
-                    Console.WriteLine($"{itemName}을(를) {count}개 획득했습니다!");
+                    EventManager.Announce(45,$"{itemName}을(를) {count}개 획득했습니다!");
                 }
 
                 return true;
@@ -106,7 +106,7 @@ namespace TeamProjectSecond
             {
                 if (showMessage)
                 {
-                    Console.WriteLine("존재하지 않는 아이템입니다.");
+                    EventManager.Announce(45,"존재하지 않는 아이템입니다.");
                 }
                 return false;
             }
@@ -141,6 +141,7 @@ namespace TeamProjectSecond
         public bool IsEquipped { get; set; }
         public int Quantity { get; set; } = 0;
         public bool IsShopItem { get; set; } = true;
+        public int ItemRank { get; set; }
         // 회복량 및 부여 스킬
         public int ItemHealHPAmount { get; set; }
         public int ItemHealMPAmount { get; set; }
@@ -150,7 +151,7 @@ namespace TeamProjectSecond
         public ItemData() { }
 
         public ItemData(int id, string name, ItemType type, int def, int speed = 0, int maxHP = 0, int maxMP = 0, float damageMultiplier = 1.0f, int damageBonus = 0, int rerollBonus = 0,
-                        string effect = "", string lore = "", int price = 0, bool owned = false, bool equipped = false, string? skillName = null, bool isShopItem = true)
+                        string effect = "", string lore = "", int price = 0, bool owned = false, bool equipped = false, string? skillName = null, bool isShopItem = true, int itemRank = 0)
         {
             ID = id;
             ItemName = name;
@@ -169,12 +170,13 @@ namespace TeamProjectSecond
             IsEquipped = equipped;
             SkillName = skillName;
             IsShopItem = isShopItem;
-
+            ItemRank = itemRank;
             ParseHealAmountFromDescription(effect);
+
         }
 
         // 소비 아이템(포션/영약) 전용 생성자
-        public ItemData(int id, string name, string effect, string lore, int price, bool owned = false, bool equipped = false, bool isShopItem = true)
+        public ItemData(int id, string name, string effect, string lore, int price, bool owned = false, bool equipped = false, bool isShopItem = true, int itemRank = 0)
         {
             ID = id;
             ItemName = name;
@@ -194,7 +196,7 @@ namespace TeamProjectSecond
             IsEquipped = equipped;
             SkillName = null;
             IsShopItem = isShopItem;
-
+            ItemRank = itemRank;
             ParseHealAmountFromDescription(effect);
         }
 
