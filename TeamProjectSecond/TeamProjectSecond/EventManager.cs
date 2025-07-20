@@ -103,7 +103,7 @@ namespace TeamProjectSecond
                 switch (CheckInput())
                 {
                     case 1:
-                        Announce(55,"미구현");
+                        Skill.ShowSkills();
                         break;
                     case null:
                         return;

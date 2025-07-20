@@ -43,26 +43,6 @@ namespace TeamProjectSecond
                         hasItem = true;
                         string equipped = item.IsEquipped ? "[E] " : "";
 
-                        //Console.ForegroundColor = ConsoleColor.White;       // 아이템 타입 표시
-                        //EventManager.To(9, $"< {type} >");
-
-                        //Console.ForegroundColor = ConsoleColor.Yellow;      // 장비중이라면 [E]를 표시합니다.
-                        //Console.Write($"  {equipped}");
-
-                        //Console.ForegroundColor = ConsoleColor.White;       // 아이템 이름 표시
-                        //Console.Write($"{item.ItemName}");
-
-                        //Console.ForegroundColor = ConsoleColor.Cyan;      // 보유중인 수 표시
-                        //Console.Write($" (보유: {item.Quantity})");
-
-                        //Console.ForegroundColor = ConsoleColor.White;       
-                        //Console.SetCursorPosition(53, Console.CursorTop);   // 아이템 효과
-                        //Console.Write($"| {item.ItemEffectDesc}");
-
-                        //Console.ForegroundColor = ConsoleColor.Gray;        // 아이템 설명
-                        //Console.SetCursorPosition(80, Console.CursorTop);
-                        //Console.Write($"||  {item.ItemLoreDesc}\n\n");
-
                         Console.ForegroundColor = ConsoleColor.White;       //앞 작대기 - 표현
                         EventManager.To(10, "- ");
 
@@ -158,28 +138,6 @@ namespace TeamProjectSecond
 
                     bool isConsumable = item.ItemType == ItemType.Consumable;
                     string equipped = item.IsEquipped ? "[E] " : "";
-
-                    //Console.ForegroundColor = ConsoleColor.White;       // 아이템 타입 표시
-                    //EventManager.To(6, $"{i + 1,3}. ");
-
-                    //Console.Write($"< {type} >");
-
-                    //Console.ForegroundColor = ConsoleColor.Yellow;      // 장비중이라면 [E]를 표시합니다.
-                    //Console.Write($"  {equipped}");
-
-                    //Console.ForegroundColor = ConsoleColor.White;       // 아이템 이름 표시
-                    //Console.Write($"{item.ItemName}");
-
-                    //Console.ForegroundColor = ConsoleColor.Cyan;      // 보유중인 수 표시
-                    //Console.Write($" (보유: {item.Quantity})");
-
-                    //Console.ForegroundColor = ConsoleColor.White;
-                    //Console.SetCursorPosition(53, Console.CursorTop);   // 아이템 효과
-                    //Console.Write($"| {item.ItemEffectDesc}");
-
-                    //Console.ForegroundColor = ConsoleColor.Gray;        // 아이템 설명
-                    //Console.SetCursorPosition(80, Console.CursorTop);
-                    //Console.Write($"||  {item.ItemLoreDesc}\n\n");
 
                     Console.ForegroundColor = ConsoleColor.White;       // 아이템 번호 표현
                     EventManager.To(10, $"{i + 1}. ");

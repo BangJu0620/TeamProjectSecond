@@ -13,7 +13,8 @@ namespace TeamProjectSecond
         {
             var character = Character.Instance;
 
-           // ShowEnter();
+
+            //ShowEnter();
 
             while (true)
             {
