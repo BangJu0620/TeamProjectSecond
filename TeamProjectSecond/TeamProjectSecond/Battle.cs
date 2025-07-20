@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using TextRPGQuest.QuestSystem;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace TeamProjectSecond

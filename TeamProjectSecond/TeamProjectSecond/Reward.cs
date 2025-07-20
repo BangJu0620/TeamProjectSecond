@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamProjectSecond;
+using TextRPGQuest.QuestSystem;
 
 namespace TeamProjectSecond
 {
@@ -61,6 +62,10 @@ namespace TeamProjectSecond
                         }
                         else
                         {
+                            if (dungeon.CurrentDifficulty == Difficulty.Easy && QuestDatabase.AllQuests[1].Status == QuestStatus.InProgress)
+                            {
+                                QuestDatabase.AllQuests[1].CurrentCount++;
+                            }
                             Console.Clear();
                             EventManager.Clear();
                             EventManager.To(50, "던전의 모든 스테이지를 클리어했습니다!\n\n");

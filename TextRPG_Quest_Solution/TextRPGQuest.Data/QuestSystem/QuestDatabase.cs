@@ -33,9 +33,9 @@ namespace TextRPGQuest.QuestSystem
         /// </summary>
         public static void RegisterDefaultQuests()
         {
-            AllQuests.Add(new Quest(IDManager.GetNextID(), "슬라임 5마리 처치", "슬라임을 5마리 잡으세요", QuestCategory.KillMonster, 5, 100, 50));
-            AllQuests.Add(new Quest(IDManager.GetNextID(), "던전 1층 클리어", "던전 1층을 클리어하세요", QuestCategory.ClearDungeon, 1, 300, 150));
-            AllQuests.Add(new Quest(IDManager.GetNextID(), "약초 3개 수집", "약초를 3개 모으세요", QuestCategory.Collect, 3, 100, 20));
+            AllQuests.Add(new Quest(IDManager.GetNextID(), "주사위 슬라임 5마리 처치", "주사위 슬라임을 5마리 잡으세요", QuestCategory.KillMonster, 5, 500, 250));
+            AllQuests.Add(new Quest(IDManager.GetNextID(), "쉬움 던전 클리어", "쉬움 던전을 클리어하세요", QuestCategory.ClearDungeon, 1, 1500, 750));
+            AllQuests.Add(new Quest(IDManager.GetNextID(), "MP 포션 3개 수집", "MP 포션을 3개 모으세요", QuestCategory.Collect, 3, 500, 100));
         }
 
 

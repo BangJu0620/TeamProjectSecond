@@ -79,7 +79,7 @@ namespace TeamProjectSecond
                     default:
                         Wrong();
                         break;
-                }
+                    }
             }
         }
 
