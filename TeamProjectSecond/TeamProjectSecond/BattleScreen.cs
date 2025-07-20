@@ -140,30 +140,55 @@ namespace TeamProjectSecond
                     Console.SetCursorPosition(88, i + 1);
                     Console.Write(repeated[(i + 1) % 6]);
                 }
-                for (int i = 19; i < 28; i++)  // UI벽1
-                {
-                    Console.SetCursorPosition(19, i + 1);
-                    Console.Write("|");
-                }
-                for (int i = 19; i < 28; i++)  // UI벽2
-                {
-                    Console.SetCursorPosition(76, i + 1);
-                    Console.Write("|");
-                }
                 for (int i = 19; i < 28; i++)  // UI벽3
                 {
                     Console.SetCursorPosition(88, i + 1);
                     Console.Write("|");
                 }
-
-
-                To(4, 20, ConsoleColor.Cyan, "Strike Dice");
-                To(43, 20, ConsoleColor.Cyan, "Damage Dice");
-                To(80, 20, ConsoleColor.Cyan, "합 계");
+                BattleDiceUI();
                 To(92, 20, ConsoleColor.Yellow, "번호를 눌러 행동을 선택 !");
                 UpdateHPMP();
             }
             Console.SetCursorPosition(0, 2);
+        }
+        public static void BattleDiceUI()
+        {
+            To(4, 20, ConsoleColor.Cyan, "                                                                    ");
+            To(4, 22, ConsoleColor.Cyan, "                                                                    ");
+            To(4, 24, ConsoleColor.Cyan, "                                                                    ");
+            To(4, 26, ConsoleColor.Cyan, "                                                                    ");
+            To(4, 28, ConsoleColor.Cyan, "                                                                    ");
+            for (int i = 19; i < 28; i++)  // UI벽1
+            {
+                Console.SetCursorPosition(19, i + 1);
+                Console.Write("|");
+            }
+            for (int i = 19; i < 28; i++)  // UI벽2
+            {
+                Console.SetCursorPosition(76, i + 1);
+                Console.Write("|");
+            }
+            To(4, 20, ConsoleColor.Cyan, "Strike Dice");
+            To(43, 20, ConsoleColor.Cyan, "Damage Dice");
+            To(80, 20, ConsoleColor.Cyan, "합 계");
+        }
+        public static void BattleSkillUI(List<Skill> skills)
+        {
+            To(43, 20, ConsoleColor.Cyan, "            ");
+            To(43, 20, ConsoleColor.Yellow, " 스킬 목록 ");
+            if (skills != null)
+            {
+                for (int i = 0; i < skills.Count; i++)
+                {
+                    string skillname = skills[i].Name;
+                    int manacost = skills[i].ManaCost;
+                    To(20, 22 + 2*i, ConsoleColor.Green, $"<{i + 1}> {skillname}  마나: {manacost}");
+                }
+            }
+            else
+            {
+                To(48, 25, ConsoleColor.Green, $"사용 가능한 스킬이 없습니다."); 
+            }
         }
         //HP MP Bar그리기
         public static void UpdateHPMP()
@@ -269,6 +294,7 @@ namespace TeamProjectSecond
                     Fill(x + 8, y, 6, 3, ConsoleColor.DarkGray);
                     CenteredText(x, y + 1, cardWidth, "X  X", ConsoleColor.Black, ConsoleColor.DarkGray);
                     CenteredText(x, y + 6, cardWidth, "   사망   ", ConsoleColor.DarkGray, ConsoleColor.Black);
+                    CenteredText(x, y + 8, cardWidth, $"        ", ConsoleColor.Black, ConsoleColor.Black);
                 }
                 else
                 {
@@ -276,6 +302,14 @@ namespace TeamProjectSecond
                     Fill(x + 8, y, 6, 3, ConsoleColor.Cyan);
                     CenteredText(x, y + 1, cardWidth, "^  ^", ConsoleColor.Black, ConsoleColor.Cyan);
                     CenteredText(x, y + 6, cardWidth, $"  {m.CurrentHP} / {m.MaxHP}  ", ConsoleColor.White, ConsoleColor.Black);
+                    if (Battle.IsTargetPhase == true)
+                    {
+                        CenteredText(x, y + 8, cardWidth, $"< {i+1} >", ConsoleColor.Yellow, ConsoleColor.Black);
+                    }
+                    else
+                    {
+                        CenteredText(x, y + 8, cardWidth, $"       ", ConsoleColor.Black, ConsoleColor.Black);
+                    }
                 }
 
                 // HP 바
@@ -476,12 +510,23 @@ namespace TeamProjectSecond
             To(x + 15, y + 5, ConsoleColor.Gray, "선택 :      ");
             Console.SetCursorPosition(114, 28); //////////////////////           커서 위치 초기화 <<<<<<<
         }
+
         public static void DrawCommandOptions(string firstOption)
         {
             DrawCommandOptionsClear();
             int x = 92;
             int y = 23;
             To(x, y + 2, ConsoleColor.White, $"{firstOption}");
+            To(x + 15, y + 5, ConsoleColor.Gray, "선택 :      ");
+            Console.SetCursorPosition(114, 28); //////////////////////           커서 위치 초기화 <<<<<<<
+        }
+        public static void DrawCommandOptions(string firstOption, string secondOption)
+        {
+            DrawCommandOptionsClear();
+            int x = 92;
+            int y = 23;
+            To(x, y + 2, ConsoleColor.White, $"{firstOption}");
+            To(x, y + 3, ConsoleColor.White, $"{firstOption}");
             To(x + 15, y + 5, ConsoleColor.Gray, "선택 :      ");
             Console.SetCursorPosition(114, 28); //////////////////////           커서 위치 초기화 <<<<<<<
         }

@@ -14,10 +14,20 @@ namespace TeamProjectSecond
         public static List<int>? sdValues;
         public static List<int>? ddValues;
         public static bool IsRerollPhase = false;
-
+        public static bool IsTargetPhase = false;
         private static Character player => Character.Instance;
+        private static List<Skill> AppliedSkills = new();
+        private static List<Skill> AppliedActiveSkills = new();
+        private static List<Skill> PassiveSkills => player.PassiveSkills.Select(Skill.From).ToList();
+        private static List<Skill> ActiveSkills => player.ActiveSkills.Select(Skill.From).ToList();
 
-
+        private static void InitializeSkillsForRound()
+        {
+            AppliedActiveSkills.Clear();
+            AppliedSkills = PassiveSkills.ToList(); // 깊은 복사
+            foreach (var skill in AppliedSkills)
+                skill.ApplyPassive(player); // 항상 적용
+        }
         private static List<object> DetermineInitiative(List<Monster> enemies)
         {
             List<(object entity, int initiative)> all = new();
@@ -64,6 +74,7 @@ namespace TeamProjectSecond
         {
             while (true)
             {
+                InitializeSkillsForRound();
                 currentRerollCount = player.RerollCount;
 
                 foreach (var actor in turnOrder)
@@ -92,15 +103,14 @@ namespace TeamProjectSecond
         private static void PlayerTurn(List<Monster> enemies)
         {
             BattleScreen.Log("나의 턴 !");
-            BattleScreen.DrawCommandOptions(" Dice  Roll !"," 스  킬"," 아 이 템");                    // UI
-
+            BattleScreen.DrawCommandOptions(" Dice  Roll !", " 스  킬      ", " 아 이 템");// UI
             while (true)
             {
                 int? input = EventManager.CheckInput();
                 if (input == 1) break;
-                else if (input == 2) { SelectAndApplySkill(); continue; }
+                else if (input == 2) { SelectAndApplyActiveSkill(); continue; }
                 else if (input == 3) { Inventory.ShowInventory(); return; }
-                else { BattleScreen.Wrong(); BattleScreen.DrawCommandOptions(" Dice  Roll !", " 스  킬", " 아 이 템"); }
+                else { BattleScreen.Wrong(); BattleScreen.DrawCommandOptions(" Dice  Roll !", " 스  킬      ", " 아 이 템"); }
             }
 
             RollPhase();
@@ -108,31 +118,47 @@ namespace TeamProjectSecond
             SelectTarget(enemies);
         }
 
-        private static void SelectAndApplySkill()
+        private static void SelectAndApplyActiveSkill()
         {
-            //var skills = player.ActiveSkills;
-            //BattleScreen.Log("[스킬 목록 표시됨]");
-            //for (int i = 0; i < skills.Count; i++)
-            //    Console.WriteLine($"{i + 1}. {skills[i].Name} (MP {skills[i].ManaCost})");
+            var skills = ActiveSkills;
+            BattleScreen.BattleSkillUI(skills);
+            BattleScreen.DrawCommandOptions("사용할 스킬을 선택하세요:");
+            if (skills.Count == 0)
+            {
+                BattleScreen.DrawCommandOptions("사용 가능한 스킬이 없습니다.");
+                return;
+            }
 
-            //int? selected = EventManager.CheckInput();
-            //if (!selected.HasValue || selected < 1 || selected > skills.Count)
-            //    return;
+            int? selected = EventManager.CheckInput();
+            if (!selected.HasValue || selected < 1 || selected > skills.Count)
+                return;
 
-            //var skillData = skills[selected.Value - 1];
-            //var skill = new Skill(skillData.Name, skillData.Description, skillData.ManaCost, skillData.RequiredLevel, skillData.IsActive, c => { });
-            //skill.TryUse(player);
+            var chosenSkill = skills[selected.Value - 1];
+            if (chosenSkill.TryUse(player))
+            {
+                AppliedActiveSkills.Add(chosenSkill);
+                AppliedSkills.Add(chosenSkill);
+                BattleScreen.DrawCommandOptions($"  {chosenSkill.Name}", "스킬 적용 완료");
+                BattleScreen.UpdateHPMP();
+                BattleScreen.DrawCommandOptions(" Dice  Roll !", " 스킬적용완료      ", " 아 이 템");
+                return;
+            }
+            else
+            {
+                BattleScreen.Log("스킬 사용에 실패했습니다.");
+            }
         }
 
         private static void RollPhase()
         {
+            BattleScreen.BattleDiceUI();
             sdList = new List<Dice>
             {
                 new Dice(1, 6, DiceType.SD, 1),
                 new Dice(1, 6, DiceType.SD, 2)
             };
             ddList = new();
-            for (int i = 0; i < player.DiceCount+4; i++)
+            for (int i = 0; i < player.DiceCount; i++)
             {
                 var dd = new Dice(1, 6, DiceType.DD, 3 + i);
                 ddList.Add(dd);
@@ -212,6 +238,8 @@ namespace TeamProjectSecond
             IsRerollPhase = false;
             while (true)
             {
+                IsTargetPhase = true;
+                BattleScreen.UpdateMonsterUI(enemies);   
                 BattleScreen.DrawCommandOptions("공격할 대상을 선택");
                 for (int i = 0; i < enemies.Count; i++)
                 {
@@ -247,6 +275,7 @@ namespace TeamProjectSecond
                     target.CurrentHP = 0;
                 }
                 BattleScreen.UpdateHPMP();
+                IsTargetPhase = false;
                 BattleScreen.UpdateMonsterUI(enemies);
                 break;
             }
