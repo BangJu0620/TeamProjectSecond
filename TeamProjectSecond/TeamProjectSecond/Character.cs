@@ -149,7 +149,7 @@ namespace TeamProjectSecond
         {
             var character = Character.Instance;
             character.ClassType = ClassType.Warrior;
-            character.Level = 1;
+            character.Level = 20;
             character.Exp = 0;
             character.HealthPoint = character.MaxHealthPoint;
             character.ManaPoint = character.MaxManaPoint;
@@ -159,7 +159,7 @@ namespace TeamProjectSecond
         {
             var character = Character.Instance;
             character.ClassType = ClassType.Rogue;
-            character.Level = 1;
+            character.Level = 20;
             character.Exp = 0;
             character.HealthPoint = character.MaxHealthPoint;
             character.ManaPoint = character.MaxManaPoint;
@@ -169,7 +169,7 @@ namespace TeamProjectSecond
         {
             var character = Character.Instance;
             character.ClassType = ClassType.Mage;
-            character.Level = 1;
+            character.Level = 20;
             character.Exp = 0;
             character.HealthPoint = character.MaxHealthPoint;
             character.ManaPoint = character.MaxManaPoint;
