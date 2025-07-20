@@ -57,19 +57,30 @@ namespace TeamProjectSecond
             instance.Add(new ItemData(203, "VIP의 갑옷", ItemType.Armor, 15, 0, 0, 0, 1, 0, 0, "방어력+15", "어딘가의 VIP가 입는 갑옷.", 3500, false, false));
             instance.Add(new ItemData(204, "보석상의 정장", ItemType.Armor, 13, 2, 0, 0, 1, 0, 0, "방어력+13, 속도+2", "보석을 지킨다.", 3000, false, false));
             instance.Add(new ItemData(205, "회계사의 조끼", ItemType.Armor, 8, 0, 0, 20, 1, 0, 0, "방어력+8, MaxMP+20", "손실을 줄여야한다.", 2000, false, false));
-            instance.Add(new ItemData(206, "세무관의 셔츠", ItemType.Armor, 10, 0, 0, 0, 1, -3, 0, "방어력+10, 추가데미지-3", "데미지 세금을 걷겠다.", 1500, false, false));
+            instance.Add(new ItemData(206, "세무관의 셔츠", ItemType.Armor, 10, 0, 0, 0, 1, -3, 0, "방어력+10, 추가데미지-3", "'데미지 세금을 걷겠다.'", 1500, false, false));
             instance.Add(new ItemData(207, "탈세자의 후드", ItemType.Armor, 3, 3, 0, 0, 1, 0, 0, "방어력+3, 속도+3", "탈세자가 사용한 후드.", 1500, false, false));
+            instance.Add(new ItemData(208, "슬라임 슈트", ItemType.Armor, 2, 20, 0, 0, 1, 0, 0, "방어력+2, MaxHP+20", "슬라임을 뒤집어 쓴 느낌.", 1500, false, false));
 
             //Accessory
             instance.Add(new ItemData(300, "도망자의 신발", ItemType.Accessory, 0, 3, 0, 0, 1, 0, 0, "속도+3", "속도를 높여주는 신발.", 800, false, false));
             instance.Add(new ItemData(301, "체력의 반지", ItemType.Accessory, 2, 0, 30, 0, 1, 0, 0, "방어력+2, MaxHP+30", "밤새 게임할 수 있게 된다.", 800, false, false));
-            instance.Add(new ItemData(302, "파산자의 목걸이", ItemType.Accessory, -2, 0, 0, 0, 1, 5, 0, "방어력-2, 추가데미지+5", "따서 갚는다.", 800, false, false, null, false));
+            instance.Add(new ItemData(302, "파산자의 목걸이", ItemType.Accessory, -2, 0, 0, 0, 1, 5, 0, "방어력-2, 추가데미지+5", "'따서 갚는다.'", 800, false, false, null, false));
             instance.Add(new ItemData(303, "경찰 배지", ItemType.Accessory, 0, 0, 0, 50, 1, 3, 0, "MaxMP+50, 추가데미지+3", "이거까지 내기에 걸어?", 800, false, false, null, false));
             instance.Add(new ItemData(304, "행운의 칩", ItemType.Accessory, 0, 0, 0, 0, 1, 0, 1, "리롤+1", "일이 잘 풀릴 것 같다.", 800, false, false, null, false));
             instance.Add(new ItemData(305, "딜러의 카드덱", ItemType.Accessory, 0, 0, 0, 0, 1.04f, 0, 0, "데미지+4%", "딜러의 카드덱.", 800, false, false, null, false));
             instance.Add(new ItemData(306, "결혼 반지", ItemType.Accessory, 0, 0, 50, 0, 1, -6, 0, "MaxHP+50, 추가데미지-6", "누군가 내기로 건 반지.", 800, false, false, null, false));
-            instance.Add(new ItemData(307, "무전기 이어폰", ItemType.Accessory, 0, 0, 0, 0, 1f, 5, 0, "추가데미지+5", "도둑이 훔쳐간 이어폰.", 800, false, false, null, false));
-
+            instance.Add(new ItemData(307, "무전기 이어폰", ItemType.Accessory, 0, 0, 0, 0, 1, 5, 0, "추가데미지+5", "도둑이 훔쳐간 이어폰.", 800, false, false, null, false));
+            instance.Add(new ItemData(308, "마법사의 모자", ItemType.Accessory, 0, 0, 0, 30, 1, 5, 0, "MaxMP+30, 추가데미지+5", "마술 하나 보여줄까?", 800, false, false, null, false));
+            instance.Add(new ItemData(309, "카지노 칩", ItemType.Accessory, 0, 0, 0, 0, 1, 0, 1, "리롤+1", "현금 대신 사용하는 칩.", 800, false, false, null, false));
+            instance.Add(new ItemData(310, "괴도의 가면", ItemType.Accessory, 0, 3, 0, 20, 1, 0, 0, "속도+3, MaxMP+20", "단골 손님의 가면.", 800, false, false, null, false));
+            instance.Add(new ItemData(311, "선글라스", ItemType.Accessory, 0, 0, 0, 0, 1, 7, 0, "추가데미지+7", "카리스마를 올려준다.", 800, false, false, null, false));
+            instance.Add(new ItemData(312, "머니건", ItemType.Accessory, 0, 0, 0, 0, 1.02f, 4, 0, "데미지+2%, 추가데미지+4", "가폐를 날리는 장난감.", 800, false, false, null, false));
+            instance.Add(new ItemData(313, "플레잉 카드", ItemType.Accessory, 0, 0, 0, 0, 1, 1, 1, "추가데미지+1, 리롤+1", "플레잉 카드.", 800, false, false, null, false));
+            instance.Add(new ItemData(314, "슬라임 귀걸이", ItemType.Accessory, 0, 0, 0, 10, 1, 0, 0, "MaxMP+10", "슬라임으로 만든 귀걸이.", 800, false, false, null, false));
+            instance.Add(new ItemData(315, "야옹이 반지", ItemType.Accessory, 0, 0, 0, 0, 1, 0, 1, "리롤+1", "야옹이가 그려진 반지.", 800, false, false, null, false));
+            instance.Add(new ItemData(316, "등껍질 백팩", ItemType.Accessory, 10, -2, 0, 0, 1, 0, 1, "방어력+10, 속도-2", "단단하지만 느리다.", 800, false, false, null, false));
+            instance.Add(new ItemData(317, "독수리 인형", ItemType.Accessory, 0, 2, 0, 0, 1, 3, 0, "속도+2, 추가데미지+3", "귀여운 인형.", 800, false, false, null, false));
+            instance.Add(new ItemData(318, "괴인의 수첩", ItemType.Accessory, 0, 0, 0, 0, 1, 5, 0, "추가데미지+5", "'뭐가 적혀있는 거지?'", 800, false, false, null, false));
 
             //consumables
             instance.Add(new ItemData(400, "HP 포션", "HP 30 회복", "HP를 30 회복시켜주는 포션.", 500, false, false, true, 1));

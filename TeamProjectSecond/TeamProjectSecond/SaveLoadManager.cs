@@ -34,7 +34,7 @@ namespace TeamProjectSecond
                     case null:
                         return;
                     case 1: // 캐릭터, 아이템, 퀘스트 정보를 세이브
-                        if (!CheckExistSaveData())  // 세이브 파일이 존재하는지 확인
+                        if (!CheckMissingSaveData())  // 세이브 파일이 존재하는지 확인
                             ConfirmOverwriteSaveData();
                         else
                         {
@@ -43,7 +43,7 @@ namespace TeamProjectSecond
                         }
                         break;
                     case 2: // 세이브 정보를 삭제
-                        if (CheckExistSaveData())   // 없으면 없다고 출력, 이후 세이브 화면으로 돌아감
+                        if (CheckMissingSaveData())   // 없으면 없다고 출력, 이후 세이브 화면으로 돌아감
                         {
                             EventManager.Announce(51, "세이브 파일이 없습니다.");
                             break;
@@ -110,7 +110,7 @@ namespace TeamProjectSecond
             }
         }
 
-        public static bool CheckExistSaveData() // true 면 없는 상태, false 면 있는 상태
+        public static bool CheckMissingSaveData() // true 면 없는 상태, false 면 있는 상태
         {
             if (!File.Exists(filePath)) return true;
             else return false;

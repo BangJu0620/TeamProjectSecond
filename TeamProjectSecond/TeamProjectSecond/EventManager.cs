@@ -23,6 +23,7 @@ namespace TeamProjectSecond
 
             while (true)
             {
+                Console.Clear();
                 Clear();
                 To(56," 주사위 마을\n\n");
                 To(46,"이곳에서 행동을 선택할 수 있습니다.\n\n\n");

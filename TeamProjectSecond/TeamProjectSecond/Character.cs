@@ -49,11 +49,14 @@ namespace TeamProjectSecond
         public int HealthPoint { get; set; }
         public int ManaPoint { get; set; }
         public int Speed { get; set; }
-        public float CritMultiplier { get; set; }
+        public float CritMultiplier { get; set; } = 1.6f;
         public float BaseDamageMultiplier { get; set; } = 1f; // 영구적인 데미지 관여 값 (영약으로 오르는 것도 여기다 넣으면 될 듯용)
         public float BaseDamageBonus { get; set; } = 0f;
         public float TempDamageMultiplier { get; set; } = 0f;  // 일시적인 데미지 관여 값 (스킬같은 걸로 전투 중에만 적용)
         public float TempDamageBonus { get; set; } = 0f;
+        public int BaseCritThreshold { get; set; } = 11;      // 기본 크리티컬 임계값
+        public int BonusCritThreshold { get; set; } = 0;      // 패시브에서 깎이는 값
+        public int CritThreshold => BaseCritThreshold - BonusCritThreshold;
         public float TotalDamageMultiplier => BaseDamageMultiplier + TempDamageMultiplier;  // 최종 적용값 (계산용 프로퍼티)
         public float TotalDamageBonus => BaseDamageBonus + TempDamageBonus;
         public int TotalRerollCount => RerollCount + Inventory.GetTotalRerollFromItems(); // 리롤 이거 한 줄 추가했습니다.여기 잘 안건드려서 뭐가 뭔지 모르겠...
@@ -186,9 +189,11 @@ namespace TeamProjectSecond
         public float CritMultiplier { get; set; }
         public float BaseDamageMultiplier { get; set; } = 1f; // 영구적인 데미지 관여 값 (영약으로 오르는 것도 여기다 넣으면 될 듯용)
         public float BaseDamageBonus { get; set; } = 0f;
+        public int BaseCritThreshold { get; set; } = 11;
+        public int BonusCritThreshold { get; set; } = 0;
         public float TempDamageMultiplier { get; set; } = 1f;  // 일시적인 데미지 관여 값 (스킬같은 걸로 전투 중에만 적용)
         public float TempDamageBonus { get; set; } = 0f;
-        public float TotalDamageMultiplier => BaseDamageMultiplier * TempDamageMultiplier;
+        public float TotalDamageMultiplier => BaseDamageMultiplier + TempDamageMultiplier;
         public float TotalDamageBonus => BaseDamageBonus + TempDamageBonus;
 
         //영약
