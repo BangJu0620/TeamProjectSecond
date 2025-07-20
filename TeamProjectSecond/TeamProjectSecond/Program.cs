@@ -21,6 +21,19 @@ namespace TeamProjectSecond
             EventBridge.OnAddGold = amount => Character.Instance.Gold += amount;
             EventBridge.OnAddExp = amount => Character.Instance.Exp += amount;
             EventBridge.OnGetMpPotionCount = () => Item.Instance.First(i => i.ItemName == "MP 포션").Quantity;
+            EventBridge.OnDecreaseItemQuantityByName = (name, amount) =>
+            {
+                var item = Item.Instance.FirstOrDefault(i => i.ItemName == name);
+                if (item != null)
+                {
+                    item.Quantity -= amount;
+                    if (item.Quantity <= 0)
+                    {
+                        item.Quantity = 0;
+                        item.IsOwned = false;
+                    }
+                }
+            };
 
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.CursorVisible = false;

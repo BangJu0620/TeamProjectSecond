@@ -68,15 +68,12 @@ namespace TeamProjectSecond
                         // 저장/불러오기
                         SaveLoadManager.DisplaySaveUI();
                         break;
-                    case 8:
-                        Item.AddItem("MP 포션", 1, false);
-                        break;
                     case null:
-                            break;
-                        default:
-                            Wrong();
-                            break;
-                        }
+                        break;
+                    default:
+                        Wrong();
+                        break;
+                    }
             }
         }
 

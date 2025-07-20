@@ -25,7 +25,7 @@ namespace TextRPGQuest.QuestSystem
 
                 foreach (var q in QuestDatabase.AllQuests)
                 {
-                    if (q.CurrentCount >= q.GoalCount && q.Status != QuestStatus.Rewarded)
+                    if (q.CurrentCount >= q.GoalCount && q.Status == QuestStatus.InProgress)
                     {
                         q.CurrentCount = q.GoalCount;
                         q.Status = QuestStatus.Completed;
@@ -40,9 +40,9 @@ namespace TextRPGQuest.QuestSystem
                     EventBridge.OnToWithText?.Invoke(46, $"상태: {q.Status}\n");
 
                     //Console.WriteLine($"진행도: {q.CurrentCount} / {q.GoalCount}");
-                    if(q.Status == QuestStatus.NotStarted)
+                    if(q.Status == QuestStatus.Rewarded)
                     {
-                        EventBridge.OnToWithText?.Invoke(46, $"진행도: 0 / {q.GoalCount}\n");
+                        EventBridge.OnToWithText?.Invoke(46, $"진행도: {q.GoalCount} / {q.GoalCount}\n");
                     }
                     else
                     {
@@ -105,6 +105,11 @@ namespace TextRPGQuest.QuestSystem
         {
             var mpPotionCount = EventBridge.OnGetMpPotionCount();
             QuestDatabase.AllQuests[2].CurrentCount = mpPotionCount;
+        }
+
+        public static void DecreaseMpPotionQuantity()
+        {
+
         }
 
         /// <summary>
@@ -187,7 +192,10 @@ namespace TextRPGQuest.QuestSystem
                 //Player.Instance.Exp += quest.RewardExp;
                 EventBridge.OnAddExp?.Invoke(quest.RewardExp);
                 quest.Status = QuestStatus.Rewarded;
-
+                if(quest.ID == 3)
+                {
+                    EventBridge.OnDecreaseItemQuantityByName("MP 포션", quest.GoalCount);
+                }
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 //Console.WriteLine($"[보상 지급] 골드 {quest.RewardGold}, 경험치 {quest.RewardExp}");
                 EventBridge.OnAnnounce(45, $"[보상 지급] 골드 {quest.RewardGold}, 경험치 {quest.RewardExp}");
