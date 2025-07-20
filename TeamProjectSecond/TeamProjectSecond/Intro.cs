@@ -17,35 +17,24 @@ namespace TeamProjectSecond
                 EventManager.Clear();
                 Console.SetCursorPosition(0, 5);
 
-                string[] title = new string[]
-                {
-                    " █████╗   ██████╗  █████╗  ██████╗     ██████╗   █████╗  ██╗     ██╗    ",
-                    " ██╔══██╗ ╚═██╔═╝ ██╔══██╗ ██╔═══╝     ██╔══██║ ██╔══██║ ██║     ██║    ",
-                    " ██║  ██║   ██║   ██║  ╚═╝ ██████╗     █████╔═╝ ██║  ██║ ██║     ██║    ",
-                    " ██║  ██║   ██║   ██║  ██╗ ██╔═══╝     ██╔═██╗  ██║  ██║ ██║     ██║    ",
-                    " █████╔═╝ ██████╗  █████╔╝ ██████╗     ██║  ██╗  █████╔╝ ██████╗ ██████╗",
-                    " ╚════╝   ╚═════╝  ╚════╝  ╚═════╝     ╚═╝  ╚═╝  ╚════╝  ╚═════╝ ╚═════╝",
-                    "",
-                    "",
-                    "           ██████╗  ██╗        ██╗   ██╗   ██╗ ██████╗ ██╗   ██╗  █████╗       █████╗      ██╗    ██╗       ██╗ ██████╗",
-                    "           ██╔══██╗ ██║       ████╗   ██╗ ██╔╝ ╚═██╔═╝ ███╗  ██║ ██╔═══╝      ██╔═══╝     ████╗   ███╗     ███║ ██╔═══╝",
-                    "           ██████╔╝ ██║      ██╔═██╗   ████╔╝    ██║   ██╔██╗██║ ██║ ▄▄▄╗     ██║ ▄▄▄╗   ██╔═██╗  ██║██╗ ██║██║ ██████╗",
-                    "           ██╔═══╝  ██║     ████████╗   ██╔╝     ██║   ██║╚═███║ ██║ ▀▀██╗    ██║ ▀▀██╗ ████████╗ ██║ ████╔╝██║ ██╔═══╝",
-                    "           ██║      ██████╗ ██╔═══██║   ██║    ██████╗ ██║   ██║  █████▀╔╝     █████▀╔╝ ██╔═══██╗ ██║  ██╔╝ ██║ ██████╗",
-                    "           ╚═╝      ╚═════╝ ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚═╝   ╚═╝  ╚════╝       ╚════╝   ╚═╝   ╚═╝ ╚═╝  ╚═╝  ╚═╝ ╚═════╝"
-                };
-
-                for (int i = 0; i < title.Length; i++)
-                {
-
-                    Console.SetCursorPosition(0, 5 + i);
-                    Console.WriteLine(title[i]);
-                    Thread.Sleep(70);
-                }
-
+                Color1();
+                Console.Write(" █████╗  ");   Color3(); Console.Write(" ██████╗  █████╗  ██████╗");   Color2(); Console.Write("     ██████╗ "); Color3(); Console.Write("  █████╗  ██╗     ██╗    \n");Color1(); Thread.Sleep(70);
+                Console.Write(" ██╔══██╗");   Color3(); Console.Write(" ╚═██╔═╝ ██╔══██╗ ██╔═══╝");   Color2(); Console.Write("     ██╔══██║"); Color3(); Console.Write(" ██╔══██║ ██║     ██║    \n"); Color1(); Thread.Sleep(70);
+                Console.Write(" ██║  ██║");   Color3(); Console.Write("   ██║   ██║  ╚═╝ ██████╗");   Color2(); Console.Write("     █████╔═╝"); Color3(); Console.Write(" ██║  ██║ ██║     ██║    \n"); Color1(); Thread.Sleep(70);
+                Console.Write(" ██║  ██║");   Color3(); Console.Write("   ██║   ██║  ██╗ ██╔═══╝");   Color2(); Console.Write("     ██╔═██╗ "); Color3(); Console.Write(" ██║  ██║ ██║     ██║    \n"); Color1(); Thread.Sleep(70);
+                Console.Write(" █████╔═╝");   Color3(); Console.Write(" ██████╗  █████╔╝ ██████╗");   Color2(); Console.Write("     ██║  ██╗"); Color3(); Console.Write("  █████╔╝ ██████╗ ██████╗\n"); Color1(); Thread.Sleep(70);
+                Console.Write(" ╚════╝  ");   Color3(); Console.Write(" ╚═════╝  ╚════╝  ╚═════╝");   Color2(); Console.Write("     ╚═╝  ╚═╝"); Color3(); Console.Write("  ╚════╝  ╚═════╝ ╚═════╝\n"); Thread.Sleep(70);
+                Console.Write("\n"); Thread.Sleep(70);
+                Console.Write("\n"); Thread.Sleep(70); Color2();
+                Console.Write("           ██████╗ "); Color3(); Console.Write(" ██╗        ██╗   ██╗   ██╗ ██████╗ ██╗   ██╗  █████╗  "); Color2(); Console.Write("     █████╗  "); Color3(); Console.Write("    ██╗    ██╗       ██╗ ██████╗\n"); Color2(); Thread.Sleep(70);
+                Console.Write("           ██╔══██╗"); Color3(); Console.Write(" ██║       ████╗   ██╗ ██╔╝ ╚═██╔═╝ ███╗  ██║ ██╔═══╝  "); Color2(); Console.Write("    ██╔═══╝  "); Color3(); Console.Write("   ████╗   ███╗     ███║ ██╔═══╝\n"); Color2(); Thread.Sleep(70);
+                Console.Write("           ██████╔╝"); Color3(); Console.Write(" ██║      ██╔═██╗   ████╔╝    ██║   ██╔██╗██║ ██║ ▄▄▄╗ "); Color2(); Console.Write("    ██║ ▄▄▄╗ "); Color3(); Console.Write("  ██╔═██╗  ██║██╗ ██║██║ ██████╗\n"); Color2(); Thread.Sleep(70);
+                Console.Write("           ██╔═══╝ "); Color3(); Console.Write(" ██║     ████████╗   ██╔╝     ██║   ██║╚═███║ ██║ ▀▀██╗"); Color2(); Console.Write("    ██║ ▀▀██╗"); Color3(); Console.Write(" ████████╗ ██║ ████╔╝██║ ██╔═══╝\n"); Color2(); Thread.Sleep(70);
+                Console.Write("           ██║     "); Color3(); Console.Write(" ██████╗ ██╔═══██║   ██║    ██████╗ ██║   ██║  █████▀╔╝"); Color2(); Console.Write("     █████▀╔╝"); Color3(); Console.Write(" ██╔═══██╗ ██║  ██╔╝ ██║ ██████╗\n"); Color2(); Thread.Sleep(70);
+                Console.Write("           ╚═╝     "); Color3(); Console.Write(" ╚═════╝ ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚═╝   ╚═╝  ╚════╝  "); Color2(); Console.Write("     ╚════╝  "); Color3(); Console.Write(" ╚═╝   ╚═╝ ╚═╝  ╚═╝  ╚═╝ ╚═════╝"); Thread.Sleep(70);
 
                 Console.SetCursorPosition(0, 23);
-                EventManager.To(44, "1. 새로 시작            2. 이어하기");
+                EventManager.To(44, "1. 새로 시작            2. 이어하기"); Thread.Sleep(70);
                 EventManager.Select();
 
                 switch (EventManager.CheckInput())
@@ -75,7 +64,18 @@ namespace TeamProjectSecond
                 }
             }
         }
-
+        public static void Color1()
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
+        }
+        public static void Color2()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+        }
+        public static void Color3()
+        {
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
         public static void SetName()    // 이름 입력하기
         {
             while (true)
