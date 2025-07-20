@@ -281,7 +281,7 @@ namespace TeamProjectSecond
                 // HP 바
                 int barWidth = 16;
                 int filled = (int)((m.CurrentHP / (float)m.MaxHP) * barWidth);
-                Bar(x+3, y + 5, filled, barWidth, ConsoleColor.Red);
+                Bar(x + 3, y + 5, filled, barWidth, ConsoleColor.Red);
             }
         }
 
@@ -489,12 +489,29 @@ namespace TeamProjectSecond
         {
             int x = 92;
             int y = 23;
-            for( y=23; y<28; y++)
+            for (y = 23; y < 28; y++)
             { To(x, y, ConsoleColor.White, "                         "); }
             To(x + 15, 28, ConsoleColor.Gray, "선택 :      ");
             Console.SetCursorPosition(114, 28); //////////////////////           커서 위치 초기화 <<<<<<<
         }
 
+        public static void DrawYOUDIED()
+        {
+            EventManager.Clear();
+            Console.SetCursorPosition(0, 2);
+            int x = 27;
+            int y = 10;
+            ConsoleColor c = ConsoleColor.DarkRed;
+            To(x,   y,   c, " ██╗   ██╗  █████╗  ██╗  ██╗     █████╗   ██████╗ ██████╗ █████╗  ");
+            To(x, y + 1, c, "  ██╗ ██╔╝ ██╔══██║ ██║  ██║     ██╔══██╗ ╚═██╔═╝ ██╔═══╝ ██╔══██╗");
+            To(x, y + 2, c, "   ████╔╝  ██║  ██║ ██║  ██║     ██║  ██║   ██║   ██████╗ ██║  ██║");
+            To(x, y + 3, c, "    ██╔╝   ██║  ██║ ██║  ██║     ██║  ██║   ██║   ██╔═══╝ ██║  ██║");
+            To(x, y + 4, c, "    ██║     █████╔╝  █████╔╝     █████╔═╝ ██████╗ ██████╗ █████╔═╝");
+            To(x, y + 5, c, "    ╚═╝     ╚════╝   ╚════╝      ╚════╝   ╚═════╝ ╚═════╝ ╚════╝  ");
+            Console.ResetColor();
+            To(51,25, ConsoleColor.DarkGray, "- Press Any Key -");
+            Console.ReadKey();
+        }
 
 
     }
