@@ -104,7 +104,10 @@ namespace TeamProjectSecond
         public void ProceedToNextStage()
         {
             if (HasNextStage())
+            {
                 CurrentStageIndex++;
+            }  
+            StartCurrentStage();
         }
 
         public List<Monster> GenerateMonstersForCurrentStage()
@@ -167,9 +170,8 @@ namespace TeamProjectSecond
         {
             DungeonStage stage = GetCurrentStage();
             List<Monster> enemies = GenerateMonstersForCurrentStage();
-
             // 전투 시작
-            Battle.StartBattle(enemies);
+            Battle.StartBattle(this, enemies);
         }
     }
 }

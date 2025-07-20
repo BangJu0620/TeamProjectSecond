@@ -24,7 +24,7 @@ namespace TeamProjectSecond
 
                 for (int i = (listIndex * 9) - 9; i < Math.Min(listIndex * 9, shopItems.Count - listIndex * 9 % 9); i++)
                 {
-                    Console.ForegroundColor = ConsoleColor.White;
+
                     var item = shopItems[i];
 
                     string priceDisplay = $"{item.ItemPrice,8} G";
@@ -32,13 +32,23 @@ namespace TeamProjectSecond
                         ? $"(보유: {item.Quantity})"
                         : "";
 
+                    string type;    //해당 아이템의 타입에 따라 출력되는 문구가 변경됩니다.
+                    if (item.ItemType == ItemType.Weapon) type = "무  기";
+                    else if (item.ItemType == ItemType.Armor) type = "방어구";
+                    else if (item.ItemType == ItemType.Accessory) type = "장신구";
+                    else type = "소모품";
+
+                    Console.ForegroundColor = ConsoleColor.White;
                     EventManager.To(5, $"- {item.ItemName}");
 
-                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write($" {quantityInfo}");
 
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.SetCursorPosition(38, Console.CursorTop);
+                    Console.Write($"|  {type}  ");
+
+                    Console.SetCursorPosition(49, Console.CursorTop);
                     Console.Write($"| {item.ItemEffectDesc}");
 
                     Console.SetCursorPosition(98, Console.CursorTop);
@@ -90,18 +100,27 @@ namespace TeamProjectSecond
                 {
                     var item = shopItems[i];
 
+                    string type;    //해당 아이템의 타입에 따라 출력되는 문구가 변경됩니다.
+                    if (item.ItemType == ItemType.Weapon) type = "무  기";
+                    else if (item.ItemType == ItemType.Armor) type = "방어구";
+                    else if (item.ItemType == ItemType.Accessory) type = "장신구";
+                    else type = "소모품";
+
                     string priceDisplay = $"{item.ItemPrice,8} G";
                     string quantityInfo = item.IsOwned
                         ? $"(보유: {item.Quantity})"
                         : "";
-
+                    Console.ForegroundColor = ConsoleColor.White;
                     EventManager.To(5, $"{i + 1}. {item.ItemName}");
 
-                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write($" {quantityInfo}");
 
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.SetCursorPosition(38, Console.CursorTop);
+                    Console.Write($"|  {type}  ");
+
+                    Console.SetCursorPosition(49, Console.CursorTop);
                     Console.Write($"| {item.ItemEffectDesc}");
 
                     Console.SetCursorPosition(98, Console.CursorTop);
@@ -115,8 +134,7 @@ namespace TeamProjectSecond
                 bool goNextPage = (shopItems.Count - listIndex * 9 > 0 && (shopItems.Count - (listIndex * 9)) % 9 != 0);  // 리스트 다음장에 아이템이 남아있는지 확인
 
                 int? input = EventManager.CheckInput();
-                if (input == null)
-                    return;
+                if (input == null) return;
                 else if (input == -1)
                     listIndex = Math.Max(listIndex - 1, 1);
                 else if (input == -2 && goNextPage)
@@ -213,14 +231,23 @@ namespace TeamProjectSecond
                     string quantityInfo = item.IsOwned
                         ? $"(보유: {item.Quantity})"
                         : "";
+                    string type;    //해당 아이템의 타입에 따라 출력되는 문구가 변경됩니다.
+                    if (item.ItemType == ItemType.Weapon) type = "무  기";
+                    else if (item.ItemType == ItemType.Armor) type = "방어구";
+                    else if (item.ItemType == ItemType.Accessory) type = "장신구";
+                    else type = "소모품";
 
+                    Console.ForegroundColor = ConsoleColor.White;
                     EventManager.To(5, $"{i + 1}. {item.ItemName}");
 
-                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write($" {quantityInfo}");
 
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.SetCursorPosition(38, Console.CursorTop);
+                    Console.Write($"|  {type}  ");
+
+                    Console.SetCursorPosition(49, Console.CursorTop);
                     Console.Write($"| {item.ItemEffectDesc}");
 
                     Console.SetCursorPosition(98, Console.CursorTop);
@@ -236,13 +263,15 @@ namespace TeamProjectSecond
                 bool goNextPage = (ownedItems.Count - listIndex * 9 > 0 && (ownedItems.Count - (listIndex * 9)) % 9 != 0);  // 리스트 다음장에 아이템이 남아있는지 확인
                 
                 int? input = EventManager.CheckInput();
-                if (input == null) return;
-                else if (input == -1) listIndex = Math.Max(listIndex - 1, 1);   //페이지 <- 이동 
-                else if (input == -2 && goNextPage) listIndex++;                //페이지 -> 이동
+                if (input == null) return;                                      //엔터 누르면 돌아가기
+                else if (input == -1)
+                    listIndex = Math.Max(listIndex - 1, 1);   //페이지 <- 이동 
+                else if (input == -2 && goNextPage)
+                    listIndex++;                //페이지 -> 이동
+                else if (input == -2 && !goNextPage)
+                    continue;
 
                 else if (input >= 1 && input <= ownedItems.Count)
-
-                    if (input >= 1 && input <= ownedItems.Count)
                 {
                     var item = ownedItems[(int)input - 1];
                     int sellPrice = item.GetSellPrice();
@@ -250,27 +279,18 @@ namespace TeamProjectSecond
                     if (item.ItemType == ItemType.Consumable)
                     {
                         item.Quantity--;
-                        if (item.Quantity <= 0)
-                        {
-                            item.IsOwned = false;
-                        }
+                        if (item.Quantity <= 0) item.IsOwned = false;
                     }
                     else
                     {
-                        if (item.IsEquipped)
-                        {
-                            item.IsEquipped = false;
-                        }
+                        if (item.IsEquipped) item.IsEquipped = false;
                         item.IsOwned = false;
                     }
 
                     Character.Instance.Gold += sellPrice;
-                    EventManager.Announce(48,$"{item.ItemName}을(를) 판매했습니다. {sellPrice} G 획득!");
+                    EventManager.Announce(48, $"{item.ItemName}을(를) 판매했습니다. {sellPrice} G 획득!");
                 }
-                else
-                {
-                    EventManager.Wrong();
-                }
+                else EventManager.Wrong();
             }
         }
     }

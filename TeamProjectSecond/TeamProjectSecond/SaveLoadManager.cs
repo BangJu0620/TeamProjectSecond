@@ -35,9 +35,7 @@ namespace TeamProjectSecond
                         return;
                     case 1: // 캐릭터, 아이템, 퀘스트 정보를 세이브
                         if (!CheckExistSaveData())  // 세이브 파일이 존재하는지 확인
-                        {
                             ConfirmOverwriteSaveData();
-                        }
                         else
                         {
                             SaveLoadData.SaveAllData(filePath);
@@ -62,8 +60,9 @@ namespace TeamProjectSecond
         public static void ConfirmOverwriteSaveData()   // 세이브 덮어씌울지 확인
         {
             EventManager.Clear();
+            Console.SetCursorPosition(0, 11);
             EventManager.To(31, "세이브파일이 존재해 세이브를 할 경우 기존 데이터는 삭제됩니다.\n\n\n\n");
-            EventManager.To(50, "정말로 세이브하시겠습니까?\n\n\n");
+            EventManager.To(49, "정말로 세이브하시겠습니까?\n\n\n");
 
             Console.SetCursorPosition(0, 24);
             Console.ForegroundColor = ConsoleColor.White;
@@ -88,6 +87,7 @@ namespace TeamProjectSecond
             while (true)
             {
                 EventManager.Clear();
+                Console.SetCursorPosition(0, 11);
                 EventManager.To(55, "세이브 삭제\n\n\n\n");
                 EventManager.To(49, "정말로 삭제하시겠습니까?\n\n\n");
 
