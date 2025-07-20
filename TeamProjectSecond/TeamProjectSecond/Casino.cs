@@ -59,15 +59,18 @@ namespace TeamProjectSecond
                 {
                     case 1:
                         EventManager.To(41, "내배캠 코인을 지불하고 도박판에 뛰어듭니다.\n\n\n");
+                        EventManager.To(54, $"남은 코인 수 {character.NaeBaeCampCoin}\n\n\n\n");
                         break;
                     case 2:
                         EventManager.To(41, "스파르타 코인을 지불하고 도박판에 뛰어듭니다.\n\n\n");
+                        EventManager.To(54, $"남은 코인 수 {character.SpartaCoin}\n\n\n\n");
                         break;
                     case 3:
                         EventManager.To(42, "비트 코인을 지불하고 도박판에 뛰어듭니다.\n\n\n");
+                        EventManager.To(54, $"남은 코인 수 {character.BitCoin}\n\n\n\n");
                         break;
                 }
-                EventManager.To(54, $"남은 코인 수 {character.NaeBaeCampCoin}\n\n\n\n");
+
                 Console.SetCursorPosition(0, 24);
                 EventManager.To(44, "1. Dice Roll!!       Enter. 돌아가기");
                 EventManager.Select();

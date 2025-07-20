@@ -29,7 +29,7 @@ namespace TeamProjectSecond
             get                         // 외부에서 RestCost의 값을 호출하는 순간 get이라는 함수가 작동
             {
                 if (restCost == null)   // restCost는 선언만 됐을 뿐 아무런 값도 입력되지 않았기 때문에
-                    restCost = 500;     // if문이 동작하고, restCost에 500이라는 값이 입력됩니다
+                    restCost = 50;     // if문이 동작하고, restCost에 500이라는 값이 입력됩니다
                 return (int)restCost;   // 조건식의 바깥. 즉 언제나 작동되는 부위입니다
             }                           // 호출된 RestCost에 (int)restCost라는 값을 반환합니다.
                                         // int?는 int를 암시적 형변환 하는 것이 불가능하기 때문에 
