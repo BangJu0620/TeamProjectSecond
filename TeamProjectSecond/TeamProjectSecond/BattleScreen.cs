@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TeamProjectSecond;
 
@@ -100,7 +101,7 @@ namespace TeamProjectSecond
                 }
                 for (int i = 19; i < 28; i++)  // UI벽1
                 {
-                    Console.SetCursorPosition(24, i + 1);
+                    Console.SetCursorPosition(19, i + 1);
                     Console.Write("|");
                 }
                 for (int i = 19; i < 28; i++)  // UI벽2
@@ -115,8 +116,8 @@ namespace TeamProjectSecond
                 }
                 
                 
-                To(6, 20, ConsoleColor.Cyan, "Strike Dice");
-                To(45, 20, ConsoleColor.Cyan, "Damage Dice");
+                To(4, 20, ConsoleColor.Cyan, "Strike Dice");
+                To(43, 20, ConsoleColor.Cyan, "Damage Dice");
                 To(80, 20, ConsoleColor.Cyan, "합 계");
                 To(92, 20, ConsoleColor.Yellow, "번호를 눌러 행동을 선택 !");
                 UpdateHPMP();
@@ -263,28 +264,64 @@ namespace TeamProjectSecond
 
         public static void DrawSD(List<int> values)
         {
-            int startX = 5;
+            int startX = 3;
             int y = 23;
             for (int i = 0; i < values.Count; i++)
                 DrawDie(values[i], startX + i * 8, y, ConsoleColor.DarkGreen, ConsoleColor.White);  // 가로 간격 16칸으로 여유 있게
         }
         public static void DrawDD(List<int> values)
         {
-            int startX = 47;
-            int ddcount = values.Count;
-            //if (ddcount == 2)
-            //    startX -= 5;
-            //if (ddcount == 3)
-            //    startX -= 11;
-
+            int dieWidth = 8;
+            int centerX = 49;
             int y = 23;
-            for (int i = 0; i < ddcount; i++)
-                DrawDie(values[i], startX + i * 8, y, ConsoleColor.Yellow, ConsoleColor.Black);  // 가로 간격 16칸으로 여유 있게
-        }
-        //public static void DrawDDTotal(int total, int x, int y)
-        //{
 
-        //}
+            int totalWidth = values.Count * dieWidth;
+            int startX = centerX - totalWidth / 2;
+
+            for (int i = 0; i < values.Count; i++)
+            {
+                int x = startX + i * dieWidth;
+                DrawDie(values[i], x, y, ConsoleColor.Yellow, ConsoleColor.Black);
+            }
+        }
+        public static void DrawDDTotal(int value, int x, int y)
+        {
+            string[] lines = value switch
+            {
+                0 => new[] { " ▌▌ ", "▌ ▟", "▙▜", "▛ ▌", " ▌▌ " },
+                1 => new[] { "  ▌ ", " ▌▌ ", "  ▌ ", "  ▌ ", " ▌▌▌" },
+                2 => new[] { " ▌▌ ", "▌  ▌", " ▟ ", "▞  ", "▌▌▌▌" },
+                3 => new[] { " ▌▌ ", "▌  ▌", "  ▌ ", "▌  ▌", " ▌▌ " },
+                4 => new[] { " ▟ ", "▞▌ ", "▌ ▌ ", "▌▌▌▌", " ▌ " },
+                5 => new[] { "▌▌▌▌", "▌   ", "▌▌▙", "▖▌", "▜▛" },
+                6 => new[] { "▟▙", "▌ ▝", "▌▌▙", "▌  ▌", " ▌▌ " },
+                7 => new[] { "▌▌▌▌", "▌  ▌", "  ▌ ", " ▌  ", " ▌  " },
+                8 => new[] { " ▌▌ ", "▌  ▌", " ▌▌ ", "▌  ▌", " ▌▌ " },
+                9 => new[] { " ▌▌ ", "▌  ▌", " ▌▌▌", "▖ ▌", "▜▛" }
+            };
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+
+            for (int i = 0; i < 5; i++)
+            {
+                Console.SetCursorPosition(x, y + i);
+                string line = lines[i];
+                foreach (char c in line)
+                {
+                    Console.Write(c);
+                }
+            }
+            Console.ResetColor();
+        }
+
+        public static void UpdateDDTotal(List<int> values)
+        {
+            int DDTotal = values.Sum();
+            int DDTotalten = DDTotal / 10;
+            int DDTotalone = DDTotal % 10;
+            DrawDDTotal(DDTotalten, 78, 23);
+            DrawDDTotal(DDTotalone, 83, 23);
+        }
 
         public static void DrawCommandOptions(string firstOption, string secondOption, string thirdOption)
         {

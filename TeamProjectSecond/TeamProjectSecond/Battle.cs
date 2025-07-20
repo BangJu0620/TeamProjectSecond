@@ -112,7 +112,7 @@ namespace TeamProjectSecond
                 new Dice(1, 6, DiceType.SD, 2)
             };
             ddList = new();
-            for (int i = 0; i < player.DiceCount - 1; i++)
+            for (int i = 0; i < player.DiceCount + 6; i++)
             {
                 var dd = new Dice(1, 6, DiceType.DD, 3 + i);
                 ddList.Add(dd);
@@ -123,7 +123,7 @@ namespace TeamProjectSecond
             var ddValues = ddList.Select(d => d.Roll()).ToList();
             BattleScreen.DrawSD(sdValues);
             BattleScreen.DrawDD(ddValues);
-            //         BattleScreen.DrawDDTotal(ddValues.Sum(), 60, 22);
+            BattleScreen.UpdateDDTotal(ddValues);
         }
 
         private static void RerollPhase()
