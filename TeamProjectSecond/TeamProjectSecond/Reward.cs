@@ -36,6 +36,7 @@ namespace TeamProjectSecond
             {
                 character.BitCoin += 2;
                 EventManager.Announce(50, "비트 코인을 2개 획득했습니다.");
+
             } 
             while (true)
             {
@@ -49,6 +50,7 @@ namespace TeamProjectSecond
                 EventManager.To(55, "3. 포션사용\n\n");
                 EventManager.To(55, "4. 포기하기");
                 EventManager.Select();
+
 
                 switch (EventManager.CheckInput())
                 {
@@ -80,14 +82,14 @@ namespace TeamProjectSecond
                         break;
                 }
             }
-        }
 
             static void GetExp(int stageRank)
             {
                 var character = Character.Instance;
                 int ExpGain = stageRank * stageRank * 10;
-                character.Exp += ExpGain;
+                LevelManager.GainExpWithEffect(ExpGain);
             }
+        }
         
     }
 }

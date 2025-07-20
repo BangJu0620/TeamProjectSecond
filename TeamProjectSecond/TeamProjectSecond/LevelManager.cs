@@ -27,13 +27,14 @@ namespace TeamProjectSecond
             return ExpRequirements[level];
         }
 
-        public static void GainExpWithEffect(int amount)
+        public static void GainExpWithEffect(int amount)  //경험치 획득 매서드
         {
             var character = Character.Instance;
             int targetTotalExp = character.Exp + amount;
 
             while (true)
             {
+                EventManager.Clear();
                 int requiredExp = GetRequiredExp(character.Level);
                 int expBefore = character.Exp;
                 int expToGain = Math.Min(requiredExp - expBefore, targetTotalExp - expBefore);
@@ -66,7 +67,7 @@ namespace TeamProjectSecond
 
                 character.Exp += expToGain;
 
-                if (character.Exp >= requiredExp)
+                if (character.Exp >= requiredExp)       // 레벨업에 도달했을 때
                 {
                     character.Exp -= requiredExp;
                     character.Level++;
