@@ -14,18 +14,18 @@ namespace TextRPGQuest.QuestSystem
     public static class QuestDatabase
     {
         public static List<Quest> AllQuests = new();
-        public static List<Quest> PlayerQuests = new();
+        //public static List<Quest> PlayerQuests = new();
 
-        public static void Initialize()
-        {
-            if (!File.Exists("AllQuests.json"))
-            {
-                RegisterDefaultQuests();
-                SaveAllQuests();
-            }
-            LoadAllQuests();
-            LoadPlayerQuests();
-        }
+        //public static void Initialize()
+        //{
+        //    if (!File.Exists("AllQuests.json"))
+        //    {
+        //        RegisterDefaultQuests();
+        //        SaveAllQuests();
+        //    }
+        //    LoadAllQuests();
+        //    LoadPlayerQuests();
+        //}
 
        
         /// <summary>
@@ -41,34 +41,34 @@ namespace TextRPGQuest.QuestSystem
 
 
 
-        public static void SaveAllQuests()
-        {
-            var json = JsonSerializer.Serialize(AllQuests, new JsonSerializerOptions { WriteIndented = true });
-            SaveManager.Save("AllQuests.json", json);
-        }
+        //public static void SaveAllQuests()
+        //{
+        //    var json = JsonSerializer.Serialize(AllQuests, new JsonSerializerOptions { WriteIndented = true });
+        //    SaveManager.Save("AllQuests.json", json);
+        //}
 
-        public static void SavePlayerQuests()
-        {
-            var json = JsonSerializer.Serialize(PlayerQuests, new JsonSerializerOptions { WriteIndented = true });
-            SaveManager.Save("PlayerQuests.json", json);
-        }
+        //public static void SavePlayerQuests()
+        //{
+        //    var json = JsonSerializer.Serialize(PlayerQuests, new JsonSerializerOptions { WriteIndented = true });
+        //    SaveManager.Save("PlayerQuests.json", json);
+        //}
 
-        public static void LoadAllQuests()
-        {
-            var json = SaveManager.Load("AllQuests.json");
-            if (!string.IsNullOrEmpty(json))
-            { AllQuests = JsonSerializer.Deserialize<List<Quest>>(json); }
-            else
-            { AllQuests = new List<Quest>(); }
-        }
+        //public static void LoadAllQuests()
+        //{
+        //    var json = SaveManager.Load("AllQuests.json");
+        //    if (!string.IsNullOrEmpty(json))
+        //    { AllQuests = JsonSerializer.Deserialize<List<Quest>>(json); }
+        //    else
+        //    { AllQuests = new List<Quest>(); }
+        //}
 
-        public static void LoadPlayerQuests()
-        {
-            var json = SaveManager.Load("PlayerQuests.json");
-            if (json != null)
-            {
-                PlayerQuests = JsonSerializer.Deserialize<List<Quest>>(json);
-            }
-        }
+        //public static void LoadPlayerQuests()
+        //{
+        //    var json = SaveManager.Load("PlayerQuests.json");
+        //    if (json != null)
+        //    {
+        //        PlayerQuests = JsonSerializer.Deserialize<List<Quest>>(json);
+        //    }
+        //}
     }
 }

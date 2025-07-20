@@ -107,44 +107,39 @@ namespace TextRPGQuest.QuestSystem
             QuestDatabase.AllQuests[2].CurrentCount = mpPotionCount;
         }
 
-        public static void DecreaseMpPotionQuantity()
-        {
-
-        }
-
         /// <summary>
         /// 퀘스트를 수락합니다.
         /// </summary>
-        public static void AcceptQuest(int id)
-        {
-            var quest = QuestDatabase.AllQuests.Find(q => q.ID == id);
-            if (quest != null)
-            {
-                if (QuestDatabase.PlayerQuests.Exists(q => q.ID == id))
-                {
-                    Console.WriteLine("이미 수락한 퀘스트입니다.");
-                    return;
-                }
+        //public static void AcceptQuest(int id)
+        //{
+        //    var quest = QuestDatabase.AllQuests.Find(q => q.ID == id);
+        //    if (quest != null)
+        //    {
+        //        if (QuestDatabase.PlayerQuests.Exists(q => q.ID == id))
+        //        {
+        //            Console.WriteLine("이미 수락한 퀘스트입니다.");
+        //            return;
+        //        }
 
-                Quest newQuest = new Quest(quest.ID, quest.Title, quest.Description, quest.Category, quest.GoalCount, quest.RewardGold, quest.RewardExp);
-                QuestDatabase.PlayerQuests.Add(newQuest);
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine($"{quest.Title} 퀘스트를 수락했습니다.");
-                Console.ResetColor();
-            }
-            else
-            {
-                Console.WriteLine("해당 ID의 퀘스트를 찾을 수 없습니다.");
-            }
-        }
+        //        Quest newQuest = new Quest(quest.ID, quest.Title, quest.Description, quest.Category, quest.GoalCount, quest.RewardGold, quest.RewardExp);
+        //        QuestDatabase.PlayerQuests.Add(newQuest);
+        //        Console.ForegroundColor = ConsoleColor.Cyan;
+        //        Console.WriteLine($"{quest.Title} 퀘스트를 수락했습니다.");
+        //        Console.ResetColor();
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("해당 ID의 퀘스트를 찾을 수 없습니다.");
+        //    }
+        //}
 
         public static void Accept(int id)
         {
             var quest = QuestDatabase.AllQuests.Find(q => q.ID == id);
             if (quest != null)
             {
-                Quest newQuest = new Quest(quest.ID, quest.Title, quest.Description, quest.Category, quest.GoalCount, quest.RewardGold, quest.RewardExp);
-                QuestDatabase.PlayerQuests.Add(newQuest);
+                //Quest newQuest = new Quest(quest.ID, quest.Title, quest.Description, quest.Category, quest.GoalCount, quest.RewardGold, quest.RewardExp);
+                //QuestDatabase.PlayerQuests.Add(newQuest);
                 quest.Status = QuestStatus.InProgress;
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 EventBridge.OnAnnounce?.Invoke(44, $"{quest.Title} 퀘스트를 수락했습니다.");
@@ -159,25 +154,25 @@ namespace TextRPGQuest.QuestSystem
         /// <summary>
         /// 퀘스트 진행도를 업데이트하고 완료 여부를 체크합니다.
         /// </summary>
-        public static void UpdateQuestProgress(QuestCategory category, int amount)
-        {
-            foreach (var quest in QuestDatabase.PlayerQuests)
-            {
-                if (quest.Status == QuestStatus.InProgress && quest.Category == category)
-                {
-                    quest.CurrentCount += amount;
+        //public static void UpdateQuestProgress(QuestCategory category, int amount)
+        //{
+        //    foreach (var quest in QuestDatabase.PlayerQuests)
+        //    {
+        //        if (quest.Status == QuestStatus.InProgress && quest.Category == category)
+        //        {
+        //            quest.CurrentCount += amount;
 
-                    if (quest.CurrentCount >= quest.GoalCount)
-                    {
-                        quest.CurrentCount = quest.GoalCount;
-                        quest.Status = QuestStatus.Completed;
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine($"[완료] {quest.Title}");
-                        Console.ResetColor();
-                    }
-                }
-            }
-        }
+        //            if (quest.CurrentCount >= quest.GoalCount)
+        //            {
+        //                quest.CurrentCount = quest.GoalCount;
+        //                quest.Status = QuestStatus.Completed;
+        //                Console.ForegroundColor = ConsoleColor.Green;
+        //                Console.WriteLine($"[완료] {quest.Title}");
+        //                Console.ResetColor();
+        //            }
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// 보상을 지급하고 퀘스트를 Rewarded로 변경합니다.

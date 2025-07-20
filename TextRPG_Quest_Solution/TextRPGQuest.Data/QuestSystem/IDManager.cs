@@ -25,18 +25,18 @@ namespace TextRPGQuest.QuestSystem
             File.WriteAllText(FilePath, json);
         }
 
-        public static void Load()
-        {
-            if (File.Exists(FilePath))
-            {
-                var json = File.ReadAllText(FilePath);
-                currentID = JsonSerializer.Deserialize<int>(json);
-            }
-            else
-            {
-                currentID = 0;
-            }
-        }
+        //public static void Load()
+        //{
+        //    if (File.Exists(FilePath))
+        //    {
+        //        var json = File.ReadAllText(FilePath);
+        //        currentID = JsonSerializer.Deserialize<int>(json);
+        //    }
+        //    else
+        //    {
+        //        currentID = 0;
+        //    }
+        //}
     }
 }
 
