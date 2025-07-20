@@ -111,7 +111,6 @@ namespace TeamProjectSecond
 
                     if (enemies.All(e => e.IsDead))
                     {
-                        // Reward.Grant(); ////////////////////////////////////////////// TODO
                         return true;
                     }
                 }
