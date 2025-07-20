@@ -40,13 +40,13 @@ namespace TeamProjectSecond
                     BaseSpeed = 15;
                     BaseCritMultiplier = 1.6f;
 
-                    PassiveSkills.Add(new SkillData("BonusDmgPerLevel", "레벨당 뻥딜 보너스", 0, 1, false));
-                    PassiveSkills.Add(new SkillData("FlatDmg+0.5", "뻥딜 +0.5f", 0, 8, false));
-                    PassiveSkills.Add(new SkillData("FlatDmg+1 / SD1=5", "뻥딜+1f / SD_1이 5로 고정", 0, 16, false));
+                    PassiveSkills.Add(new SkillData("야금야금", "레벨당 뻥딜 보너스", 0, 1, false));
+                    PassiveSkills.Add(new SkillData("능숙한 베팅", "뻥딜 +0.5f", 0, 8, false));
+                    PassiveSkills.Add(new SkillData("평정심", "뻥딜+1f / SD_1이 5로 고정", 0, 16, false));
 
-                    ActiveSkills.Add(new SkillData("MinDice2", "[A] MinDiceThreshold = 2", 10, 4, true));
-                    ActiveSkills.Add(new SkillData("MinDice3", "[A] MinDiceThreshold = 3", 20, 12, true));
-                    ActiveSkills.Add(new SkillData("FixAllDD=5", "[A] 모든 DD를 5로 고정", 30, 20, true));
+                    ActiveSkills.Add(new SkillData("최소 2", "[A] MinDiceThreshold = 2", 10, 4, true));
+                    ActiveSkills.Add(new SkillData("최소 3", "[A] MinDiceThreshold = 3", 20, 12, true));
+                    ActiveSkills.Add(new SkillData("확신의 5", "[A] 모든 DD를 5로 고정", 30, 20, true));
                     break;
 
                 case ClassType.Mage:
@@ -58,13 +58,13 @@ namespace TeamProjectSecond
                     BaseSpeed = 10;
                     BaseCritMultiplier = 1.6f;
 
-                    PassiveSkills.Add(new SkillData("NoCrit / MPShield", "크리 없음 / 피해의 80%를 MP로 감당", 0, 1, false));
-                    PassiveSkills.Add(new SkillData("EvenDD+1.0", "짝수 DD마다 뻥딜 +1", 0, 16, false));
+                    PassiveSkills.Add(new SkillData("미신쟁이의 습관", "크리 없음 / 피해의 80%를 MP로 감당", 0, 1, false));
+                    PassiveSkills.Add(new SkillData("메이드", "짝수 DD마다 뻥딜 +1", 0, 16, false));
 
-                    ActiveSkills.Add(new SkillData("AOE", "[A] 전체 공격", 40, 4, true));
-                    ActiveSkills.Add(new SkillData("Dmg+Lv/10", "[A] 뻥딜 +(Lv/10)", 60, 8, true));
-                    ActiveSkills.Add(new SkillData("Def+4DD / MP+8DD", "[A] 방어력+ / 마나 회복", 10, 12, true));
-                    ActiveSkills.Add(new SkillData("Exclude1/3+AOE", "[A] 1,3 제외 전체공격", 200, 20, true));
+                    ActiveSkills.Add(new SkillData("땡값", "[A] 전체 공격", 40, 4, true));
+                    ActiveSkills.Add(new SkillData("받고, 더", "[A] 뻥딜 +(Lv/10)", 60, 8, true));
+                    ActiveSkills.Add(new SkillData("나이스 폴드", "[A] 방어력+ / 마나 회복", 10, 12, true));
+                    ActiveSkills.Add(new SkillData("로디드 다이스", "[A] 1,3 제외 전체공격", 200, 20, true));
                     break;
 
                 case ClassType.Rogue:
@@ -76,13 +76,13 @@ namespace TeamProjectSecond
                     BaseSpeed = 20;
                     BaseCritMultiplier = 1.6f;
 
-                    PassiveSkills.Add(new SkillData("Crit+0.5 / Crit9+", "기본뻥딜+0.5 / 크리 9+", 0, 1, false));
-                    PassiveSkills.Add(new SkillData("6+Bonus+1f", "6이상 눈마다 +1f", 0, 4, false));
-                    PassiveSkills.Add(new SkillData("MaxDice=7", "DD/SD의 Max를 7로", 0, 8, false));
-                    PassiveSkills.Add(new SkillData("Crit2.0x", "크리 데미지 2.0배", 0, 12, false));
-                    PassiveSkills.Add(new SkillData("Crit8+", "크리 임계값 8+", 0, 20, false));
+                    PassiveSkills.Add(new SkillData("스몰 블라인드", "SD가 9이상이 떠도 크리티컬/데미지계수 +0.5", 0, 1, false));
+                    PassiveSkills.Add(new SkillData("아웃사이드 베팅", "6눈 이상의 주사위마다 데미지계수 +1", 0, 4, false));
+                    PassiveSkills.Add(new SkillData("럭키 세븐", "7눈의 주사위", 0, 8, false));
+                    PassiveSkills.Add(new SkillData("빅 블라인드", "크리티컬 데미지 40%p증가", 0, 12, false));
+                    PassiveSkills.Add(new SkillData("칩 리더", "SD가 8이상이 떠도 크리티컬", 0, 20, false));
 
-                    ActiveSkills.Add(new SkillData("CubeDmg", "[A] DD갯수 1 / 데미지=(D-1)^3", 20, 16, true));
+                    ActiveSkills.Add(new SkillData("Ready to 🎲", "단 한개의 DD. ", 20, 16, true));
                     break;
             }
         }

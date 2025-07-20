@@ -21,6 +21,10 @@ namespace TeamProjectSecond
         private static List<Skill> PassiveSkills => player.PassiveSkills.Select(Skill.From).ToList();
         private static List<Skill> ActiveSkills => player.ActiveSkills.Select(Skill.From).ToList();
 
+        private static bool IsSkillApplied(string skillName)
+        {
+            return AppliedSkills.Any(skill => skill.Name == skillName);
+        }
         private static void InitializeSkillsForRound()
         {
             AppliedActiveSkills.Clear();
