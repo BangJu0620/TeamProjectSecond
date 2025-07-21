@@ -255,49 +255,4 @@ namespace TeamProjectSecond
             return $"{stats}\n{ItemEffectDesc}\n{ItemLoreDesc}";
         }
     }
-
-    //던전.cs 완료 시 활성화
-    //public class DropEntry
-    //{
-    //    public string ItemName { get; set; }
-    //    public DungeonDifficulty Difficulty { get; set; } //easy, normal, hard 던전 필요
-    //    public int MinStage { get; set; }
-    //    public int MaxStage { get; set; }
-    //    public float DropChance { get; set; } // 0.0 ~ 1.0 사이
-    //}
-
-
-    //public static class DropTable
-    //{
-    //    private static Random rand = new();
-
-    //    public static List<DropEntry> Entries = new() //아래에 드랍시킬 아이템 추가, 1.0f = 100%
-    //    {
-    //        new DropEntry { ItemName = "HP 포션", Difficulty = DungeonDifficulty.Easy, MinStage = 1, MaxStage = 3, DropChance = 0.6f },
-    //        new DropEntry { ItemName = "MP 포션", Difficulty = DungeonDifficulty.Easy, MinStage = 1, MaxStage = 3, DropChance = 0.6f },
-
-    //        new DropEntry { ItemName = "체력 증가 물약", Difficulty = DungeonDifficulty.Medium, MinStage = 2, MaxStage = 4, DropChance = 0.3f },
-    //        new DropEntry { ItemName = "리롤 증가 물약", Difficulty = DungeonDifficulty.Hard, MinStage = 3, MaxStage = 5, DropChance = 0.2f },
-    //    };
-
-    //    public static List<ItemData> RollDrop(DungeonDifficulty difficulty, int stage) //난이도,스테이지번호에 따라 아이템 뽑기
-    //    {
-    //        List<ItemData> drops = new();
-
-    //        foreach (var entry in Entries) //드랍 가능 조건 탐색
-    //        {
-    //            if (entry.Difficulty != difficulty) continue; //난이도 일치
-    //            if (stage < entry.MinStage || stage > entry.MaxStage) continue; //스테이지 범위 일치
-
-    //            if (rand.NextDouble() < entry.DropChance) //확률 계산(뽑기진행)
-    //            {
-    //                var item = Item.Instance.FirstOrDefault(i => i.ItemName == entry.ItemName); //DB찾기
-    //                if (item != null) drops.Add(item); //drop추가
-    //            }
-    //        }
-
-    //        return drops;
-    //    }
-    //}
-
 }
