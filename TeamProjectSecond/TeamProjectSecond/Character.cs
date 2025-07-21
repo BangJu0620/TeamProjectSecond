@@ -68,14 +68,24 @@ namespace TeamProjectSecond
         public int BaseCritThreshold { get; set; } = 11;      // 기본 크리티컬 임계값
         public int BonusCritThreshold { get; set; } = 0;      // 패시브에서 깎이는 값
         public int CritThreshold => BaseCritThreshold - BonusCritThreshold;
-        public float TotalDamageMultiplier => BaseDamageMultiplier + TempDamageMultiplier;  // 최종 적용값 (계산용 프로퍼티)
+        public float TotalBaseDamageMultiplier => BaseDamageMultiplier + ElixirDamageMultiplier;
+        public float TotalDamageMultiplier => TotalBaseDamageMultiplier + TempDamageMultiplier;  // 최종 적용값 (계산용 프로퍼티)
+        public float TotalBaseDamageBonus => TotalBaseDamageBonus + ElixirDamageBonus;
         public float TotalDamageBonus => BaseDamageBonus + TempDamageBonus;
+        public int TotalSpeed => ClassData.BaseSpeed + BonusSpeed + ElixirSpeed;
         public int TotalRerollCount => RerollCount + Inventory.GetTotalRerollFromItems(); // 리롤 이거 한 줄 추가했습니다.여기 잘 안건드려서 뭐가 뭔지 모르겠...
         public int MinDice => BaseMinDice + TempMinDice;
         public int MaxDice => BaseMaxDice + TempMaxDice;
         public bool MageMPRecoveryInsteadOfAttack { get; set; } = false;
 
         // 이 밑으로 영약 추가했습니다, 영약 관련 주석들 확인 후 필요없어지면 삭제하셔도 무방합니다 /// 확인했습니다요
+        // 엘릭서(영약)로 증가한 영구 능력치
+        public int ElixirMaxHP { get; set; } = 0;
+        public int ElixirMaxMP { get; set; } = 0;
+        public int ElixirDefense { get; set; } = 0;
+        public int ElixirSpeed { get; set; } = 0;
+        public float ElixirDamageMultiplier { get; set; } = 0f;
+        public int ElixirDamageBonus { get; set; } = 0;
         public int BonusMaxHP { get; set; } = 0;
         public int BonusMaxMP { get; set; } = 0;
         public int BonusDefense { get; set; } = 0;
@@ -85,9 +95,9 @@ namespace TeamProjectSecond
         public bool IsAOEAttack { get; set; } = false;
         public ClassData ClassData => new ClassData(ClassType);
 
-        public int MaxHealthPoint => ClassData.MaxHPByLevel(Level) + BonusMaxHP; //+ Bonus 붙은 부분이 영약 계산식입니다
-        public int MaxManaPoint => ClassData.MaxMPByLevel(Level) + BonusMaxMP;
-        public int DefensePoint => ClassData.DefenseByLevel(Level) + BonusDefense;
+        public int MaxHealthPoint => ClassData.MaxHPByLevel(Level) + BonusMaxHP + ElixirMaxHP;
+        public int MaxManaPoint => ClassData.MaxMPByLevel(Level) + BonusMaxMP + ElixirMaxMP;
+        public int DefensePoint => ClassData.DefenseByLevel(Level) + BonusDefense + ElixirDefense;
         public int? TempDiceCountOverride { get; set; } = null;
         public int DiceCount => TempDiceCountOverride ?? ClassData.DiceCountByLevel
                                   .Where(kv => kv.Key <= Level)
@@ -128,11 +138,18 @@ namespace TeamProjectSecond
                 BaseDamageBonus = BaseDamageBonus,
                 TempDamageMultiplier = TempDamageMultiplier,
                 TempDamageBonus = TempDamageBonus,
-                //영약
+                //장비
                 BonusMaxHP = BonusMaxHP,
                 BonusMaxMP = BonusMaxMP,
                 BonusDefense = BonusDefense,
                 BonusSpeed = BonusSpeed,
+                //영약
+                ElixirMaxHP = ElixirMaxHP,
+                ElixirMaxMP = ElixirMaxMP,
+                ElixirDefense = ElixirDefense,
+                ElixirSpeed = ElixirSpeed,
+                ElixirDamageMultiplier = ElixirDamageMultiplier,
+                ElixirDamageBonus = ElixirDamageBonus,
             };
         }
 
@@ -155,11 +172,18 @@ namespace TeamProjectSecond
             BaseDamageBonus = data.BaseDamageBonus;
             TempDamageMultiplier = data.TempDamageMultiplier;
             TempDamageBonus = data.TempDamageBonus;
-            //영약
+            //장비
             BonusMaxHP = data.BonusMaxHP;
             BonusMaxMP = data.BonusMaxMP;
             BonusDefense = data.BonusDefense;
             BonusSpeed = data.BonusSpeed;
+            //영약
+            ElixirMaxHP = data.ElixirMaxHP;
+            ElixirMaxMP = data.ElixirMaxMP;
+            ElixirDefense = data.ElixirDefense;
+            ElixirSpeed = data.ElixirSpeed;
+            ElixirDamageMultiplier = data.ElixirDamageMultiplier;
+            ElixirDamageBonus = data.ElixirDamageBonus;
         }
         public void ResetTurnTempEffects()
         {
@@ -247,6 +271,11 @@ namespace TeamProjectSecond
         public int DiceCount { get; set; }
         public int RerollCount { get; set; }
         public bool MageMPRecoveryInsteadOfAttack { get; set; }
+        public int ElixirMaxHP { get; set; }
+        public int ElixirMaxMP { get; set; }
+        public int ElixirDefense { get; set; }
+        public int ElixirSpeed { get; set; }
+        public float ElixirDamageMultiplier { get; set; }
+        public int ElixirDamageBonus { get; set; }
     }
-
 }
