@@ -132,23 +132,27 @@ namespace TeamProjectSecond
         }
         static void GambleDiceRoll(int coinRank)
         {
-            while(true)
+            List<Dice> dicelist = new List<Dice>();
+            while (true)
             {
+                dicelist.Clear();
                 int total = 0;
-                List<Dice> dicelist = new List<Dice>   // 주사위 3개를 설정합니다.
-                {
-                    new Dice(1, 6, DiceType.ID, 0),
-                    new Dice(1, 6, DiceType.ID, 1),
-                    new Dice(1, 6, DiceType.ID, 2)
-                };
+                // 주사위 3개를 설정합니다.
+
+                dicelist.Add(new Dice(1, 6, DiceType.ID, 0));
+                dicelist.Add(new Dice(1, 6, DiceType.ID, 1));
+                dicelist.Add(new Dice(1, 6, DiceType.ID, 2));
+
                 DrowBoard();
+
                 int x = 47;
                 int y = 13;
                 foreach (var dice in dicelist)
                 {
-                    DiceAnimation(dice.Roll(), x, y, ConsoleColor.DarkBlue, ConsoleColor.DarkYellow);// 주사위를 차례대로 굴려
+                    int rolledValue = dice.Roll();    //주사위를 굴려서
+                    DiceAnimation(rolledValue, x, y, ConsoleColor.DarkBlue, ConsoleColor.DarkYellow);
                     x += 12;
-                    total += dice.Roll();               // 그 값을 total에 저장합니다
+                    total += rolledValue;             // 그 값을 total에 저장합니다
                 }
                 Console.SetCursorPosition(0, 24);
                 Console.WriteLine(new string(' ', 120));
@@ -212,19 +216,21 @@ namespace TeamProjectSecond
             var randomItem = t1Items[index];
             randomItem.IsOwned = true;
             randomItem.Quantity += 1;
-            character.Gold += 20 * total;
+
             EventManager.Clear();
             Console.SetCursorPosition(0, 12);
             EventManager.To(45, $"{randomItem.ItemName} 아이템을 획득했습니다!\n\n");
+            character.Gold += (10 + 10 * coinRank) * total;
             EventManager.To(45, $"{20 * total} 골드를 획득했습니다!");
             Console.ReadKey(true);
+
         }
 
         static void GetRewardT2(int coinRank, int total) // 티어 2의 아이템 획득
         {
             var character = Character.Instance;
 
-            var t2Items = Item.Instance.Where(item => item.ItemRank == Math.Min(2, coinRank - 1)).ToList();
+            var t2Items = Item.Instance.Where(item => item.ItemRank == Math.Min(1, coinRank - 1)).ToList();
 
             Random rand = new Random();
             int index = rand.Next(t2Items.Count);  // 0부터 (갯수-1) 사이 랜덤 인덱스
@@ -232,17 +238,18 @@ namespace TeamProjectSecond
             var randomItem = t2Items[index];
             randomItem.IsOwned = true;
             randomItem.Quantity += 1;
-            character.Gold += 30 * total;
+            character.Gold = character.Gold + 30 * total;
             EventManager.Clear();
             Console.SetCursorPosition(0, 12);
             EventManager.To(45, $"{randomItem.ItemName} 아이템을 획득했습니다!\n\n");
-            EventManager.To(45, $"{30 * total} 골드를 획득했습니다!");
+            character.Gold += (10 + 10 * coinRank) * total;
+            EventManager.To(45, $"{20 * total} 골드를 획득했습니다!");
             Console.ReadKey(true);
         }
         static void GetRewardT3(int coinRank, int total) // 티어3 아이템 획득
         {
             var character = Character.Instance;
-            var t3Items = Item.Instance.Where(item => item.ItemRank == Math.Min(3,coinRank)).ToList();
+            var t3Items = Item.Instance.Where(item => item.ItemRank == coinRank).ToList();
 
             Random rand = new Random();
             int index = rand.Next(t3Items.Count);  // 0부터 (갯수-1) 사이 랜덤 인덱스
@@ -250,11 +257,12 @@ namespace TeamProjectSecond
             var randomItem = t3Items[index];
             randomItem.IsOwned = true;
             randomItem.Quantity += 1;
-            character.Gold += 40 * total;
+            character.Gold = character.Gold + 40 * total;
             EventManager.Clear();
             Console.SetCursorPosition(0, 12);
             EventManager.To(45, $"{randomItem.ItemName} 아이템을 획득했습니다!\n\n");
-            EventManager.To(45, $"{40 * total} 골드를 획득했습니다!");
+            character.Gold += (10 + 10 * coinRank) * total;
+            EventManager.To(45, $"{20 * total} 골드를 획득했습니다!");
             Console.ReadKey(true);
         }
 
@@ -332,7 +340,7 @@ namespace TeamProjectSecond
                 Random rand = new Random();
                 int number = rand.Next(1, 7);
                 DrawDie(number,x, y,dicecolor,dotcolor);
-                Thread.Sleep(40);
+                Thread.Sleep(25);
             }
             DrawDie(value, x, y, dicecolor, dotcolor);
             Console.ReadKey(true);
