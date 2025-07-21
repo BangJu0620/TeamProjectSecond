@@ -328,7 +328,7 @@ namespace TeamProjectSecond
                 EventManager.Announce(45, $"MP를 {c.ManaPoint - beforeMP} 회복했습니다. (현재 MP: {c.ManaPoint}/{c.MaxManaPoint})");
             }
 
-            if (item.ItemEffectDesc.Contains("영약"))
+            if (item.ItemName.Contains("영약"))
             {
                 ApplyElixirEffect(item);
                 EventManager.Announce(45, $"{item.ItemName}을(를) 사용하여 능력치가 영구 상승했습니다!");
