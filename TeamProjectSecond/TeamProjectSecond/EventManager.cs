@@ -95,12 +95,12 @@ namespace TeamProjectSecond
 
                 Console.ForegroundColor = ConsoleColor.White;
                 To(43,$"Lv. {character.Level}  {character.ClassType}  {character.Name}\n\n");
-                To(43, $"경험치 {character.Exp} / {LevelManager.GetRequiredExp(character.Level)}\n\n");
-                To(43,$"주사위 : {character.DiceCount}개\n\n");
-                To(43,$"속  도 : {character.Speed} (+ {character.BonusSpeed})\n\n");
-                To(43,$"방어력 : {character.DefensePoint} (+ {character.BonusDefense})\n\n");
+                To(43,$"경험치 : {character.Exp} / {LevelManager.GetRequiredExp(character.Level)}\n\n");
                 To(43,$"생명력 : {character.HealthPoint} / {character.MaxHealthPoint}\n\n");
                 To(43,$"마  력 : {character.ManaPoint} / {character.MaxManaPoint}\n\n");
+                To(43,$"방어력 : {character.DefensePoint} (+ {character.BonusDefense})\n\n");
+                To(43,$"속  도 : {character.Speed} (+ {character.BonusSpeed})\n\n");
+                To(43,$"주사위 : {character.DiceCount}개\n\n");
 
                 Console.SetCursorPosition(0, 24);
                 ToS(44,"1. 스킬 확인         Enter. 돌아가기");
